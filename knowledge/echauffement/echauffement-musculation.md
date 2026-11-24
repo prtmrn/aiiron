@@ -22,7 +22,7 @@ sources:
     url: "https://doi.org/10.1139/apnm-2015-0235"
 statut: brouillon
 auteur_agent: expert-sante-physique
-derniere_revue: 2026-11-24
+derniere_revue: 2026-11-25
 ---
 
 ## Principe
@@ -33,11 +33,11 @@ En musculation, les charges sont modérées et les séries proches de l'échec :
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ECH-M1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. | Bishop 2003 ; 3 min = heuristique à valider |
-| ECH-M2 | Mobilité dynamique selon la région du jour (`haut`, `bas`, `full`) : items de `mobilite-musculation#avant`. 3 min standard (4 min en `full`), 2 min courte. | Heuristique à valider |
+| ECH-M1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. | Bishop 2003 ; 3 min validé par Pierrot le 25/11/2026 |
+| ECH-M2 | Mobilité dynamique selon la région du jour (`haut`, `bas`, `full`) : items de `mobilite-musculation#avant`, 3 min standard (4 min en `full`). Version courte : **2 exercices**, liste `mobilite-musculation#avant-courte`. | Standard validé par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
 | ECH-M3 | Activation facultative : 1 exercice, 1 série, RPE ≤ 5. Supprimée en version courte. | Heuristique à valider |
-| ECH-M4 | Séries d'approche : 1 à 2 sur le premier exercice de chaque groupe musculaire ; 0 sur les exercices suivants du même groupe. Charges et reps : `knowledge/force/paliers-montee-en-charge.md` (section musculation). Si l'exercice est un mouvement lourd à la barre (≤ 6 reps), c'est la règle force complète qui s'applique. | Skill `seance-complete` ; valeurs : expert-force |
-| ECH-M5 | Les séries d'approche ne sont jamais supprimées en version courte. | Skill `seance-complete` |
+| ECH-M4 | Préparation de chaque exercice chargé selon l'intensité I (règle ECH-6). **I ≥ 0,80** : paliers complets de `knowledge/force/paliers-montee-en-charge.md`, quel que soit le nombre de reps et même si ce n'est pas le premier exercice du groupe (avec les cas particuliers de la fiche force, dont les paliers réduits du 2e exercice d'un même schéma). **I < 0,80 ou indéterminable** : règle courte (section `#musculation` de la fiche force), 1 à 2 séries d'approche sur le premier exercice de chaque groupe musculaire, 0 sur les exercices suivants du même groupe. | Skill `seance-complete` ; règle ECH-6 ; valeurs : expert-force |
+| ECH-M5 | Les séries d'approche et les paliers ne sont jamais supprimés ni raccourcis en version courte. | Skill `seance-complete` ; décision de Pierrot du 25/11/2026 |
 
 Durée totale indicative hors séries d'approche : 9 min standard, 5 min courte.
 
@@ -59,8 +59,11 @@ Durée totale indicative hors séries d'approche : 9 min standard, 5 min courte.
         { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 1,
           "si": { "region": ["bas", "full"] },
           "items": [ { "ex": "3013", "nom_fr": "Pont fessier au sol", "series": 1, "reps": 10, "intensite": "RPE 4-5" } ] },
+        { "bloc": "preparation_specifique", "nature": "montee_en_charge", "duree_min": null,
+          "si": { "I_min": 0.80 },
+          "ref": "force-paliers-montee-en-charge" },
         { "bloc": "preparation_specifique", "nature": "series_approche", "duree_min": null,
-          "si": { "premier_exercice_du_groupe": true },
+          "si": { "premier_exercice_du_groupe": true, "I_inferieur_a": 0.80, "ou_I_indeterminable": true },
           "ref": "force-paliers-montee-en-charge#musculation" }
       ]
     },
@@ -69,10 +72,13 @@ Durée totale indicative hors séries d'approche : 9 min standard, 5 min courte.
       "etapes": [
         { "bloc": "echauffement_general", "nature": "cardio", "duree_min": 3,
           "items": [ { "ex": "0798", "nom_fr": "Vélo d'appartement", "duree_s": 180, "intensite": "RPE 3-4" } ] },
-        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2,
+        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2, "nb_exercices": 2,
           "ref": "mobilite-musculation#avant-courte" },
+        { "bloc": "preparation_specifique", "nature": "montee_en_charge", "duree_min": null,
+          "si": { "I_min": 0.80 },
+          "ref": "force-paliers-montee-en-charge" },
         { "bloc": "preparation_specifique", "nature": "series_approche", "duree_min": null,
-          "si": { "premier_exercice_du_groupe": true },
+          "si": { "premier_exercice_du_groupe": true, "I_inferieur_a": 0.80, "ou_I_indeterminable": true },
           "ref": "force-paliers-montee-en-charge#musculation" }
       ]
     }
@@ -84,7 +90,7 @@ Durée totale indicative hors séries d'approche : 9 min standard, 5 min courte.
   "interdits": [
     { "regle": "ETI-1", "texte": "Pas d'étirement statique long avant la séance : 30 s cumulées par groupe au plus si l'utilisateur y tient." },
     { "regle": "ECH-M3", "texte": "Pas d'activation qui fatigue le muscle cible avant ses séries de travail (pas de série à l'échec en échauffement)." },
-    { "regle": "ECH-M5", "texte": "Ne pas supprimer les séries d'approche pour gagner du temps : on retire plutôt une série du corps de séance." }
+    { "regle": "ECH-M5", "texte": "Ne pas supprimer ni raccourcir les séries d'approche ou les paliers pour gagner du temps : on retire plutôt une série du corps de séance." }
   ]
 }
 ```
@@ -94,9 +100,11 @@ Substitutions : `2141` elliptique, `2612` corde à sauter, `3666` marche sur tap
 ## Limites et contre-indications
 
 - Douleur pendant les séries d'approche : on n'enchaîne pas sur les séries de travail de cet exercice. Variante indolore ou exercice remplacé, orientation vers un professionnel si ça persiste (règle ECH-5).
-- Le choix 1 ou 2 séries d'approche dépend de la charge relative de l'exercice : c'est le moteur qui tranche à partir de la fiche force.
+- Le choix entre paliers complets et règle courte, puis entre 1 et 2 séries d'approche, est fait par le moteur à partir de la fiche force (règle ECH-6 pour le seuil).
 
 ## Exemple
 
 Séance « bas du corps » : presse à cuisses, fentes, leg curl, mollets. 60 min disponibles.
-Résultat attendu : vélo 5 min → `mobilite-musculation#avant` région `bas` (3 min) → pont fessier 1 × 10 → séries d'approche sur la presse (premier exercice quadriceps et fessiers) , sur le leg curl (premier exercice ischio-jambiers) et sur les mollets → aucune série d'approche sur les fentes ni sur un deuxième exercice de quadriceps.
+Résultat attendu : vélo 5 min → `mobilite-musculation#avant` région `bas` (3 min) → pont fessier 1 × 10 → séries d'approche (règle courte, I < 0,80) sur la presse (premier exercice quadriceps et fessiers), sur le leg curl (premier exercice ischio-jambiers) et sur les mollets → aucune série d'approche sur les fentes ni sur un deuxième exercice de quadriceps.
+
+Variante : la même séance commence par un squat barre 4 × 6 @ RPE 8, sans e1RM connu. I = pct(6, 8) = 0,806 (`table-rpe.md`) ≥ 0,80 → paliers complets de la fiche force avant le squat, même en version courte. La presse qui suit reste sur la règle des groupes (quadriceps déjà préparés : 0 série d'approche).

@@ -53,14 +53,14 @@ Un étirement statique long juste avant un effort de force ou de puissance rédu
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ETI-1 | Avant une séance de force, puissance, sprint ou un bloc chronométré, aiiron ne prescrit pas d'étirement statique. Si l'utilisateur tient à en faire : **30 s cumulées par groupe musculaire au plus**, placés avant la mobilité dynamique et la partie spécifique, jamais juste avant la première série ou le premier effort. Plafond absolu : 60 s par groupe. | Kay et Blazevich 2012 (< 30 s : pas d'effet notable) ; Behm 2016 et Chaabene 2019 (> 60 s : baisse nette). Le seuil par défaut de 30 s est un choix prudent à valider |
+| ETI-1 | Avant une séance de force, puissance, sprint ou un bloc chronométré, aiiron ne prescrit pas d'étirement statique. Si l'utilisateur tient à en faire : **30 s cumulées par groupe musculaire au plus**, placés avant la mobilité dynamique et la partie spécifique, jamais juste avant la première série ou le premier effort. Plafond absolu : 60 s par groupe. | Kay et Blazevich 2012 (< 30 s : pas d'effet notable) ; Behm 2016 et Chaabene 2019 (> 60 s : baisse nette). Seuil par défaut de 30 s validé par Pierrot le 25/11/2026 |
 | ETI-2 | Après l'effort (retour au calme) : 1 × 30 s par groupe et par côté pour le confort. Objectif souplesse déclaré : 2 × 30 s par groupe et par côté, soit 60 s cumulées. | Garber 2011 (maintien 10–30 s, 60 s cumulées par exercice) ; skill `seance-complete` (20–60 s) |
 | ETI-3 | aiiron ne présente jamais les étirements comme un moyen de récupérer plus vite ou d'éviter les courbatures. | Afonso 2021 ; Herbert 2011 |
 | ETI-4 | aiiron ne présente pas les étirements comme une protection contre les blessures. Le renforcement musculaire a un effet protecteur mieux établi. Les données sur les étirements courts intégrés à l'échauffement sont discordantes : on reste neutre. | Lauersen 2014 ; Behm 2016 et Chaabene 2019 (effet possible sur certaines blessures musculaires) |
 | ETI-5 | Intensité : tension nette mais jamais douloureuse, sans rebonds, respiration lente. | Garber 2011 |
-| ETI-6 | Retour au calme cardio : 3 à 5 min à RPE 2–3 après une séance intense (course, Hyrox, CrossFit) ; facultatif après force et musculation. Il sert au confort, ses effets sur la performance du lendemain sont faibles ou absents. | Van Hooren et Peake 2018 ; durées = heuristique à valider |
-| ETI-7 | Choix des groupes : ceux du corps de séance, du plus sollicité au moins sollicité. Standard 5 groupes (≈ 5 min), version courte 3 groupes (≈ 3 min). | Heuristique à valider |
-| ETI-8 | Respiration lente allongé, 1 min, en fin de retour au calme : facultative, présentée comme un moment de calme et non comme un outil de récupération. | Heuristique à valider |
+| ETI-6 | Retour au calme cardio : 3 à 5 min à RPE 2–3 après une séance intense (course, Hyrox, CrossFit) ; facultatif après force et musculation. Il sert au confort, ses effets sur la performance du lendemain sont faibles ou absents. | Van Hooren et Peake 2018 ; durées validées par Pierrot le 25/11/2026 |
+| ETI-7 | Choix des groupes : ceux du corps de séance, du plus sollicité au moins sollicité. Standard 5 groupes (≈ 5 min), version courte 3 groupes (≈ 3 min). | Validé par Pierrot le 25/11/2026 |
+| ETI-8 | Respiration lente allongé, 1 min, en fin de retour au calme : facultative, présentée comme un moment de calme et non comme un outil de récupération. | Validé par Pierrot le 25/11/2026 |
 
 ### Catalogue des étirements statiques par groupe
 

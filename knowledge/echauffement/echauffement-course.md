@@ -26,7 +26,7 @@ sources:
     url: "https://doi.org/10.2165/00007256-200333070-00002"
 statut: brouillon
 auteur_agent: expert-sante-physique
-derniere_revue: 2026-11-24
+derniere_revue: 2026-11-25
 ---
 
 ## Principe
@@ -37,13 +37,13 @@ Une sortie facile s'échauffe en courant : on part simplement plus lentement. Un
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ECH-C1 | Sortie facile, endurance fondamentale, sortie longue : pas d'échauffement séparé. Les 5 à 10 premières minutes sont courues plus lentement que l'allure prévue. | Skill `seance-complete` ; 5–10 min = heuristique à valider |
-| ECH-C2 | Séance intense : footing facile 12 min (fourchette 10–15), 10 min en version courte. Allure conversation possible. | Skill `seance-complete` ; Bishop 2003 |
-| ECH-C3 | Mobilité dynamique 3 min (2 min courte) : items de `mobilite-course#avant`. | Opplert et Babault 2018 ; durée = heuristique à valider |
-| ECH-C4 | Gammes : 2 × 20 m par exercice, retour en marchant, 6 exercices en standard (environ 7 min). Version courte : 3 exercices × 1 × 20 m (environ 3 min). Skipping B et foulées bondissantes seulement si `niveau` ≠ débutant. | Skill `seance-complete` (5–10 min) ; distances = heuristique à valider |
-| ECH-C5 | Accélérations progressives sur 80 m (fourchette 60–100 m), de l'allure footing jusqu'à environ 90 % de l'effort maximal sur les 20 derniers mètres, retour en marchant ou en trottinant (60 s environ). Nombre : seuil 2, fractionné/VMA/côtes 3, sprint ou compétition 4. Version courte : 2 pour tous. | Skill `seance-complete` (2–4) ; Blazevich et Babault 2019 ; dosage = heuristique à valider |
-| ECH-C6 | Sprint et compétition courte : la dernière accélération se termine à l'allure cible de la séance ; le premier effort de travail démarre entre 3 et 10 min après. | Blazevich et Babault 2019 ; McGowan 2015 ; fenêtre = heuristique à valider |
-| ECH-C7 | Trail ou terrain accidenté : ajouter le module cheville (`mobilite-modules#cheville-dynamique`) à la mobilité. | Heuristique à valider |
+| ECH-C1 | Sortie facile, endurance fondamentale, sortie longue : pas d'échauffement séparé. Les 5 à 10 premières minutes sont courues plus lentement que l'allure prévue. | Skill `seance-complete` ; 5–10 min validé par Pierrot le 25/11/2026 |
+| ECH-C2 | Séance intense : footing facile 12 min (fourchette 10–15), 10 min en version courte. Allure conversation possible. | Skill `seance-complete` ; Bishop 2003 ; validé par Pierrot le 25/11/2026 |
+| ECH-C3 | Mobilité dynamique 3 min : items de `mobilite-course#avant`. Version courte : **2 exercices**, liste `mobilite-course#avant-courte`. | Opplert et Babault 2018 ; durée validée par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
+| ECH-C4 | Gammes : 2 × 20 m par exercice, retour en marchant, 6 exercices en standard (environ 7 min). Version courte : 3 exercices × 1 × 20 m (environ 3 min). Skipping B et foulées bondissantes seulement si `niveau` ≠ débutant. | Skill `seance-complete` (5–10 min) ; distances validées par Pierrot le 25/11/2026 |
+| ECH-C5 | Accélérations progressives sur 80 m (fourchette 60–100 m), de l'allure footing jusqu'à environ 90 % de l'effort maximal sur les 20 derniers mètres, retour en marchant ou en trottinant (60 s environ). Nombre : seuil 2, fractionné/VMA/côtes 3, sprint ou compétition 4. Version courte : 2 pour tous. | Skill `seance-complete` (2–4) ; Blazevich et Babault 2019 ; dosage validé par Pierrot le 25/11/2026 |
+| ECH-C6 | Sprint et compétition courte : la dernière accélération se termine à l'allure cible de la séance ; le premier effort de travail démarre entre 3 et 10 min après. | Blazevich et Babault 2019 ; McGowan 2015 ; fenêtre validée par Pierrot le 25/11/2026 |
+| ECH-C7 | Trail ou terrain accidenté : ajouter le module cheville (`mobilite-modules#cheville-dynamique`) à la mobilité. | Validé par Pierrot le 25/11/2026 |
 
 Durée totale indicative séance intense : 22 min standard hors accélérations (12 + 3 + 7), soit 25 à 28 min avec 2 à 4 accélérations ; 18 min en version courte (10 + 2 + 3 + 3). Une accélération prend environ 1 min 30, récupération comprise (heuristique). Talons-fesses et montées de genoux se font sur place si l'espace manque.
 
@@ -88,7 +88,7 @@ Durée totale indicative séance intense : 22 min standard hors accélérations 
         { "bloc": "echauffement_general", "nature": "cardio", "duree_min": 10,
           "si": { "seance": ["intense"] },
           "items": [ { "ex": "mq-footing", "nom_fr": "Footing facile", "duree_s": 600, "intensite": "RPE 3-4, conversation possible" } ] },
-        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2,
+        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2, "nb_exercices": 2,
           "si": { "seance": ["intense"] },
           "ref": "mobilite-course#avant-courte" },
         { "bloc": "preparation_specifique", "nature": "gammes", "duree_min": 3,

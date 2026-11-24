@@ -45,7 +45,7 @@ Un **item** :
 
 | Champ | Rôle |
 | --- | --- |
-| `ex` | Identifiant à 4 chiffres = `data/exercises/exercises.json` ; `mq-…` = exercice manquant, décrit dans `knowledge/sante-physique/exercices-manquants.md` |
+| `ex` | Identifiant à 4 chiffres = `data/exercises/exercises.json` ; `mq-…` = exercice créé par aiiron, dans `data/exercises/exercices-aiiron.json` (liste commentée : `knowledge/sante-physique/exercices-manquants.md`) |
 | `nom_fr` | Nom affiché |
 | `series`, `reps`, `duree_s`, `distance_m` | Dosage ; champ absent = sans objet |
 | `par_cote` | `true` si le dosage s'entend par côté ou par sens |
@@ -53,15 +53,16 @@ Un **item** :
 
 Conventions :
 - Ordre des étapes = ordre d'exécution.
-- La version `courte` sert quand le créneau est serré. Elle raccourcit l'échauffement général et la mobilité, **jamais** la montée en charge, les gammes ou les accélérations (skill `seance-complete` : on raccourcit le corps de séance avant l'échauffement spécifique).
+- La version `courte` sert quand le créneau est serré (skill `seance-complete`). Elle peut réduire le cardio d'échauffement, la mobilité dynamique (**2 exercices**), l'activation, et les gammes, accélérations ou passages de répétition selon la dose courte écrite dans chaque fiche. Les paliers de montée en charge et les séries d'approche ne sont **jamais** supprimés ni raccourcis. Si ça ne suffit pas, on raccourcit le corps de séance.
 - Les identifiants de règles (`ECH-…`, `MOB-…`, `ETI-…`) sont repris dans les tests du moteur.
 
 ## Règles transverses (s'appliquent aux 4 types)
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ECH-1 | Toute séance commence par 3 à 10 min de cardio facile (RPE 3–4). 5 min par défaut, 3 min en version courte. | Bishop 2003, McGowan 2015 ; le plancher de 3 min est une heuristique à valider |
+| ECH-1 | Toute séance commence par 3 à 10 min de cardio facile (RPE 3–4). 5 min par défaut, 3 min en version courte. | Bishop 2003, McGowan 2015 ; plancher de 3 min validé par Pierrot le 25/11/2026 |
 | ECH-2 | Structure RAMP : élever la température, activer et mobiliser, potentialiser (paliers, accélérations ou répétition des mouvements). | Jeffreys 2007 (modèle de coach, niveau E) |
 | ECH-3 | Pas d'étirement statique dans l'échauffement d'une séance de force, de puissance, de sprint ou d'un bloc chronométré. Détail et seuils : règle ETI-1 dans `knowledge/etirements/etirements-regles.md`. | Behm 2016, Kay et Blazevich 2012, Chaabene 2019 |
-| ECH-4 | Entre la fin de l'échauffement et le premier effort de travail : 10 min au plus. Au-delà de 15 min, refaire 2–3 min de cardio et la dernière étape spécifique. | McGowan 2015 (perte de l'effet thermique avec le temps) ; les seuils 10 et 15 min sont une heuristique à valider |
+| ECH-4 | Entre la fin de l'échauffement et le premier effort de travail : 10 min au plus. Au-delà de 15 min, refaire 2–3 min de cardio et la dernière étape spécifique. | McGowan 2015 (perte de l'effet thermique avec le temps) ; seuils 10 et 15 min validés par Pierrot le 25/11/2026 |
 | ECH-5 | Douleur pendant l'échauffement (pas une simple raideur) : on n'enchaîne pas sur la séance prévue. Alternative indolore ou séance allégée, orientation vers un professionnel si ça persiste. Drapeau rouge : arrêt immédiat et orientation médicale. | Skill `seance-complete`, principe non négociable n° 2 |
+| ECH-6 | Seuil « lourd », commun à toutes les séances et à expert-force. Pour tout exercice chargé, `I = charge de travail / e1RM effectif` ; e1RM inconnu : `I = pct(reps prescrites, RPE prescrit)` de `knowledge/force/table-rpe.md`. **I ≥ 0,80 → paliers complets de `knowledge/force/paliers-montee-en-charge.md`**, quel que soit le type de séance et le nombre de reps. I < 0,80 : force → échelles « Léger » / « Modéré » de la fiche force ; musculation → règle courte (section `#musculation` de la fiche force) ; Hyrox/CrossFit → répétition des mouvements (ECH-H4). I indéterminable (ni e1RM ni RPE prescrit) : force → échelle « Lourd » ; musculation → règle courte ; Hyrox/CrossFit → ECH-H4. | Décision de Pierrot du 25/11/2026 ; seuil 0,80 = heuristique de coach (aucune étude) ; cas « I indéterminable » en Hyrox/CrossFit à valider |

@@ -25,10 +25,10 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-H1 | Base avant séance : `hanche-dynamique` + `thoracique-dynamique` (3 min). | Opplert et Babault 2018 ; composition = heuristique à valider |
-| MOB-H2 | Ajouts selon les mouvements du jour : `poignet-dynamique` si appui, front rack ou overhead ; `epaule-dynamique` si overhead ou gymnastique ; `cheville-dynamique` si course, sauts, corde. Plafond : 6 min au total. | Heuristique à valider |
-| MOB-H3 | Version courte : `hanche-dynamique` + au plus un ajout, choisi dans l'ordre poignet > épaule > cheville. | Heuristique à valider |
-| MOB-H4 | Après : facultatif, 1 module `-autonome` de la zone la plus sollicitée ou déclarée raide. | Garber 2011 ; heuristique à valider |
+| MOB-H1 | Base avant séance : `hanche-dynamique` + `thoracique-dynamique` (3 min). | Opplert et Babault 2018 ; composition validée par Pierrot le 25/11/2026 |
+| MOB-H2 | Ajouts selon les mouvements du jour : `poignet-dynamique` si appui, front rack ou overhead ; `epaule-dynamique` si overhead ou gymnastique ; `cheville-dynamique` si course, sauts, corde. Plafond : 6 min au total. | Plafond de 6 min validé par Pierrot le 25/11/2026 |
+| MOB-H3 | Version courte : **2 exercices**. Le world's greatest stretch (hanche et thoracique), plus un exercice du premier ajout applicable dans l'ordre poignet > épaule > cheville (bascules des poignets, passages d'épaules, genou au mur). Sans ajout : bascules de hanche 90/90. Dosage de leur module. | 2 exercices : décision de Pierrot du 25/11/2026 ; choix des 2 exercices = heuristique à valider |
+| MOB-H4 | Après : facultatif, 1 module `-autonome` de la zone la plus sollicitée ou déclarée raide. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
 {
@@ -44,9 +44,14 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
     "duree_max_min": 6
   },
   "avant-courte": {
-    "base": ["hanche-dynamique"],
-    "ajouts_max": 1,
-    "ordre_priorite_ajouts": ["poignet-dynamique", "epaule-dynamique", "cheville-dynamique"]
+    "nb_exercices": 2,
+    "base": [ { "module": "hanche-dynamique", "ex": "1604" } ],
+    "ajout_selon_priorite": [
+      { "module": "poignet-dynamique", "ex": "mq-prep-poignets" },
+      { "module": "epaule-dynamique", "ex": "mq-passage-epaules" },
+      { "module": "cheville-dynamique", "ex": "mq-genou-mur" }
+    ],
+    "sans_ajout": { "module": "hanche-dynamique", "ex": "mq-90-90" }
   },
   "apres": {
     "facultatif": true,

@@ -26,7 +26,7 @@ sources:
     url: "non disponible en libre accès (Professional Strength and Conditioning, UKSCA, n° 6)"
 statut: brouillon
 auteur_agent: expert-sante-physique
-derniere_revue: 2026-11-24
+derniere_revue: 2026-11-25
 ---
 
 ## Principe
@@ -37,12 +37,12 @@ Avant des séries lourdes, on monte la température avec un peu de cardio, on mo
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ECH-F1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. Rameur, vélo, vélo à air, corde ou marche inclinée. | Bishop 2003 (5–10 min à intensité modérée) ; 3 min = heuristique à valider |
-| ECH-F2 | Mobilité dynamique ciblée sur le premier mouvement principal : items de `mobilite-force#avant`. 4 min standard, 2 min en version courte. | Heuristique à valider |
+| ECH-F1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. Rameur, vélo, vélo à air, corde ou marche inclinée. | Bishop 2003 (5–10 min à intensité modérée) ; 3 min validé par Pierrot le 25/11/2026 |
+| ECH-F2 | Mobilité dynamique ciblée sur le premier mouvement principal : items de `mobilite-force#avant` (environ 4 min). Version courte : **2 exercices**, liste `mobilite-force#avant-courte`. | Standard validé par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
 | ECH-F3 | Activation : 2 exercices légers (1 en version courte), choisis selon le mouvement, loin de la fatigue (RPE ≤ 5). | Heuristique à valider |
-| ECH-F4 | Montée en charge obligatoire avant chaque mouvement principal lourd, y compris le deuxième mouvement lourd de la séance. Nombre de paliers, % et reps : `knowledge/force/paliers-montee-en-charge.md`. Jamais raccourcie en version courte. | Skill `seance-complete` ; règle détaillée : expert-force |
-| ECH-F5 | Deuxième mouvement principal de la séance : on saute le cardio et on refait seulement les items de mobilité propres à ce mouvement (1–2 min), puis ses paliers. | Heuristique à valider |
-| ECH-F6 | Premier palier de travail dans les 10 min qui suivent la fin des paliers (règle ECH-4). | McGowan 2015 ; heuristique à valider |
+| ECH-F4 | Montée en charge obligatoire avant chaque mouvement principal, y compris le deuxième de la séance. Échelle choisie par l'intensité I (règle ECH-6) : I ≥ 0,80 → paliers complets ; I < 0,80 → échelles « Léger » / « Modéré » ; I indéterminable → échelle « Lourd ». Paliers, % et reps : `knowledge/force/paliers-montee-en-charge.md`. Jamais supprimée ni raccourcie en version courte. | Skill `seance-complete` ; règle ECH-6 ; règle détaillée : expert-force |
+| ECH-F5 | Deuxième mouvement principal de la séance : on saute le cardio et on refait seulement la liste `avant-courte` de ce mouvement (2 exercices), puis ses paliers. | Heuristique à valider |
+| ECH-F6 | Premier palier de travail dans les 10 min qui suivent la fin des paliers (règle ECH-4). | McGowan 2015 ; validé par Pierrot le 25/11/2026 |
 
 Durée totale indicative hors paliers : 11 min standard, 6 min courte. La durée des paliers est fournie par le moteur force.
 
@@ -79,7 +79,7 @@ Durée totale indicative hors paliers : 11 min standard, 6 min courte. La durée
       "etapes": [
         { "bloc": "echauffement_general", "nature": "cardio", "duree_min": 3,
           "items": [ { "ex": "mq-rameur", "nom_fr": "Rameur", "duree_s": 180, "intensite": "RPE 3-4" } ] },
-        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2,
+        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2, "nb_exercices": 2,
           "ref": "mobilite-force#avant-courte" },
         { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 1,
           "si": { "mouvement": ["squat", "souleve_de_terre"] },
@@ -116,4 +116,4 @@ Substitutions : `0798` vélo d'appartement, `2612` corde à sauter, `3666` march
 ## Exemple
 
 Athlète, séance « squat 4 × 5 lourd puis développé couché 3 × 6 », créneau serré, salle avec rameur et élastique.
-Résultat attendu (version courte) : rameur 3 min RPE 3–4 → `mobilite-force#avant-courte` filtré sur `squat` (2 min) → pont fessier 1 × 10 → paliers squat (moteur force) → séries de squat → mobilité `developpe_couche` seule (1–2 min, règle ECH-F5) → paliers développé couché → séries. Aucun étirement statique avant la première série.
+Résultat attendu (version courte) : rameur 3 min RPE 3–4 → `mobilite-force#avant-courte` filtré sur `squat` (2 exercices : genou au mur, bascules 90/90) → pont fessier 1 × 10 → paliers squat complets, non raccourcis malgré la version courte (moteur force, échelle selon I) → séries de squat → `avant-courte` de `developpe_couche` (2 exercices, règle ECH-F5) → paliers développé couché → séries. Aucun étirement statique avant la première série.

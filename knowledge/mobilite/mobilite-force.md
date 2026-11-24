@@ -25,9 +25,9 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-F1 | Avant : modules dynamiques selon le mouvement principal (tableau JSON), 3 à 4 min. Si la séance a deux mouvements principaux, on fait les modules du premier ; pour le second, on fait sa liste `avant-courte` (1 à 2 min) juste avant ses paliers (ECH-F5). | Opplert et Babault 2018 ; association mouvement → modules = heuristique à valider |
-| MOB-F2 | Version courte : un seul module par mouvement (le premier de la liste `avant-courte`), 1 à 2 min. | Heuristique à valider |
-| MOB-F3 | Après : facultatif. Module `-autonome` de la zone raide déclarée, 1 module, 3 à 5 min, placé après les étirements du retour au calme. | Garber 2011 ; heuristique à valider |
+| MOB-F1 | Avant : modules dynamiques selon le mouvement principal (tableau JSON), 3 à 4 min. Si la séance a deux mouvements principaux, on fait les modules du premier ; pour le second, on fait sa liste `avant-courte` (2 exercices) juste avant ses paliers (ECH-F5). | Opplert et Babault 2018 ; association mouvement → modules validée par Pierrot le 25/11/2026 |
+| MOB-F2 | Version courte : **2 exercices** par mouvement, liste `avant-courte` (JSON), chacun avec le dosage de son module. | 2 exercices : décision de Pierrot du 25/11/2026 ; choix des 2 exercices = heuristique à valider |
+| MOB-F3 | Après : facultatif. Module `-autonome` de la zone raide déclarée, 1 module, 3 à 5 min, placé après les étirements du retour au calme. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
 {
@@ -40,10 +40,10 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
     "developpe_militaire": ["thoracique-dynamique", "epaule-dynamique", "poignet-dynamique"]
   },
   "avant-courte": {
-    "squat": ["hanche-dynamique"],
-    "souleve_de_terre": ["charniere-dynamique"],
-    "developpe_couche": ["epaule-dynamique"],
-    "developpe_militaire": ["epaule-dynamique"]
+    "squat": [ { "module": "cheville-dynamique", "ex": "mq-genou-mur" }, { "module": "hanche-dynamique", "ex": "mq-90-90" } ],
+    "souleve_de_terre": [ { "module": "charniere-dynamique", "ex": "mq-charniere-baton" }, { "module": "hanche-dynamique", "ex": "1604" } ],
+    "developpe_couche": [ { "module": "thoracique-dynamique", "ex": "mq-open-book" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" } ],
+    "developpe_militaire": [ { "module": "epaule-dynamique", "ex": "mq-passage-epaules" }, { "module": "epaule-dynamique", "ex": "mq-wall-slide" } ]
   },
   "apres": {
     "facultatif": true,
@@ -57,7 +57,7 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
 }
 ```
 
-Durées (somme des modules de `mobilite-modules`) : squat 3 min, soulevé de terre 3 min, développé couché 3 min, développé militaire 4 min ; versions courtes 1 à 2 min.
+Durées (somme des modules de `mobilite-modules`) : squat 3 min, soulevé de terre 3 min, développé couché 3 min, développé militaire 4 min. Versions courtes : 2 exercices, avec le dosage de leur module.
 
 ## Limites et contre-indications
 
@@ -66,4 +66,4 @@ Durées (somme des modules de `mobilite-modules`) : squat 3 min, soulevé de ter
 ## Exemple
 
 Séance « soulevé de terre 5 × 3 puis développé militaire 4 × 6 », version standard.
-Résultat attendu : avant le soulevé : `charniere-dynamique` + `hanche-dynamique` (3 min) ; avant le développé militaire (second mouvement) : `epaule-dynamique` seul (2 min, liste `avant-courte`), puis ses paliers. Après la séance : rien, sauf zone raide déclarée.
+Résultat attendu : avant le soulevé : `charniere-dynamique` + `hanche-dynamique` (3 min) ; avant le développé militaire (second mouvement) : sa liste `avant-courte`, soit passages d'épaules 1 × 10 et glissés au mur 1 × 8, puis ses paliers. Après la séance : rien, sauf zone raide déclarée.

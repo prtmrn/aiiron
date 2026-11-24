@@ -25,9 +25,9 @@ En musculation, la mobilité d'avant séance dépend de la région travaillée, 
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-M1 | Avant : modules dynamiques selon la région (JSON), 2 à 3 min. | Opplert et Babault 2018 ; association région → modules = heuristique à valider |
-| MOB-M2 | Version courte : un module (premier de la liste `avant-courte`), 1 à 2 min. | Heuristique à valider |
-| MOB-M3 | Après : facultatif, 1 module `-autonome` de la zone raide déclarée, après les étirements. | Garber 2011 ; heuristique à valider |
+| MOB-M1 | Avant : modules dynamiques selon la région (JSON), 2 à 3 min. | Opplert et Babault 2018 ; association région → modules validée par Pierrot le 25/11/2026 |
+| MOB-M2 | Version courte : **2 exercices** par région, liste `avant-courte` (JSON), chacun avec le dosage de son module. | 2 exercices : décision de Pierrot du 25/11/2026 ; choix des 2 exercices = heuristique à valider |
+| MOB-M3 | Après : facultatif, 1 module `-autonome` de la zone raide déclarée, après les étirements. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
 {
@@ -39,9 +39,9 @@ En musculation, la mobilité d'avant séance dépend de la région travaillée, 
     "full": ["hanche-dynamique", "epaule-dynamique"]
   },
   "avant-courte": {
-    "haut": ["epaule-dynamique"],
-    "bas": ["hanche-dynamique"],
-    "full": ["hanche-dynamique"]
+    "haut": [ { "module": "thoracique-dynamique", "ex": "mq-open-book" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" } ],
+    "bas": [ { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "cheville-dynamique", "ex": "mq-genou-mur" } ],
+    "full": [ { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" } ]
   },
   "apres": {
     "facultatif": true,
@@ -55,7 +55,7 @@ En musculation, la mobilité d'avant séance dépend de la région travaillée, 
 }
 ```
 
-Durées : haut 3 min, bas 3 min, full 4 min (somme des modules) ; versions courtes 2 min.
+Durées : haut 3 min, bas 3 min, full 4 min (somme des modules). Versions courtes : 2 exercices.
 
 ## Limites et contre-indications
 
@@ -64,4 +64,4 @@ Durées : haut 3 min, bas 3 min, full 4 min (somme des modules) ; versions court
 ## Exemple
 
 Séance « haut du corps » (développé incliné, tirage, élévations latérales), version courte.
-Résultat attendu : `epaule-dynamique` (2 min), puis séries d'approche sur le premier exercice de pectoraux et de dos.
+Résultat attendu : open book 1 × 6 par côté et passages d'épaules 1 × 10 (liste `avant-courte` de `haut`), puis séries d'approche sur le premier exercice de pectoraux et de dos, non raccourcies malgré la version courte.

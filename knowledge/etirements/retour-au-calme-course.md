@@ -29,10 +29,10 @@ Après une séance intense de course, on redescend progressivement : footing tr�
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| RAC-C1 | Séance intense : 8 min de footing très lent ou de marche (fourchette 5–10), RPE 2–3. Version courte : 5 min. Si le plan de expert-course prévoit déjà un retour au calme couru, on ne l'ajoute pas une seconde fois. | Skill `seance-complete` ; Van Hooren et Peake 2018 ; durées = heuristique à valider |
-| RAC-C2 | Sortie facile : pas de cardio supplémentaire ; les 3 à 5 dernières minutes sont courues plus lentement ou marchées. | Heuristique à valider |
-| RAC-C3 | Étirements : liste fixe (JSON), 5 groupes en standard, 3 en courte, dosage ETI-2. | Garber 2011 ; liste = heuristique à valider |
-| RAC-C4 | Après une course longue ou une compétition, aiiron ne prescrit pas d'étirement intense : 1 × 30 s, tension légère. | Heuristique à valider |
+| RAC-C1 | Séance intense : 8 min de footing très lent ou de marche (fourchette 5–10), RPE 2–3. Version courte : 5 min. Si le plan de expert-course prévoit déjà un retour au calme couru, on ne l'ajoute pas une seconde fois. | Skill `seance-complete` ; Van Hooren et Peake 2018 ; durées validées par Pierrot le 25/11/2026 |
+| RAC-C2 | Sortie facile : pas de cardio supplémentaire ; les 3 à 5 dernières minutes sont courues plus lentement ou marchées. | Validé par Pierrot le 25/11/2026 |
+| RAC-C3 | Étirements : liste fixe (JSON), 5 groupes en standard, 3 en courte, dosage ETI-2. | Garber 2011 ; liste validée par Pierrot le 25/11/2026 |
+| RAC-C4 | Après une course longue ou une compétition, aiiron ne prescrit pas d'étirement intense : 1 × 30 s, tension légère. | Validé par Pierrot le 25/11/2026 |
 
 Durée indicative séance intense : 13 min standard (8 + 5), 8 min courte (5 + 3).
 

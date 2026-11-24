@@ -25,8 +25,8 @@ Une séance Hyrox ou CrossFit finit souvent à très haute intensité : on ne s'
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| RAC-H1 | Cardio de retour au calme : 4 min à RPE 2–3 (marche, rameur, vélo), 3 min en version courte. Non supprimé en version courte, car la séance se termine en général à haute intensité. | Van Hooren et Peake 2018 (ETI-6) ; durées = heuristique à valider |
-| RAC-H2 | Étirements : on additionne les groupes des familles de mouvements du jour (JSON) et on garde les plus fréquents, 5 en standard, 3 en courte ; à égalité, ordre de la liste `corps_entier`. | Garber 2011 ; heuristique à valider |
+| RAC-H1 | Cardio de retour au calme : 4 min à RPE 2–3 (marche, rameur, vélo), 3 min en version courte. Non supprimé en version courte, car la séance se termine en général à haute intensité. | Van Hooren et Peake 2018 (ETI-6) ; durées validées par Pierrot le 25/11/2026 |
+| RAC-H2 | Étirements : on additionne les groupes des familles de mouvements du jour (JSON) et on garde les plus fréquents, 5 en standard, 3 en courte ; à égalité, ordre de la liste `corps_entier`. | Garber 2011 ; tableau des familles validé par Pierrot le 25/11/2026 ; règle de comptage = heuristique à valider |
 | RAC-H3 | Dosage ETI-2 : 1 × 30 s par côté. | Garber 2011 |
 
 Durée indicative : 9 min standard (4 + 5), 6 min courte (3 + 3).

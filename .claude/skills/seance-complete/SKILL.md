@@ -14,7 +14,7 @@ Une séance aiiron a toujours quatre blocs. Un modèle ou une séance qui en oub
 | 3. Corps de séance | selon le plan | Ce que prescrivent les moteurs |
 | 4. Retour au calme + mobilité | 5–10 min | Retour progressif au calme, étirements statiques ou routine de mobilité ciblée |
 
-Si l'utilisateur manque de temps, on raccourcit le corps de séance, pas l'échauffement spécifique.
+**Version courte** (l'utilisateur manque de temps). Peuvent être réduits : le cardio d'échauffement, la mobilité dynamique (2 exercices au lieu de 4 ou plus), l'activation, et les gammes, accélérations ou passages de répétition selon la dose courte de chaque protocole (`knowledge/echauffement/`). Ne sont jamais supprimés ni raccourcis : les paliers de montée en charge et les séries d'approche. Si ça ne suffit pas, on raccourcit le corps de séance.
 
 ## Préparation spécifique par type de séance
 

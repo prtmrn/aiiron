@@ -22,7 +22,7 @@ sources:
     url: "https://doi.org/10.3389/fphys.2019.00376"
 statut: brouillon
 auteur_agent: expert-sante-physique
-derniere_revue: 2026-11-24
+derniere_revue: 2026-11-25
 ---
 
 ## Principe
@@ -33,11 +33,11 @@ La mobilité est découpée en modules par articulation, réutilisés par toutes
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-1 | Avant séance : seulement des modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. | Opplert et Babault 2018 ; dosage = heuristique à valider |
+| MOB-1 | Avant séance : seulement des modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. Version courte d'une séance : 2 exercices pris dans ces modules (liste `avant-courte` de chaque fiche), avec le dosage de leur module. | Opplert et Babault 2018 ; dosage validé par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
 | MOB-2 | Maintiens statiques des modules `-autonome` : 2 × 30 s par côté, tension nette mais jamais douloureuse. | Garber 2011 (10–30 s par maintien, 60 s cumulées par exercice) |
-| MOB-3 | Routine de mobilité autonome (jour de repos ou séance dédiée) : 5 à 15 min, 10 min par défaut. On prend les modules `-autonome` des zones raides déclarées par l'utilisateur, 3 modules au plus ; sans zone déclarée : hanche + thoracique + cheville. | Skill `seance-complete` ; choix des modules = heuristique à valider |
+| MOB-3 | Routine de mobilité autonome (jour de repos ou séance dédiée) : 5 à 15 min, 10 min par défaut. On prend les modules `-autonome` des zones raides déclarées par l'utilisateur, 3 modules au plus ; sans zone déclarée : hanche + thoracique + cheville. | Skill `seance-complete` ; choix des modules validé par Pierrot le 25/11/2026 |
 | MOB-4 | Fréquence conseillée des routines autonomes : au moins 2 à 3 jours par semaine pour un objectif de souplesse. | Garber 2011 |
-| MOB-5 | Auto-massage au rouleau : facultatif, 30 à 60 s par zone, avant la mobilité dynamique ou dans une routine autonome. Ne remplace ni le cardio ni la préparation spécifique. | Wiewelhove 2019 ; durée = heuristique à valider |
+| MOB-5 | Auto-massage au rouleau : facultatif, 30 à 60 s par zone, avant la mobilité dynamique ou dans une routine autonome. Ne remplace ni le cardio ni la préparation spécifique. | Wiewelhove 2019 ; durée validée par Pierrot le 25/11/2026 |
 
 ```json
 {

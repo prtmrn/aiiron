@@ -29,11 +29,11 @@ Avant une séance de course intense, la mobilité se place entre le footing et l
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-C1 | Séance intense : module `jambes-course-dynamique` (2 min) + `hanche-dynamique` sans la tenue de squat profond (environ 1 min 30), total 3 min. | Opplert et Babault 2018 ; composition = heuristique à valider |
-| MOB-C2 | Version courte : `jambes-course-dynamique` seul (2 min). | Heuristique à valider |
-| MOB-C3 | Trail, terrain accidenté, côtes : ajouter `cheville-dynamique` (1 min). | Heuristique à valider |
-| MOB-C4 | Sortie facile : mobilité facultative, `jambes-course-dynamique` si l'utilisateur le souhaite. | Heuristique à valider |
-| MOB-C5 | Routine autonome conseillée aux coureurs les jours de repos : `hanche-autonome` + `cheville-autonome` (10 min), 2 à 3 fois par semaine. | Garber 2011 ; choix des modules = heuristique à valider |
+| MOB-C1 | Séance intense : module `jambes-course-dynamique` (2 min) + `hanche-dynamique` sans la tenue de squat profond (environ 1 min 30), total 3 min. | Opplert et Babault 2018 ; composition validée par Pierrot le 25/11/2026 |
+| MOB-C2 | Version courte : **2 exercices**, balanciers avant-arrière et latéraux (liste `avant-courte`), avec le dosage de `jambes-course-dynamique`. | 2 exercices : décision de Pierrot du 25/11/2026 ; choix des 2 exercices = heuristique à valider |
+| MOB-C3 | Trail, terrain accidenté, côtes : ajouter `cheville-dynamique` (1 min). | Validé par Pierrot le 25/11/2026 |
+| MOB-C4 | Sortie facile : mobilité facultative, `jambes-course-dynamique` si l'utilisateur le souhaite. | Validé par Pierrot le 25/11/2026 |
+| MOB-C5 | Routine autonome conseillée aux coureurs les jours de repos : `hanche-autonome` + `cheville-autonome` (10 min), 2 à 3 fois par semaine. | Garber 2011 ; choix des modules validé par Pierrot le 25/11/2026 |
 
 ```json
 {
@@ -45,7 +45,7 @@ Avant une séance de course intense, la mobilité se place entre le footing et l
     "ajout_si": { "terrain": ["trail", "cotes"], "modules": ["cheville-dynamique"] }
   },
   "avant-courte": {
-    "intense": ["jambes-course-dynamique"]
+    "intense": [ { "module": "jambes-course-dynamique", "ex": "mq-balancier-avant" }, { "module": "jambes-course-dynamique", "ex": "mq-balancier-lateral" } ]
   },
   "apres": {
     "facultatif": true,
