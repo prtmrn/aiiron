@@ -5,6 +5,7 @@ Modèle d'inspiration : Standout (standout.work) — profil vivant construit en 
 
 Disciplines : force / powerlifting, musculation / hypertrophie, course (sprint → marathon, trail), Hyrox, CrossFit, nutrition, santé physique (échauffement, mobilité, étirements, récupération, sommeil, métriques wearables), santé mentale du sportif.
 
+**Avant toute tâche, lire `docs/contexte.md`** : décisions, audit des sources, état d'avancement et questions ouvertes.
 Documents de référence (projet Claude « aiiron ») : rapport Standout → aiiron, `aiiron-decisions.md`, `aiiron-sources-muscu.md`.
 
 ## La session principale est l'orchestrateur
