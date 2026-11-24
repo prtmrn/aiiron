@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hevy": {
+      "command": "npx",
+      "args": ["-y", "hevy-mcp"],
+      "env": {
+        "HEVY_API_KEY": "${HEVY_API_KEY}"
+      }
+    }
+  }
+}

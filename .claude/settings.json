@@ -1,0 +1,20 @@
+{
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": { "source": "github", "repo": "anthropics/skills" }
+    },
+    "voltagent-subagents": {
+      "source": { "source": "github", "repo": "VoltAgent/awesome-claude-code-subagents" }
+    },
+    "claude-code-workflows": {
+      "source": { "source": "github", "repo": "wshobson/agents" }
+    }
+  },
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": true,
+    "voltagent-core-dev@voltagent-subagents": true,
+    "llm-application-dev@claude-code-workflows": true,
+    "full-stack-orchestration@claude-code-workflows": true
+  }
+}
