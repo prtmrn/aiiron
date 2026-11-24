@@ -41,7 +41,7 @@ Défauts (choix de conception à valider) :
 | Barre 15 kg | barre_kg 15 |
 | max_kg absent | pas de plafond |
 
-`increment_kg` = 2 × le plus petit disque disponible. Raccourci assumé : on suppose assez de disques pour toute charge multiple de l'incrément jusqu'à `max_kg`. Passer à un inventaire disque par disque si un utilisateur le demande.
+`increment_kg` = 2 × le plus petit disque disponible. Raccourci assumé, validé par Pierrot le 25/11/2026 : on suppose assez de disques pour toute charge multiple de l'incrément jusqu'à `max_kg`. Passer à un inventaire disque par disque si un utilisateur le demande.
 
 ### R2 — Charges disponibles
 
@@ -65,7 +65,7 @@ si (haut − cible) < (cible − bas) ET (haut − cible) / cible ≤ 0,025 → 
 sinon → bas                                     // égalité → bas
 si |résultat − cible| / cible > 0,05 → ajouter ECART_ARRONDI_IMPORTANT
 ```
-Seuils 2,5 % et 5 % : choix de conception à valider. `ECART_ARRONDI_IMPORTANT` permet à la conversation de proposer d'ajuster les reps ou de changer de matériel ; le moteur ne modifie pas les reps lui-même.
+Seuils 2,5 % et 5 % : choix de conception validé par Pierrot le 25/11/2026. `ECART_ARRONDI_IMPORTANT` permet à la conversation de proposer d'ajuster les reps ou de changer de matériel ; le moteur ne modifie pas les reps lui-même.
 
 ### R4 — Où s'applique l'arrondi
 
@@ -109,4 +109,4 @@ Micro-disques : incrément 1 → 101,3 → 101 ; 101,5 → 101 (égalité) ; 101
 Haltères [10, 12, 14, …, 30] : 23,2 → 22 (24 serait +3,45 %) ; 23,6 → 24 (+1,69 %).
 Kettlebells [8, 12, 16, 20, 24, 28, 32] : 19 → 16 (20 serait +5,3 %), `ECART_ARRONDI_IMPORTANT` (−15,8 %).
 Pile 5 à 100 pas 5 : 47 → 45 (50 serait +6,4 %), pas de drapeau (−4,3 %).
-Lest : poids du corps 80, e1RM système traction 120, 5 @ 8 → 100 − 80 = 20 → lest 20 kg (incrément 1,25).
+Lest : poids du corps 80, e1RM système traction 120, 5 @ 8 → 120 × 0,819444 = 98,333 − 80 = 18,333 → lest 18,75 kg (incrément 1,25 : 18,75 est le plus proche, +2,27 % ≤ 2,5 %).

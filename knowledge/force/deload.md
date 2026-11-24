@@ -33,10 +33,10 @@ Un deload est une période de stress d'entraînement réduit, destinée à dissi
 
 | Déclencheur | Définition testable | Statut |
 | --- | --- | --- |
-| Planifié | le modèle place une semaine `deload` ; à défaut, après N semaines de charge : débutant 6, intermédiaire 5, avancé 4 | fréquence moyenne Rogerson 2024 ; N par niveau = heuristique à valider |
-| Régression | sur un mouvement principal (`squat`, `couche`, `souleve_de_terre`, `developpe_militaire` s'il est principal du modèle), ref actuelle ≤ 0,95 × max des refs des 4 dernières semaines | heuristique à valider |
-| Stagnation | ref actuelle ≤ ref d'il y a 3 semaines, sur au moins un mouvement principal | heuristique à valider |
-| Fatigue | ≥ 3 `SERIE_DURE` ou ≥ 1 `ARRET_EXERCICE` sur les 7 derniers jours, ou 2 séances consécutives du même mouvement principal avec un écart de top set ≥ +1 | heuristique à valider |
+| Planifié | le modèle place une semaine `deload` ; à défaut, après N semaines de charge : débutant 6, intermédiaire 5, avancé 4 | fréquence moyenne Rogerson 2024 ; N par niveau = heuristique, validé par Pierrot le 25/11/2026 |
+| Régression | sur un mouvement principal (`squat`, `couche`, `souleve_de_terre`, `developpe_militaire` s'il est principal du modèle), ref actuelle ≤ 0,95 × max des refs des 4 dernières semaines | heuristique, validé par Pierrot le 25/11/2026 |
+| Stagnation | ref actuelle ≤ ref d'il y a 3 semaines, sur au moins un mouvement principal | heuristique, validé par Pierrot le 25/11/2026 |
+| Fatigue | ≥ 3 `SERIE_DURE` ou ≥ 1 `ARRET_EXERCICE` sur les 7 derniers jours, ou 2 séances consécutives du même mouvement principal avec un écart de top set ≥ +1 | heuristique, validé par Pierrot le 25/11/2026 |
 | Readiness basse | booléen `readiness_basse_persistante` fourni par la couche récupération (`expert-sante-physique`). Le moteur force n'interprète aucune métrique wearable | interface à valider avec `expert-sante-physique` |
 
 « Ref d'une semaine » = valeur de la référence e1RM à la fin de cette semaine. Les 4 dernières semaines incluent la semaine en cours.
@@ -55,10 +55,10 @@ Un deload recommandé est proposé à l'utilisateur ; il n'est pas imposé.
 | --- | --- | --- |
 | Durée | 1 semaine | Rogerson 2024 |
 | Fréquence, exercices | inchangés | Rogerson 2024 |
-| Séries par exercice | ≤ ceil(séries de la semaine de référence / 2) | baisse de volume : Bell 2023, Rogerson 2024 ; facteur 1/2 = heuristique à valider |
+| Séries par exercice | ≤ ceil(séries de la semaine de référence / 2) | baisse de volume : Bell 2023, Rogerson 2024 ; facteur 1/2 = heuristique, validé par Pierrot le 25/11/2026 |
 | Reps par série | inchangées ou moins | Rogerson 2024 |
-| RPE prescrit | ≤ 7 pour toute série | heuristique à valider |
-| Intensité | charge ≤ 0,80 × e1RM effectif | heuristique à valider |
+| RPE prescrit | ≤ 7 pour toute série | heuristique, validé par Pierrot le 25/11/2026 |
+| Intensité | charge ≤ 0,80 × e1RM effectif | heuristique, validé par Pierrot le 25/11/2026 |
 | Singles | interdits si RPE prescrit ≥ 8 (de toute façon RPE ≤ 7) | règle produit |
 | Interdits | AMRAP, test de 1RM, top set « au ressenti » | règle produit |
 | Ajustement en séance | baisse permise, hausse interdite | `ajustement-rpe.md`, R7 |
@@ -69,7 +69,7 @@ brute = e1rmEffectif × min( pct(reps, min(RPE, 7)) , 0,80 )
 ```
 puis arrondi (le plafond 80 % est réappliqué après arrondi, `arrondi-charges.md`, R5).
 
-Semaine de référence : la dernière semaine non-deload du même bloc. Exercice absent de la référence : ≤ 2 séries (heuristique à valider). Pas de référence fournie : le contrôle de volume est sauté, drapeau `DELOAD_VOLUME_NON_VERIFIABLE`.
+Semaine de référence : la dernière semaine non-deload du même bloc. Exercice absent de la référence : ≤ 2 séries (heuristique, validé par Pierrot le 25/11/2026). Pas de référence fournie : le contrôle de volume est sauté, drapeau `DELOAD_VOLUME_NON_VERIFIABLE`.
 
 ### R3 — Validation (`validerDeload`)
 
@@ -91,7 +91,7 @@ Pour chaque exercice, dans cet ordre :
 1. Supprimer les lignes interdites : singles à RPE ≥ 8, AMRAP, tests.
 2. Plafonner les lignes restantes : RPE := min(RPE, 7) ; charge par la formule de R2.
 3. Volume : tant que le total de séries dépasse ceil(référence / 2), retirer une série en partant de la dernière ligne ; minimum 1 série au total.
-4. Si l'étape 1 a tout supprimé : une ligne de remplacement ceil(référence / 2) × 3 reps @ RPE 6, plafonnée par R2 (heuristique à valider).
+4. Si l'étape 1 a tout supprimé : une ligne de remplacement ceil(référence / 2) × 3 reps @ RPE 6, plafonnée par R2 (pct(3, 6) = 81,9 % > 80 %, donc charge = 0,80 × e1RM effectif ; heuristique, validé par Pierrot le 25/11/2026).
 Chaque changement est listé en clair (pour que aiiron puisse l'expliquer en une phrase).
 
 ### R5 — Sortie de deload
@@ -107,5 +107,5 @@ La semaine suivante reprend le bloc depuis la référence e1RM courante, sans «
 ## Exemple (réutilisable comme test)
 
 Squat, e1RM 150, semaine de référence : 1 × 1 @ 8 + 4 × 3 @ 8 (5 séries). Semaine marquée « DELOAD » : 1 × 1 @ 9, 1 × 1 @ 10, 3 × 3 @ 7.
-- Validation : `DELOAD_RPE_TROP_HAUT` × 2, `DELOAD_SINGLE_LOURD` × 2, `DELOAD_INTENSITE_TROP_HAUTE` × 3 (96,8 %, 100 %, 85,7 %), `DELOAD_VOLUME_TROP_HAUT` (5 > 3). Refusée.
-- Correction : singles supprimés ; 3 × 3 @ 7 → 150 × min(0,857143 ; 0,80) = 120 → **3 × 3 à 120 kg** ; total 3 séries ≤ 3.
+- Validation : `DELOAD_RPE_TROP_HAUT` × 2, `DELOAD_SINGLE_LOURD` × 2, `DELOAD_INTENSITE_TROP_HAUTE` × 3 (95,2 %, 98,4 %, 84,5 %), `DELOAD_VOLUME_TROP_HAUT` (5 > 3). Refusée.
+- Correction : singles supprimés ; 3 × 3 @ 7 (n = 6,5) → 150 × min(0,845070 ; 0,80) = 120 → **3 × 3 à 120 kg** ; total 3 séries ≤ 3.

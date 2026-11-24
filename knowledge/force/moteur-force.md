@@ -38,7 +38,7 @@ Le moteur force transforme une prescription (exercice, répétitions, RPE) en ch
 
 ## Règles pour aiiron (conventions communes)
 
-1. **Unités** : kilogrammes uniquement. Les livres sont hors périmètre (choix de conception à valider).
+1. **Unités** : kilogrammes uniquement. Les livres sont hors périmètre (validé par Pierrot le 25/11/2026).
 2. **Précision** : aucun arrondi intermédiaire. e1RM et % restent en double précision. Seule la charge finale est arrondie, une seule fois, par `arrondirCharge` (voir `arrondi-charges.md`). Les affichages arrondissent à part (e1RM à 0,5 kg, % à 0,1 point) sans réinjecter la valeur affichée.
 3. **Calcul d'arrondi en grammes entiers** pour éviter les erreurs de flottants (101,25 kg → 101 250 g).
 4. **RPE** : nombre entre 1 et 10. Toute valeur saisie est ramenée au demi-point le plus proche, égalité vers le haut (8,25 → 8,5 ; 8,75 → 9). Le haut est le côté prudent : un RPE plus haut donne un e1RM plus bas.
@@ -116,4 +116,4 @@ corrigerDeload(semaine: Semaine, semaineRef: Semaine | null, refs): { semaine: S
 ## Exemple
 
 Squat, référence e1RM 150 kg, slot sans remise, prescription 5 @ RPE 8, barre 20 kg + disques jusqu'à 1,25 kg (incrément 2,5 kg), phase normale :
-pct(5, 8) = 30/36 = 0,833333 → brute 125,0 kg → arrondi 125 kg. Paliers : voir `paliers-montee-en-charge.md`.
+n = 5 + 10 − 8 + 0,5 = 7,5 ; pct(5, 8) = 29,5/36 = 0,819444 → brute 122,917 kg → arrondi 122,5 kg (125 serait plus loin). Paliers : voir `paliers-montee-en-charge.md`.

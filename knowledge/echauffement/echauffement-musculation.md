@@ -107,4 +107,4 @@ Substitutions : `2141` elliptique, `2612` corde à sauter, `3666` marche sur tap
 Séance « bas du corps » : presse à cuisses, fentes, leg curl, mollets. 60 min disponibles.
 Résultat attendu : vélo 5 min → `mobilite-musculation#avant` région `bas` (3 min) → pont fessier 1 × 10 → séries d'approche (règle courte, I < 0,80) sur la presse (premier exercice quadriceps et fessiers), sur le leg curl (premier exercice ischio-jambiers) et sur les mollets → aucune série d'approche sur les fentes ni sur un deuxième exercice de quadriceps.
 
-Variante : la même séance commence par un squat barre 4 × 6 @ RPE 8, sans e1RM connu. I = pct(6, 8) = 0,806 (`table-rpe.md`) ≥ 0,80 → paliers complets de la fiche force avant le squat, même en version courte. La presse qui suit reste sur la règle des groupes (quadriceps déjà préparés : 0 série d'approche).
+Variante : la même séance commence par un squat barre 4 × 6 @ RPE 8,5, sans e1RM connu. I = pct(6, 8,5) = 0,806 (`table-rpe.md`) ≥ 0,80 → paliers complets de la fiche force avant le squat, même en version courte. La presse qui suit reste sur la règle des groupes (quadriceps déjà préparés : 0 série d'approche).

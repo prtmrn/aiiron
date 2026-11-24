@@ -44,6 +44,18 @@ e1rmSerie(charge, reps, rpe) = charge / pct(reps, rpe)      // pct : table-rpe.m
 ```
 `charge` = charge déplacée (kg). Exercice lesté (tractions, dips) : charge = poids du corps + lest (voir `arrondi-charges.md`, R6).
 
+### R1 bis — Single réussi à RPE 10 (proposition, à valider)
+
+Avec la marge +0,5 de la table, pct(1, 10) = 30/30,5 = 0,983607 : R1 donnerait un e1RM 1,67 % au-dessus de la charge (100 kg × 1 @ 10 → 101,67). Règle proposée :
+```
+reps = 1 et RPE = 10 → e1rmSerie = charge
+```
+- Raison : un single à fond est, par définition, le 1RM du jour. Afficher « environ 101,7 kg » après un 100 kg à fond serait incohérent.
+- Cohérence : même valeur que R7 (test de 1RM : ref = charge) et R8 (1RM déclaré = valeur).
+- Sans effet sur la prescription : RPE 10 n'est jamais prescrit hors séance `test_1rm` (`ajustement-rpe.md`, R7).
+- Effet de bord : entre 1 @ 9,5 (e1RM = charge × 1,0333) et 1 @ 10 (e1RM = charge), l'écart passe à 3,3 % au lieu de 1,6 %. Acceptable : on reste du côté prudent (e1RM plus bas).
+- Sans R1 bis, la règle générale R1 s'applique (101,67). Choix de conception à valider par Pierrot.
+
 ### R2 — Série valide pour l'e1RM
 
 Une série compte seulement si toutes ces conditions sont vraies :
@@ -60,14 +72,14 @@ Une série compte seulement si toutes ces conditions sont vraies :
 | RPE non numérique, < 1 ou > 10 | `RPE_INVALIDE`, traité comme absent |
 | RPE non multiple de 0,5 | arrondi au demi-point, égalité vers le haut |
 | RPE absent, reps réalisées = reps prescrites | série non utilisée, `RPE_MANQUANT` ; la référence ne bouge pas grâce à cette série |
-| RPE absent, 1 ≤ reps réalisées < reps prescrites | on suppose l'échec : RPE = 10 aux reps réalisées (heuristique prudente : donne l'e1RM le plus bas compatible avec l'échec) |
+| RPE absent, 1 ≤ reps réalisées < reps prescrites | on suppose l'échec : RPE = 10 aux reps réalisées (heuristique prudente : donne l'e1RM le plus bas compatible avec l'échec ; validé par Pierrot le 25/11/2026) |
 | 0 rep réalisée | pas d'e1RM, `ECHEC_TOTAL` (voir `ajustement-rpe.md`) |
 
 ### R4 — Série de référence de la séance
 
 Parmi les séries valides d'un exercice dans la séance : celle au RPE le plus élevé ; à égalité, la charge la plus lourde ; à égalité, la première dans l'ordre chronologique.
 `e1rmJour = e1rmSerie(série de référence) / remise_contexte(slot)` (la remise de contexte, 1 par défaut, est définie dans `variantes-discounts.md`).
-Justification : la notation est plus juste près de l'échec (Halperin 2022, Zourdos 2021).
+Justification : la notation est plus juste près de l'échec (Halperin 2022, Zourdos 2021). Validé par Pierrot le 25/11/2026.
 Aucune série valide → référence inchangée, `PAS_DE_DONNEE_FIABLE`.
 
 ### R5 — Garde-fou « aberrant »
@@ -76,14 +88,14 @@ Aucune série valide → référence inchangée, `PAS_DE_DONNEE_FIABLE`.
 ratio = e1rmJour / ref
 si ratio > 1,10 ou ratio < 0,90 → A_CONFIRMER, non intégré
 ```
-aiiron demande à l'utilisateur de confirmer la saisie (charge, reps, RPE). Confirmé → intégré par R6 sans garde-fou. Corrigé → recalcul avec les valeurs corrigées. Seuil ±10 % : heuristique de coach à valider.
+aiiron demande à l'utilisateur de confirmer la saisie (charge, reps, RPE). Confirmé → intégré par R6 sans garde-fou. Corrigé → recalcul avec les valeurs corrigées. Seuil ±10 % : heuristique de coach, validé par Pierrot le 25/11/2026.
 
 ### R6 — Mise à jour de la référence (lissage)
 
 ```
 ref_nouvelle = ref + α × (e1rmJour − ref)      avec α = 0,5
 ```
-Avec R5, une séance déplace la référence d'au plus ±5 %. α = 0,5 : choix de conception à valider (amortit le bruit de notation d'environ 1 rep, Halperin 2022, tout en suivant une vraie progression en 2 à 3 séances).
+Avec R5, une séance déplace la référence d'au plus ±5 %. α = 0,5 : choix de conception validé par Pierrot le 25/11/2026 (amortit le bruit de notation d'environ 1 rep, Halperin 2022, tout en suivant une vraie progression en 2 à 3 séances).
 
 ### R7 — Séance de test de 1RM (planifiée)
 
@@ -95,7 +107,7 @@ Si la séance est marquée `test_1rm` : ref = charge du meilleur single réussi 
 | --- | --- |
 | 1RM testé il y a ≤ 8 semaines | valeur déclarée |
 | 1RM plus ancien ou « estimé » | 0,95 × valeur déclarée |
-| « x kg pour r reps à fond », r ≤ 10 | e1rmSerie(x, r, 10) |
+| « x kg pour r reps à fond », r ≤ 10 | e1rmSerie(x, r, 10) (r = 1 : x si R1 bis est validée) |
 | variante sans historique | e1RM de la base × coefficient (voir `variantes-discounts.md`) |
 | rien | séance d'étalonnage : montée par paliers jusqu'à un 5 @ RPE 8 choisi en séance, puis R4 |
 
@@ -115,12 +127,12 @@ Une série met à jour uniquement la référence de son propre exercice. Une pau
 
 | Entrée | Calcul | Sortie |
 | --- | --- | --- |
-| 100 kg × 5 @ 8 | 100 / 0,833333 | 120,0 |
-| 100 kg × 3 @ 9 | 100 / (30/33) | 110,0 |
-| 100 kg × 1 @ 10 | 100 / 1 | 100,0 |
-| 140 kg × 8 @ 7,5 | 140 / 0,736111 | 190,19 |
+| 100 kg × 5 @ 8 | n = 7,5 ; 100 / 0,819444 | 122,03 |
+| 100 kg × 3 @ 9 | n = 4,5 ; 100 / (30/33,5) | 111,67 |
+| 100 kg × 1 @ 10 | n = 1,5 ; 100 / 0,983607 | 101,67 (R1) ; **100,0** avec R1 bis |
+| 140 kg × 8 @ 7,5 | n = 11 ; 140 / 0,722222 | 193,85 |
 | 80 kg × 12 @ 8 | reps > 10 | null, `SERIE_TROP_LONGUE` |
 | 100 kg × 5 @ 6 | RPE < 7 | null, `RPE_TROP_BAS_POUR_E1RM` |
-| 125 kg × 3 (5 prescrites), RPE absent | RPE := 10 ; 125 / 0,9375 | 133,33 |
+| 125 kg × 3 (5 prescrites), RPE absent | RPE := 10, n = 3,5 ; 125 / 0,923077 | 135,42 |
 
-Mise à jour : ref 150, top set 125 × 5 @ 9 (prescrit @ 8) → e1rmJour = 125 / 0,857143 = 145,833 → ratio 0,972 → ref = 150 + 0,5 × (145,833 − 150) = **147,917**.
+Mise à jour : ref 150, top set prescrit 5 @ 8 = 122,5 kg, fait 122,5 × 5 @ 9 → e1rmJour = 122,5 / 0,845070 = 144,958 → ratio 0,966 → ref = 150 + 0,5 × (144,958 − 150) = **147,479**.

@@ -37,7 +37,7 @@ chargeBrute = e1rmEffectif(slot) × pct(reps, RPE)            // puis plafonds d
 - Le multiplicateur s'applique sur l'e1RM, avant le calcul de la charge et avant l'arrondi. Jamais sur une charge déjà arrondie, jamais en soustrayant des points de % (83,3 % − 6 points ≠ 83,3 % × 0,94).
 - Tous les calculs dérivés (paliers, back-offs, deload, ajustements en séance) partent de la charge issue de cette fonction : ils héritent du discount automatiquement.
 - Composition : les coefficients se multiplient le long de la chaîne de bases (pause squat avant = squat × 0,80 × 0,90). Profondeur maximale 3 ; un cycle dans les bases est une erreur de configuration détectée au chargement.
-- Coefficient ≤ 1,00 toujours, même si la variante est réellement plus forte que la base (rack pull, push press) : choix prudent pour une initialisation sans donnée, à valider.
+- Coefficient ≤ 1,00 toujours, même si la variante est réellement plus forte que la base (rack pull, push press) : choix prudent pour une initialisation sans donnée, validé par Pierrot le 25/11/2026.
 
 ### R2 — Retour d'information depuis un slot remisé
 
@@ -45,7 +45,7 @@ Une série faite dans un slot remisé met à jour la référence de l'exercice a
 
 ### R3 — Tableau des coefficients d'initialisation
 
-Toutes les valeurs sont des **heuristiques de coach à valider**, sauf mention. Identifiants en snake_case, à relier aux identifiants de `data/exercises/` par `developpeur`.
+Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25/11/2026** (y compris le coefficient 0,95 de l'autre style de soulevé de terre). Identifiants en snake_case, à relier aux identifiants de `data/exercises/` par `developpeur`.
 
 | Variante (id) | Base | Coef | Note |
 | --- | --- | --- | --- |
@@ -93,5 +93,5 @@ Pour chaque série générée : `chargeBrute / (e1rmExercice × pct) = remise_co
 
 ## Exemple (réutilisable comme test)
 
-- Pause squat jamais loguée, ref squat 150 → e1RM initial 135. 4 @ 7 : 135 × 0,833333 = 112,5 → **112,5 kg**. Séance faite à 112,5 × 4 @ 8 → e1rmJour = 112,5 / 0,857143 = 131,25 → ratio 0,972 → ref pause squat = 135 + 0,5 × (131,25 − 135) = **133,125**. Ref squat inchangée : **150**.
+- Pause squat jamais loguée, ref squat 150 → e1RM initial 135. 4 @ 7 (n = 7,5) : 135 × 0,819444 = 110,625 → **110 kg**. Séance faite à 110 × 4 @ 8 (n = 6,5) → e1rmJour = 110 / 0,845070 = 130,167 → ratio 0,964 → ref pause squat = 135 + 0,5 × (130,167 − 135) = **132,583**. Ref squat inchangée : **150**.
 - `squat_avant_pause_2s`, sans historique ni pour lui ni pour `squat_avant` : 150 × 0,80 × 0,90 = **108** e1RM initial (et `squat_avant` reçoit au passage sa ref initiale 120).
