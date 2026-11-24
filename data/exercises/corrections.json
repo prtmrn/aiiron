@@ -1,0 +1,61 @@
+{
+ "source": "aiiron — corrections proposées par expert-sante-physique (contexte : knowledge/sante-physique/exercices-manquants.md)",
+ "licence": "Contenu propre à aiiron, hors licence MIT du dataset d'origine",
+ "regle": "exercises.json n'est jamais modifié. Ces corrections sont des propositions : le moteur peut les appliquer en surcouche à la lecture, après validation.",
+ "corrections": [
+  {
+   "ids": ["0003"],
+   "champ": "nom_en",
+   "valeur_origine": "air bike",
+   "correction_proposee": "bicycle crunch (nom_fr : crunch pédalé)",
+   "motif": "Les étapes décrivent un crunch abdominal en pédalage au sol, pas un vélo à air. Risque de confusion avec la machine cardio (voir mq-air-bike)."
+  },
+  {
+   "ids": ["0858"],
+   "champ": "partie_du_corps, muscle_cible",
+   "valeur_origine": "waist, abs",
+   "correction_proposee": "cardio, cardiovascular system",
+   "motif": "Les étapes décrivent des sprints courus ; le classement en abdominaux est erroné. Non utilisé : mq-acceleration à la place."
+  },
+  {
+   "ids": ["0685"],
+   "champ": "nom_en",
+   "valeur_origine": "run",
+   "correction_proposee": "run in place (nom_fr : course sur place)",
+   "motif": "Les étapes décrivent une course sur place, pas un footing. Proche provisoire de mq-footing seulement."
+  },
+  {
+   "ids": ["3021"],
+   "champ": "etapes_fr",
+   "valeur_origine": "Étapes d'une pompe classique : poitrine abaissée vers le sol, coudes fléchis.",
+   "correction_proposee": [
+    "Mets-toi en planche haute, mains sous les épaules, bras tendus.",
+    "Sans plier les coudes, laisse la poitrine descendre de quelques centimètres en rapprochant les omoplates.",
+    "Pousse le sol pour écarter les omoplates et arrondir légèrement le haut du dos.",
+    "Garde les bras tendus et le corps gainé pendant toute la série."
+   ],
+   "motif": "Le nom désigne une pompe scapulaire (bras tendus, seules les omoplates bougent) ; les étapes décrivent une pompe classique. Utilisé dans nos échauffements avec la consigne « bras tendus »."
+  },
+  {
+   "ids": ["1564"],
+   "champ": "nom_en",
+   "valeur_origine": "intermediate hip flexor and quad stretch",
+   "correction_proposee": "standing quad stretch with strap (nom_fr : étirement du quadriceps debout à la sangle)",
+   "motif": "Les étapes décrivent un étirement du quadriceps debout avec une corde, pas un étirement des fléchisseurs de hanche. Utilisé seulement comme alternative quadriceps ; mq-fente-basse pour les fléchisseurs de hanche."
+  },
+  {
+   "ids": ["1271"],
+   "champ": "muscle_cible",
+   "valeur_origine": "pectorals",
+   "correction_proposee": "upper back (nom_fr : étirement du haut du dos bras devant)",
+   "motif": "Les étapes (bras croisés tendus devant, mains poussées vers l'avant) étirent plutôt le haut du dos que la poitrine. Alternative provisoire seulement ; mq-pec-porte pour les pectoraux."
+  },
+  {
+   "ids": ["0738", "0739", "0740", "0741", "0742", "0743", "0744", "1391", "1392", "1425", "1463", "1464", "2334"],
+   "champ": "materiel",
+   "valeur_origine": "sled machine",
+   "correction_proposee": "leverage machine (nom_fr : presse à cuisses ou hack squat)",
+   "motif": "« sled » désigne ici le chariot d'une presse à cuisses ou d'un hack squat, pas un traîneau poussé ou tiré. Jamais utilisés pour le Hyrox : mq-traineau-pousse et mq-traineau-tire à la place."
+  }
+ ]
+}

@@ -15,17 +15,17 @@ derniere_revue: 2026-11-25
 
 ## Principe
 
-Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge/etirements/` référencent les exercices par identifiant. Un identifiant à 4 chiffres pointe vers `data/exercises/exercises.json` ; un identifiant `mq-…` désigne un exercice absent du dataset, ou présent seulement sous un nom ou une description qui ne correspond pas. Cette liste sert de cahier des charges pour créer ces exercices (nom, catégorie, muscles, matériel, consignes, média). Recherche faite par mots-clés sur `nom_en` (stretch, roll, mobility, circle, swing, skip, row, bike, sled, plank, bridge, etc.) le 25/11/2026.
+Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge/etirements/` référencent les exercices par identifiant. Un identifiant à 4 chiffres pointe vers `data/exercises/exercises.json` (données d'origine, jamais modifiées) ; un identifiant `mq-…` désigne un exercice absent du dataset, ou présent seulement sous un nom ou une description qui ne correspond pas. Ces 39 exercices sont créés par aiiron dans **`data/exercises/exercices-aiiron.json`**, au même schéma que `exercises.json` (plus `nom_fr`), sans média ; les consignes `etapes_fr` sont rédigées par expert-sante-physique. Les entrées trompeuses du dataset sont listées, avec la correction proposée, dans `data/exercises/corrections.json`. Recherche faite par mots-clés sur `nom_en` (stretch, roll, mobility, circle, swing, skip, row, bike, sled, plank, bridge, etc.) le 25/11/2026.
 
 ## Règles pour aiiron
 
 | Id | Règle | Statut |
 | --- | --- | --- |
-| EXM-1 | Tant qu'un exercice `mq-…` n'existe pas en base, le moteur affiche `nom_fr` et une consigne courte rédigée par expert-sante-physique, sans média. | Choix de conception à valider |
-| EXM-2 | « Plus proche dans le dataset » est une suggestion de remplacement provisoire, pas un équivalent. Le moteur ne l'utilise que si `mq-…` est indisponible et que l'exercice proche ne figure pas dans la colonne « à éviter ». | Choix de conception à valider |
-| EXM-3 | Les identifiants `mq-…` sont stables : ils deviendront les clés des nouveaux exercices (ou un alias vers eux). | Choix de conception à valider |
+| EXM-1 | Un exercice `mq-…` est lu dans `data/exercises/exercices-aiiron.json` : le moteur affiche `nom_fr` et `etapes_fr`, sans média tant qu'aucun visuel n'existe (`media_id` à `null`). | Validé par Pierrot le 25/11/2026 |
+| EXM-2 | « Plus proche dans le dataset » est une suggestion de remplacement provisoire, pas un équivalent. Le moteur ne l'utilise que si `mq-…` est indisponible et que l'exercice proche ne figure pas dans la colonne « à éviter ». | Validé par Pierrot le 25/11/2026 |
+| EXM-3 | Les identifiants `mq-…` sont stables : ce sont les clés de `exercices-aiiron.json`, uniques et sans collision avec les identifiants de `exercises.json`. | Validé par Pierrot le 25/11/2026 |
 
-## Liste : 39 exercices manquants
+## Liste : 39 exercices manquants (créés dans `data/exercises/exercices-aiiron.json`)
 
 ### Cardio d'échauffement et de retour au calme (5)
 
@@ -100,6 +100,8 @@ Total : 5 + 8 + 17 + 2 + 2 + 5 = **39**.
 
 ## Exercices présents mais à corriger dans le dataset (pas de modification ici)
 
+Détail machine (champ, valeur d'origine, correction proposée, motif) : `data/exercises/corrections.json`. `exercises.json` n'est jamais modifié.
+
 | Id | Nom | Problème | Effet dans nos protocoles |
 | --- | --- | --- | --- |
 | 0003 | air bike | Crunch abdominal en pédalage, pas un vélo à air | Jamais utilisé comme cardio |
@@ -121,4 +123,4 @@ Cardio : 0798, 2141, 2142, 2612, 3666. Mobilité et activation : 0276, 0688, 072
 
 ## Exemple
 
-Le moteur construit l'échauffement d'un fractionné et rencontre `mq-skipping-b`. L'exercice n'existe pas en base et n'a pas de proche : il affiche « Skipping B, 2 × 20 m » avec la consigne courte, sans média (EXM-1).
+Le moteur construit l'échauffement d'un fractionné et rencontre `mq-skipping-b`. Il le lit dans `exercices-aiiron.json` et affiche « Skipping B (jambe griffée), 2 × 20 m » avec ses `etapes_fr`, sans média (EXM-1).

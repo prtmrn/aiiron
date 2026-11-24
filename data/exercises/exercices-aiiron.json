@@ -1,0 +1,707 @@
+{
+ "source": "aiiron — exercices rédigés par expert-sante-physique (liste commentée : knowledge/sante-physique/exercices-manquants.md)",
+ "licence": "Contenu propre à aiiron, hors licence MIT du dataset d'origine — aucun média",
+ "exercises": [
+  {
+   "id": "mq-rameur",
+   "nom_en": "rowing machine",
+   "nom_fr": "Rameur",
+   "partie_du_corps": "cardio",
+   "materiel": "rowing machine",
+   "muscle_cible": "cardiovascular system",
+   "groupe_musculaire": "latissimus dorsi",
+   "muscles_secondaires": ["latissimus dorsi", "quadriceps", "glutes", "biceps"],
+   "etapes_fr": [
+    "Assieds-toi, sangle les pieds et saisis la poignée bras tendus, buste légèrement penché vers l'avant.",
+    "Pousse d'abord avec les jambes, puis bascule le buste en arrière et tire la poignée vers le bas des côtes.",
+    "Reviens dans l'ordre inverse : bras, buste, puis jambes.",
+    "Garde un rythme régulier et une intensité facile, tu dois pouvoir parler."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-air-bike",
+   "nom_en": "air bike",
+   "nom_fr": "Vélo à air (assault bike)",
+   "partie_du_corps": "cardio",
+   "materiel": "air bike",
+   "muscle_cible": "cardiovascular system",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "shoulders", "glutes"],
+   "etapes_fr": [
+    "Règle la selle pour que ta jambe soit presque tendue en bas du coup de pédale.",
+    "Saisis les poignées mobiles et pédale en poussant et tirant les bras en même temps.",
+    "Monte progressivement : la résistance augmente toute seule avec ta vitesse.",
+    "En échauffement, reste à une intensité facile, respiration contrôlée."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-footing",
+   "nom_en": "easy jog",
+   "nom_fr": "Footing facile",
+   "partie_du_corps": "cardio",
+   "materiel": "body weight",
+   "muscle_cible": "cardiovascular system",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "hamstrings", "calves"],
+   "etapes_fr": [
+    "Cours à une allure lente, à laquelle tu peux tenir une conversation.",
+    "Fais des petites foulées, le pied qui se pose sous le bassin.",
+    "Garde les épaules relâchées et les bras qui balancent d'avant en arrière.",
+    "Si tu es essoufflé, ralentis ou marche quelques instants."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-marche",
+   "nom_en": "walking",
+   "nom_fr": "Marche",
+   "partie_du_corps": "cardio",
+   "materiel": "body weight",
+   "muscle_cible": "cardiovascular system",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "hamstrings", "calves"],
+   "etapes_fr": [
+    "Marche à un rythme tranquille, buste droit.",
+    "Laisse les bras se balancer naturellement.",
+    "Respire lentement et laisse ton souffle redescendre."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-acceleration",
+   "nom_en": "strides (build-up runs)",
+   "nom_fr": "Accélération progressive",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "hamstrings",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "quadriceps", "calves"],
+   "etapes_fr": [
+    "Choisis une ligne droite plate d'environ 60 à 100 m.",
+    "Pars à l'allure du footing et accélère progressivement sur toute la distance.",
+    "Atteins une vitesse rapide mais relâchée sur les derniers mètres, sans sprinter à fond.",
+    "Ralentis en douceur, puis reviens en marchant ou en trottinant avant la suivante."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-montees-genoux",
+   "nom_en": "high knees (moving)",
+   "nom_fr": "Montées de genoux en avançant",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "quads",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "calves"],
+   "etapes_fr": [
+    "Avance en montant les genoux à hauteur de hanche, un genou après l'autre.",
+    "Pose l'avant du pied sous le bassin, contacts courts et rapides.",
+    "Garde le buste droit et coordonne les bras avec les jambes.",
+    "Avance lentement : c'est la fréquence qui compte, pas la vitesse."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-talons-fesses",
+   "nom_en": "butt kicks",
+   "nom_fr": "Talons-fesses",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "hamstrings",
+   "groupe_musculaire": "calves",
+   "muscles_secondaires": ["calves", "quadriceps"],
+   "etapes_fr": [
+    "Avance en ramenant le talon vers les fesses à chaque foulée.",
+    "Garde les genoux orientés vers le sol, sous les hanches.",
+    "Reste sur l'avant du pied avec des contacts rapides.",
+    "Buste droit, bras actifs."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-pas-chasses",
+   "nom_en": "lateral shuffle",
+   "nom_fr": "Pas chassés latéraux",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "abductors",
+   "groupe_musculaire": "adductors",
+   "muscles_secondaires": ["adductors", "glutes", "calves"],
+   "etapes_fr": [
+    "Mets-toi de profil, genoux légèrement fléchis, buste droit.",
+    "Déplace-toi sur le côté en rapprochant les pieds sans qu'ils se touchent, puis en les écartant.",
+    "Reste léger sur l'avant des pieds.",
+    "Fais un aller face d'un côté, puis le retour face de l'autre côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-skipping-a",
+   "nom_en": "A-skip",
+   "nom_fr": "Skipping A",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "quads",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "calves"],
+   "etapes_fr": [
+    "Avance en sautillant : monte un genou à hauteur de hanche pendant que l'autre pied fait un petit rebond.",
+    "Redescends la jambe haute de façon active, pied posé sous le bassin.",
+    "Alterne les jambes en gardant un rythme régulier.",
+    "Buste droit, bras coordonnés comme en course."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-skipping-b",
+   "nom_en": "B-skip",
+   "nom_fr": "Skipping B (jambe griffée)",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "hamstrings",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "calves"],
+   "etapes_fr": [
+    "Commence comme le skipping A : genou monté à hauteur de hanche.",
+    "Déplie ensuite la jambe vers l'avant, puis ramène le pied vers le sol en le tirant sous toi, comme pour griffer le sol.",
+    "Alterne les jambes avec un petit sautillement sur la jambe d'appui.",
+    "Reste détendu et avance lentement ; si la coordination se perd, reviens au skipping A."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-pas-croises",
+   "nom_en": "carioca (grapevine)",
+   "nom_fr": "Pas croisés",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "adductors",
+   "groupe_musculaire": "abductors",
+   "muscles_secondaires": ["abductors", "obliques", "calves"],
+   "etapes_fr": [
+    "Mets-toi de profil, bras écartés pour l'équilibre.",
+    "Déplace-toi sur le côté en croisant le pied arrière une fois devant, une fois derrière le pied d'appui.",
+    "Laisse le bassin pivoter et garde les épaules face à l'avant.",
+    "Commence lentement, puis accélère quand le geste est fluide. Fais l'aller et le retour."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-foulees-bondissantes",
+   "nom_en": "bounding",
+   "nom_fr": "Foulées bondissantes",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "glutes",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "hamstrings", "calves"],
+   "etapes_fr": [
+    "Cours en allongeant nettement chaque foulée, avec un temps de suspension.",
+    "Pousse fort avec la jambe d'appui et monte le genou de la jambe avant.",
+    "Réceptionne-toi souplement sous le bassin, puis enchaîne.",
+    "Arrête si tu perds le contrôle de la réception."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-pogo",
+   "nom_en": "pogo hops",
+   "nom_fr": "Rebonds de cheville (pogos)",
+   "partie_du_corps": "lower legs",
+   "materiel": "body weight",
+   "muscle_cible": "calves",
+   "groupe_musculaire": "ankles",
+   "muscles_secondaires": ["ankles", "feet"],
+   "etapes_fr": [
+    "Debout, pieds écartés à la largeur des hanches, genoux presque tendus.",
+    "Fais de petits sauts sur place en rebondissant sur l'avant des pieds.",
+    "Cherche des contacts au sol très courts, comme un ressort, sans poser les talons.",
+    "Garde le buste droit et les bras détendus."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-genou-mur",
+   "nom_en": "knee-to-wall ankle mobilization",
+   "nom_fr": "Genou au mur (mobilité de cheville)",
+   "partie_du_corps": "lower legs",
+   "materiel": "body weight",
+   "muscle_cible": "calves",
+   "groupe_musculaire": "soleus",
+   "muscles_secondaires": ["soleus", "ankles"],
+   "etapes_fr": [
+    "Face à un mur, place un pied à environ une main du mur, l'autre pied en arrière.",
+    "Avance le genou avant vers le mur, en gardant le talon au sol.",
+    "Reviens, puis recommence en rythme ; recule le pied si le genou touche facilement.",
+    "Le genou part dans l'axe du pied. Tu dois sentir une tension, jamais une douleur."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-90-90",
+   "nom_en": "90/90 hip switch",
+   "nom_fr": "Bascules de hanche 90/90",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "glutes",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "adductors", "abductors"],
+   "etapes_fr": [
+    "Assieds-toi au sol, une jambe devant et une jambe sur le côté, les deux genoux pliés à environ 90 degrés.",
+    "Mains au sol derrière toi si besoin, buste le plus droit possible.",
+    "Bascule les deux genoux de l'autre côté pour inverser la position, pieds au sol.",
+    "Fais le mouvement lentement et sans forcer sur les genoux."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-squat-profond",
+   "nom_en": "deep squat hold",
+   "nom_fr": "Tenue de squat profond",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "adductors",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "calves", "ankles"],
+   "etapes_fr": [
+    "Pieds un peu plus larges que les hanches, pointes légèrement ouvertes.",
+    "Descends aussi bas que tu peux sans douleur, talons au sol si possible.",
+    "Tiens-toi à un support ou place les coudes contre l'intérieur des genoux si tu en as besoin.",
+    "Respire calmement pendant le maintien, puis remonte doucement."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-charniere-baton",
+   "nom_en": "hip hinge with dowel",
+   "nom_fr": "Charnière de hanche au bâton",
+   "partie_du_corps": "upper legs",
+   "materiel": "stick",
+   "muscle_cible": "hamstrings",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "lower back"],
+   "etapes_fr": [
+    "Debout, tiens un bâton dans le dos : il touche l'arrière de la tête, le haut du dos et le bas du dos.",
+    "Genoux légèrement fléchis, recule les hanches et penche le buste vers l'avant.",
+    "Garde les trois points de contact avec le bâton pendant tout le mouvement.",
+    "Remonte en poussant les hanches vers l'avant."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-chat-vache",
+   "nom_en": "cat-cow",
+   "nom_fr": "Chat-vache",
+   "partie_du_corps": "back",
+   "materiel": "body weight",
+   "muscle_cible": "spine",
+   "groupe_musculaire": "lower back",
+   "muscles_secondaires": ["lower back", "core"],
+   "etapes_fr": [
+    "À quatre pattes, mains sous les épaules, genoux sous les hanches.",
+    "En expirant, arrondis le dos vers le plafond en rentrant le menton.",
+    "En inspirant, creuse doucement le dos et regarde légèrement vers l'avant.",
+    "Enchaîne lentement, au rythme de ta respiration."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-open-book",
+   "nom_en": "side-lying thoracic rotation (open book)",
+   "nom_fr": "Rotation thoracique allongé sur le côté (open book)",
+   "partie_du_corps": "back",
+   "materiel": "body weight",
+   "muscle_cible": "upper back",
+   "groupe_musculaire": "obliques",
+   "muscles_secondaires": ["obliques", "chest"],
+   "etapes_fr": [
+    "Allonge-toi sur le côté, hanches et genoux pliés à 90 degrés, bras tendus devant toi l'un sur l'autre.",
+    "Garde les genoux serrés au sol et ouvre le bras du dessus vers l'arrière, comme un livre qui s'ouvre.",
+    "Suis ta main du regard et laisse le haut du dos tourner, sans forcer.",
+    "Reviens lentement. Fais toutes les répétitions, puis change de côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-rouleau-thoracique",
+   "nom_en": "foam roller thoracic extension",
+   "nom_fr": "Extension thoracique sur rouleau",
+   "partie_du_corps": "back",
+   "materiel": "roller",
+   "muscle_cible": "upper back",
+   "groupe_musculaire": "rhomboids",
+   "muscles_secondaires": ["rhomboids", "trapezius"],
+   "etapes_fr": [
+    "Assieds-toi au sol et place un rouleau en travers du haut du dos, sous les omoplates.",
+    "Mains derrière la tête, coudes rapprochés, fesses au sol.",
+    "Laisse le haut du dos s'étendre doucement par-dessus le rouleau, puis reviens.",
+    "Déplace le rouleau d'une main plus haut ou plus bas, jamais sous le bas du dos."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-cercles-bras",
+   "nom_en": "arm circles",
+   "nom_fr": "Moulinets de bras",
+   "partie_du_corps": "shoulders",
+   "materiel": "body weight",
+   "muscle_cible": "delts",
+   "groupe_musculaire": "rotator cuff",
+   "muscles_secondaires": ["rotator cuff", "trapezius"],
+   "etapes_fr": [
+    "Debout, bras le long du corps.",
+    "Fais de grands cercles avec les bras tendus, d'abord petits puis de plus en plus amples.",
+    "Fais les répétitions vers l'avant, puis vers l'arrière.",
+    "Garde le buste immobile et les épaules relâchées."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-passage-epaules",
+   "nom_en": "shoulder pass-through",
+   "nom_fr": "Passages d'épaules au bâton ou à l'élastique",
+   "partie_du_corps": "shoulders",
+   "materiel": "stick",
+   "muscle_cible": "delts",
+   "groupe_musculaire": "chest",
+   "muscles_secondaires": ["chest", "rotator cuff", "upper back"],
+   "etapes_fr": [
+    "Tiens un bâton ou un élastique devant toi avec une prise très large, bras tendus.",
+    "Monte les bras au-dessus de la tête puis fais-les passer derrière toi, sans plier les coudes.",
+    "Reviens devant par le même chemin.",
+    "Si ça coince, élargis la prise. Aucune douleur ne doit apparaître."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-wall-slide",
+   "nom_en": "wall slides",
+   "nom_fr": "Glissés au mur",
+   "partie_du_corps": "shoulders",
+   "materiel": "body weight",
+   "muscle_cible": "traps",
+   "groupe_musculaire": "serratus anterior",
+   "muscles_secondaires": ["serratus anterior", "rotator cuff"],
+   "etapes_fr": [
+    "Dos contre un mur, pieds un peu avancés, bas du dos en contact avec le mur.",
+    "Place les avant-bras contre le mur, coudes pliés à hauteur d'épaules.",
+    "Fais glisser les bras vers le haut le plus loin possible sans décoller le bas du dos.",
+    "Redescends lentement en serrant légèrement les omoplates vers le bas."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-prep-poignets",
+   "nom_en": "quadruped wrist rocks",
+   "nom_fr": "Bascules des poignets à quatre pattes",
+   "partie_du_corps": "lower arms",
+   "materiel": "body weight",
+   "muscle_cible": "forearms",
+   "groupe_musculaire": "wrist flexors",
+   "muscles_secondaires": ["wrist flexors", "wrist extensors", "wrists"],
+   "etapes_fr": [
+    "À quatre pattes, mains à plat sous les épaules, doigts vers l'avant.",
+    "Bascule doucement le poids du corps vers l'avant puis vers l'arrière, paumes au sol.",
+    "Recommence avec les doigts tournés vers les genoux, puis avec le dos des mains au sol si c'est confortable.",
+    "Reste dans une amplitude sans douleur."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-balancier-avant",
+   "nom_en": "front-to-back leg swings",
+   "nom_fr": "Balanciers de jambe avant-arrière",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "hamstrings",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "glutes"],
+   "etapes_fr": [
+    "Debout de profil, une main contre un mur pour l'équilibre.",
+    "Balance la jambe extérieure d'avant en arrière, genou souple.",
+    "Commence petit et augmente l'amplitude peu à peu, sans à-coups.",
+    "Garde le buste droit, puis change de jambe."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-balancier-lateral",
+   "nom_en": "lateral leg swings",
+   "nom_fr": "Balanciers de jambe latéraux",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "adductors",
+   "groupe_musculaire": "abductors",
+   "muscles_secondaires": ["abductors", "glutes"],
+   "etapes_fr": [
+    "Face à un mur, les deux mains posées dessus.",
+    "Balance une jambe de gauche à droite devant toi, genou souple.",
+    "Augmente l'amplitude progressivement, bassin stable.",
+    "Change de jambe."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-pigeon",
+   "nom_en": "pigeon stretch",
+   "nom_fr": "Pigeon au sol",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "glutes",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors"],
+   "etapes_fr": [
+    "À quatre pattes, avance un genou vers ta main du même côté et pose le tibia au sol en travers devant toi.",
+    "Allonge l'autre jambe derrière toi, dessus du pied au sol.",
+    "Garde le bassin à peu près de face et penche le buste vers l'avant si tu le souhaites.",
+    "Tu dois sentir une tension dans la fesse, jamais de douleur au genou. Sinon, fais l'étirement des fessiers assis."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-fente-basse",
+   "nom_en": "half-kneeling hip flexor stretch",
+   "nom_fr": "Fente basse genou au sol",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "quads",
+   "groupe_musculaire": "hip flexors",
+   "muscles_secondaires": ["hip flexors", "glutes"],
+   "etapes_fr": [
+    "Mets un genou au sol sur un coussin, l'autre pied devant, genou avant au-dessus de la cheville.",
+    "Rentre légèrement le bassin, comme pour rapprocher le pubis du nombril, et serre la fesse de la jambe arrière.",
+    "Avance doucement le bassin jusqu'à sentir une tension à l'avant de la hanche arrière.",
+    "Garde le buste droit et respire lentement, puis change de côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-enfant",
+   "nom_en": "child's pose",
+   "nom_fr": "Posture de l'enfant",
+   "partie_du_corps": "back",
+   "materiel": "body weight",
+   "muscle_cible": "lats",
+   "groupe_musculaire": "lower back",
+   "muscles_secondaires": ["lower back", "shoulders"],
+   "etapes_fr": [
+    "À genoux, écarte légèrement les genoux et assieds-toi vers les talons.",
+    "Allonge les bras devant toi au sol et laisse le front descendre vers le sol.",
+    "Relâche le dos et respire lentement dans le bas des côtes.",
+    "Remonte doucement en déroulant le dos."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-soleaire",
+   "nom_en": "bent-knee calf stretch",
+   "nom_fr": "Étirement du soléaire genou fléchi",
+   "partie_du_corps": "lower legs",
+   "materiel": "body weight",
+   "muscle_cible": "calves",
+   "groupe_musculaire": "soleus",
+   "muscles_secondaires": ["soleus", "ankles"],
+   "etapes_fr": [
+    "Face à un mur, mains posées dessus, un pied en arrière.",
+    "Fléchis les deux genoux en gardant le talon arrière au sol.",
+    "Descends doucement jusqu'à sentir une tension dans le bas du mollet arrière.",
+    "Tiens sans rebondir, puis change de côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-pec-porte",
+   "nom_en": "doorway pec stretch",
+   "nom_fr": "Étirement des pectoraux à l'encadrement de porte",
+   "partie_du_corps": "chest",
+   "materiel": "body weight",
+   "muscle_cible": "pectorals",
+   "groupe_musculaire": "shoulders",
+   "muscles_secondaires": ["shoulders"],
+   "etapes_fr": [
+    "Place l'avant-bras contre le montant d'une porte, coude à hauteur d'épaule.",
+    "Avance d'un petit pas du côté du bras posé, buste droit.",
+    "Tourne légèrement le buste vers l'extérieur jusqu'à sentir une tension dans la poitrine.",
+    "Aucun fourmillement dans le bras ne doit apparaître : si c'est le cas, arrête. Change de côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-respiration",
+   "nom_en": "supine diaphragmatic breathing",
+   "nom_fr": "Respiration lente allongé, jambes fléchies",
+   "partie_du_corps": "waist",
+   "materiel": "body weight",
+   "muscle_cible": "abs",
+   "groupe_musculaire": "diaphragm",
+   "muscles_secondaires": ["diaphragm"],
+   "etapes_fr": [
+    "Allonge-toi sur le dos, genoux fléchis, pieds au sol.",
+    "Pose une main sur le ventre et une main sur la poitrine.",
+    "Inspire lentement par le nez en laissant le ventre se soulever, puis expire plus longuement par la bouche.",
+    "Continue à ton rythme, sans forcer ta respiration."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-ecartes-elastique",
+   "nom_en": "band pull-apart",
+   "nom_fr": "Écartés à l'élastique",
+   "partie_du_corps": "back",
+   "materiel": "band",
+   "muscle_cible": "upper back",
+   "groupe_musculaire": "rear deltoids",
+   "muscles_secondaires": ["rear deltoids", "rhomboids", "trapezius"],
+   "etapes_fr": [
+    "Debout, tiens un élastique léger devant toi à hauteur d'épaules, bras tendus, mains écartées de la largeur des épaules.",
+    "Écarte les bras sur les côtés en rapprochant les omoplates, jusqu'à ce que l'élastique touche la poitrine.",
+    "Reviens lentement sans laisser l'élastique claquer.",
+    "Garde les épaules basses et les côtes rentrées."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-rotation-externe-elastique",
+   "nom_en": "band external rotation",
+   "nom_fr": "Rotation externe d'épaule à l'élastique",
+   "partie_du_corps": "shoulders",
+   "materiel": "band",
+   "muscle_cible": "delts",
+   "groupe_musculaire": "rotator cuff",
+   "muscles_secondaires": ["rotator cuff"],
+   "etapes_fr": [
+    "Fixe un élastique léger à hauteur de coude et mets-toi de profil.",
+    "Saisis l'élastique avec la main la plus éloignée, coude plié à 90 degrés et collé au flanc.",
+    "Tourne l'avant-bras vers l'extérieur sans décoller le coude, puis reviens lentement.",
+    "Mouvement lent et contrôlé, sans douleur. Change de côté."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-traineau-pousse",
+   "nom_en": "sled push",
+   "nom_fr": "Poussée de traîneau",
+   "partie_du_corps": "upper legs",
+   "materiel": "sled",
+   "muscle_cible": "quads",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "calves", "shoulders"],
+   "etapes_fr": [
+    "Place les mains sur les poignées du traîneau, bras tendus ou fléchis, buste incliné vers l'avant.",
+    "Pousse le traîneau par petits pas rapides sur l'avant des pieds.",
+    "Garde le dos plat et le gainage serré, regard vers le sol devant toi.",
+    "En échauffement, charge légère et allure facile."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-traineau-tire",
+   "nom_en": "sled pull",
+   "nom_fr": "Tirage de traîneau",
+   "partie_du_corps": "back",
+   "materiel": "sled",
+   "muscle_cible": "lats",
+   "groupe_musculaire": "biceps",
+   "muscles_secondaires": ["biceps", "forearms", "hamstrings"],
+   "etapes_fr": [
+    "Mets-toi face au traîneau, la corde tendue devant toi, genoux fléchis et pieds bien ancrés.",
+    "Tire la corde main après main en ramenant les coudes vers les hanches.",
+    "Utilise les jambes et le gainage, dos plat, pour reculer d'un pas si nécessaire.",
+    "En échauffement, charge légère et geste régulier."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-wall-ball",
+   "nom_en": "wall ball shot",
+   "nom_fr": "Wall ball",
+   "partie_du_corps": "upper legs",
+   "materiel": "medicine ball",
+   "muscle_cible": "quads",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "shoulders", "triceps"],
+   "etapes_fr": [
+    "Face à un mur, tiens la balle contre la poitrine, pieds à la largeur des épaules.",
+    "Descends en squat, puis remonte avec élan et lance la balle vers la cible en tendant les bras.",
+    "Rattrape la balle et enchaîne directement la descente suivante.",
+    "Garde les talons au sol et le buste droit."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-burpee-saut-longueur",
+   "nom_en": "burpee broad jump",
+   "nom_fr": "Burpee saut en longueur",
+   "partie_du_corps": "cardio",
+   "materiel": "body weight",
+   "muscle_cible": "cardiovascular system",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "glutes", "chest", "shoulders"],
+   "etapes_fr": [
+    "Pose les mains au sol, lance les pieds en arrière et descends poitrine au sol.",
+    "Pousse sur les bras, ramène les pieds sous toi.",
+    "Saute vers l'avant à deux pieds en balançant les bras, réception souple.",
+    "Enchaîne le burpee suivant là où tu as atterri."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
+   "id": "mq-fentes-sac",
+   "nom_en": "sandbag walking lunge",
+   "nom_fr": "Fentes marchées avec sac",
+   "partie_du_corps": "upper legs",
+   "materiel": "sandbag",
+   "muscle_cible": "glutes",
+   "groupe_musculaire": "quadriceps",
+   "muscles_secondaires": ["quadriceps", "hamstrings", "core"],
+   "etapes_fr": [
+    "Place le sac sur les épaules, derrière la nuque, et tiens-le des deux mains.",
+    "Fais un grand pas en avant et descends jusqu'à ce que le genou arrière frôle le sol.",
+    "Pousse sur la jambe avant pour te relever et enchaîne avec l'autre jambe.",
+    "Garde le buste droit et le genou avant dans l'axe du pied."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  }
+ ]
+}
