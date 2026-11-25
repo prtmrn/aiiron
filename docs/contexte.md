@@ -66,6 +66,10 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - `readiness_basse_persistante` absent = faux (pas de deload déclenché sans signal).
 - T17 bis (Hyrox) : front squat puis back squat, pas de wall ball ni de thruster (schéma ambigu).
 - Renvois JSON `force-paliers-montee-en-charge` sans ancre ; le moteur calcule `premier_du_schema`.
+- Moteur volume, `corrections.json` non appliqué : ce sont des propositions non validées ; seul effet sur le volume, `0858` (wind sprints) compte encore en abdominaux.
+- Moteur volume, libellé hors table (`LIBELLE_INCONNU`) : l'exercice entier n'est pas compté, pas seulement le libellé.
+- Moteur volume, données chargées par import JSON (`engine/src/volume/donnees.ts`) et passées en paramètre aux fonctions ; muscle de surcharge absent de `muscles` → exception (bug de données, couvert par le test de cohérence).
+- Moteur volume, sortie : muscles à zéro omis ; drapeaux rattachés à l'exercice (`{ code, exercice }`).
 
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
@@ -91,11 +95,12 @@ Logique nutrition retenue : métabolisme de base (Black, Harris-Benedict, Miffli
 - Spécification du moteur force écrite (`knowledge/force/`, brouillon) avec cas de test T1–T17.
 - Protocoles d'échauffement, mobilité et étirements par type de séance (`knowledge/echauffement/`, `mobilite/`, `etirements/`), exercices manquants ajoutés (`data/exercises/exercices-aiiron.json`) et corrections du dataset (`data/exercises/corrections.json`).
 - Mapping des muscles (`knowledge/hypertrophie/mapping-muscles.json`) pour le moteur volume.
-- Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; écart T1 réglé (3 × 4 @ 6 à 117,5 kg) ; reste un écart fiche ↔ code marqué `it.fails` : T6, haltères 23,2 → 22 (la fiche n'a pas de drapeau, le code lève `ECART_ARRONDI_IMPORTANT`, −5,17 % > 5 % selon R3).
+- Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; écarts T1 (3 × 4 @ 6 à 117,5 kg) et T6 (haltères 23,2 → 22 avec `ECART_ARRONDI_IMPORTANT`) réglés, plus aucun `it.fails`.
+- Moteur volume écrit (`engine/src/volume/`, tests T4, T5, règles MAP et cohérence du mapping v3, `test/volume/`) ; deux écarts marqués `it.fails` : `mq-squat-descentes-lentes` (mobilité) absent de `exercices_hors_volume`, et la fiche annonce 39 exercices `mq-…` au lieu de 40.
 
 ## Prochaines étapes
 1. ~~`developpeur` : moteur force~~ fait (`engine/src/force/`).
-2. `developpeur` : moteur volume (comptage par muscle via le mapping, cas T4/T5).
+2. ~~`developpeur` : moteur volume (comptage par muscle via le mapping, cas T4/T5)~~ fait (`engine/src/volume/`).
 3. `expert-ia` : persona d'aiiron et architecture runtime.
 
 Prérequis du moteur course : compter les sauts et les gammes de course (charge pliométrique). Ils sont hors volume hypertrophie dans le mapping v3 et ne sont suivis par aucun moteur aujourd'hui.
