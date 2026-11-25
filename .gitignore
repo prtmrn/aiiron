@@ -8,3 +8,5 @@ data/exercises/media/
 data/raw/
 *.log
 .DS_Store
+coverage/
+dist/
