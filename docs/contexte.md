@@ -36,8 +36,16 @@ Standout (standout.work, YC Spring 2026) est un « agent talent » : profil cons
 ### Décisions du 25/11/2026 sur les specs force et santé physique
 - Seuil « lourd » : paliers complets si la série de travail est ≥ 80 % de l'e1RM (I ≥ 0,80), quel que soit le nombre de reps.
 - Table RPE : variante prudente n + 0,5.
-- Validés tels quels : paliers réduits pour le 2e exercice d'un même schéma, barre vide en roumain au soulevé de terre, règles e1RM, arrondi, coefficients de variantes, ajustement en séance, deload, échelles et repos des paliers, règle courte musculation, étirements statiques ≤ 30 s avant l'effort, durées d'échauffement, dosages course/mobilité/retour au calme.
+- Validés tels quels : paliers réduits pour le 2e exercice d’un même schéma (devenu la règle « mouvement déjà chauffé », voir deuxième passe), barre vide en roumain au soulevé de terre, règles e1RM, arrondi, coefficients de variantes, ajustement en séance, deload, échelles et repos des paliers, règle courte musculation, étirements statiques ≤ 30 s avant l'effort, durées d'échauffement, dosages course/mobilité/retour au calme.
 - Cas de test T1 à T3 : gardés tels que décrits (reconstitués, pas de lignes d'Excel).
+
+### Décisions du 25/11/2026, deuxième passe
+- I indéterminable (ni e1RM ni RPE prescrit) : « Lourd » en force, règle courte en musculation, répétition des mouvements en Hyrox/CrossFit.
+- Single à RPE 10 → e1RM = charge ; ligne « 1 rep à 100 % » refusée hors test de 1RM. Règle courte musculation ≤ 6 reps sous le seuil : 50 % × 5 · 75 % × 3. Assistance en force sous le seuil : échelles Léger / Modéré.
+- Paliers quand le mouvement a déjà été chauffé : si le même schéma a déjà eu ses paliers dans la séance, départ à 60 % ; sinon paliers complets. Même règle en force et en musculation.
+- Mobilité dynamique : 4 exercices en standard, 2 en version courte (squat : genou au mur + 90/90). Pas de maintien de 30 s avant la séance (5 à 8 descentes lentes) ; le maintien de 30 s reste au retour au calme et les jours de repos.
+- Mapping des muscles : 21 muscles, comptage principal 1 / secondaire 0,5 (niveau de preuve C), agrégat `deltoides`, groupe = premier muscle principal, surcharges « glutes + quadriceps » étendues à tout le dataset. `core` compté à part : hors volume hypertrophie mais visible.
+- Validés aussi : demi-points linéaires, seuil de cohérence % / RPE à 0,5, RPE ≥ 7 pour l'e1RM, initialisation (8 semaines, ×0,95), bornes de la remise de contexte, heuristiques d'activation et de répétition des mouvements Hyrox.
 
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
