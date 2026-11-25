@@ -134,6 +134,8 @@ describe("MAP-11 : exercices hors volume, rien nulle part", () => {
     ["saut", "0053"],
     ["saut", "1420"],
     ["gamme_course", "mq-montees-genoux"],
+    ["activation", "mq-ecartes-elastique"],
+    ["activation", "mq-rotation-externe-elastique"],
   ])("%s %s × 3 : volume zéro, compteur séparé zéro, aucun groupe", (categorie, id) => {
     const r = resoudreExercice(id, d);
     expect(r.hors_volume).toBe(categorie);

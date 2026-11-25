@@ -127,7 +127,7 @@ Appliqués mais discutables :
 - `0130` « bench hip extension » : ses étapes décrivent un pont dos au banc, classé pont.
 - `1464`, `0740` : `nom_en` source corrompu (`45в°`), corrigé dans la surcharge.
 
-### Exercices hors volume (128)
+### Exercices hors volume (130)
 
 Représentation dans le JSON : un objet `exercices_hors_volume` au même niveau que `surcharges`, une clé par catégorie, chacune avec `critere`, `validation` et `ids` (identifiants exacts, dataset et `exercices-aiiron.json`). Un identifiant n'apparaît que dans une catégorie. Pas d'attribut sur les muscles ni de pseudo-muscle : c'est l'exercice qui sort du comptage, quels que soient ses muscles.
 
@@ -137,11 +137,13 @@ Représentation dans le JSON : un objet `exercices_hors_volume` au même niveau 
 | `mobilite` | mobilité articulaire ou échauffement sans charge : cercles, toe touches debout, inchworm, genoux à la poitrine ; mobilité et respiration de `exercices-aiiron.json` | 9 | 15 | 24 |
 | `saut` | nom contenant jump, plyo, hop, burpee, clap ; ou étapes où les pieds (les mains pour les pompes) quittent le sol de façon explosive à chaque répétition. Exclus : épaulés, arrachés, lancers de médecine-ball | 27 | 3 | 30 |
 | `gamme_course` | éducatifs de course : montées de genoux, talons-fesses, skippings, pas chassés et croisés, accélérations | 1 | 7 | 8 |
+| `activation` | exercices d'activation de l'échauffement, légers, loin de la fatigue (ECH-F3, ECH-H3) ; validé par Pierrot le 25/11/2026 | 0 | 2 | 2 |
 
 - Étirements, par le nom (58) : `1512`, `1708`, `1709`, `1710`, `1713`, `1714`, `1716`, `1712`, `1405`, `1259`, `1494`, `1407`, `1377`, `1378`, `1548`, `1271`, `1272`, `0257`, `1167`, `1559`, `1339`, `1341`, `1342`, `1560`, `1745`, `1511`, `1564`, `1419`, `1346`, `1576`, `0613`, `1403`, `0643`, `1388`, `1389`, `0669`, `1582`, `2571`, `2208`, `2205`, `2202`, `2207`, `1585`, `1390`, `1424`, `0690`, `2567`, `1587`, `1358`, `0716`, `0721`, `1363`, `1398`, `1599`, `0794`, `0817`, `1365`, `1604`. Par les étapes (3) : `1338` (ballon serré contre la poitrine, penché en arrière), `1362` (sphinx), `1366` (chien tête en haut). `exercices-aiiron.json` (5) : `mq-pigeon`, `mq-fente-basse`, `mq-enfant`, `mq-soleaire`, `mq-pec-porte`.
 - Mobilité : `1368` et `1428` (cercles de chevilles, de poignets), `3212`, `3214`, `3215`, `3218`, `3231` (toe touches debout), `1418` (genoux à la poitrine), `1471` (inchworm) ; `mq-genou-mur`, `mq-90-90`, `mq-squat-profond`, `mq-squat-descentes-lentes`, `mq-charniere-baton`, `mq-chat-vache`, `mq-open-book`, `mq-rouleau-thoracique`, `mq-cercles-bras`, `mq-passage-epaules`, `mq-wall-slide`, `mq-prep-poignets`, `mq-balancier-avant`, `mq-balancier-lateral`, `mq-respiration`.
 - Sauts, jambes : `0053`, `3543`, `0371`, `0514`, `0513`, `3582`, `1420`, `1473`, `1472`, `2798`, `1374`, `3361`, `3671` ; cardio sautés (déjà sans principal) : `3220`, `3224`, `3219`, `3222`, `3223`, `2612`, `1160`, `1201`, `0501` ; pompes pliométriques : `1273`, `1306`, `0545`, `0492`, `1310` ; `mq-foulees-bondissantes`, `mq-pogo`, `mq-burpee-saut-longueur`.
 - Gammes : `3552` (quick feet), `mq-acceleration`, `mq-montees-genoux`, `mq-talons-fesses`, `mq-pas-chasses`, `mq-skipping-a`, `mq-skipping-b`, `mq-pas-croises`.
+- Activation : `mq-ecartes-elastique`, `mq-rotation-externe-elastique`.
 
 Avant la v3, `1709` et `1710` (étirements) comptaient 1 série de fessiers et 0,5 d'ischio-jambiers par série : c'était un bug, corrigé ici et vérifié par le script.
 

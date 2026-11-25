@@ -36,7 +36,7 @@ export interface Resolution {
   principaux: string[];
   secondaires: string[];
   groupe: string | null; // MAP-6, pour les séries d'approche
-  hors_volume: string | null; // catégorie MAP-11 (etirement, mobilite, saut, gamme_course)
+  hors_volume: string | null; // catégorie MAP-11 (etirement, mobilite, saut, gamme_course, activation)
   drapeaux: DrapeauVolume[];
 }
 

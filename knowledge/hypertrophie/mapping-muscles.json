@@ -283,6 +283,11 @@
       "validation": "choix prudent de l'expert (zéro volume), liste brouillon",
       "ids": ["3552", "mq-acceleration", "mq-montees-genoux", "mq-talons-fesses", "mq-pas-chasses",
               "mq-skipping-a", "mq-skipping-b", "mq-pas-croises"]
+    },
+    "activation": {
+      "critere": "exercices d'activation de l'échauffement, légers, loin de la fatigue (ECH-F3, ECH-H3)",
+      "validation": "validé par Pierrot le 25/11/2026",
+      "ids": ["mq-ecartes-elastique", "mq-rotation-externe-elastique"]
     }
   }
 }
