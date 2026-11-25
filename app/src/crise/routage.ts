@@ -65,11 +65,15 @@ export function rappel(m: Magasin): string {
   return m.crise?.tca_aussi ? `${TEXTES.crise_rappel_v1}\n\n${TEXTES.crise_tca_rappel_v1}` : TEXTES.crise_rappel_v1;
 }
 
-/** Balises que le modèle renvoie s'il voit une crise que le lexique a ratée (persona/prompt-systeme.md). Toute « [[ALERTE » compte. */
+/**
+ * Balises que le modèle renvoie s'il voit une crise que le lexique a ratée (persona/prompt-systeme.md).
+ * Prudence : toute « [ALERTE » (un ou deux crochets, toute casse) ou tout « ALERTE_DANGER / ALERTE_CRISE » nu compte.
+ */
 export function baliseAlerte(texte: string): { niveau: "crise" | "danger"; type: TypeCrise; texte_fixe: IdTexte } | null {
-  const b = texte.match(/\[\[\s*ALERTE_?([A-Z_]*)/);
+  const b = texte.match(/\[\s*\[?\s*alerte[_ ]?([a-z_]*)/i) ?? texte.match(/\balerte_(danger|crise[a-z_]*)/i);
   if (!b) return null;
-  if (b[1].startsWith("DANGER")) return { niveau: "danger", type: "suicide", texte_fixe: "crise_danger_v1" };
-  if (b[1].startsWith("CRISE_TCA")) return { niveau: "crise", type: "tca", texte_fixe: "crise_tca_v1" };
+  const suite = b[1].toUpperCase();
+  if (suite.startsWith("DANGER")) return { niveau: "danger", type: "suicide", texte_fixe: "crise_danger_v1" };
+  if (suite.startsWith("CRISE_TCA")) return { niveau: "crise", type: "tca", texte_fixe: "crise_tca_v1" };
   return { niveau: "crise", type: "suicide", texte_fixe: "crise_v1" }; // ALERTE_CRISE ou balise mal formée : prudence
 }

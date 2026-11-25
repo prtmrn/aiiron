@@ -302,6 +302,10 @@ describe("chaîne : balises d'alerte du modèle (filet tant que le classifieur e
     ["[[ALERTE_CRISE_TCA]]", "crise_tca_v1", "tca", "crise"],
     ["Bonne idée. [[ALERTE_CRISE]] Pour demain :", "crise_v1", "suicide", "crise"],
     ["[[ ALERTE_XYZ ]]", "crise_v1", "suicide", "crise"],
+    ["[[alerte_danger]]", "crise_danger_v1", "suicide", "danger"],
+    ["[ALERTE_CRISE_TCA]", "crise_tca_v1", "tca", "crise"],
+    ["Je préfère passer la main. ALERTE_CRISE", "crise_v1", "suicide", "crise"],
+    ["[[ALERTE_DANGER]] [[ALERTE_CRISE]]", "crise_danger_v1", "suicide", "danger"],
   ])("%j → %s", async (balise, texte, type, niv) => {
     const m = creerMagasin({});
     const [r] = await jouer(m, ["un message que le lexique ne voit pas"], agentFactice([balise]).agent);
@@ -309,6 +313,19 @@ describe("chaîne : balises d'alerte du modèle (filet tant que le classifieur e
     expect(r.reponse).not.toContain("ALERTE");
     expect(m.crise).toMatchObject({ type, niveau: niv });
     expect(m.historique.at(-1)!.texte).toBe(TEXTES[texte as keyof typeof TEXTES]);
+  });
+
+  it("aucune réponse envoyée ne contient « alerte » quand le modèle renvoie une balise, quel que soit le texte autour", async () => {
+    const autour = ["", "Ok. ", "Voici ta séance : squat 100 kg. ", "\n\n"];
+    const balises = ["[[ALERTE_CRISE]]", "[[ALERTE_DANGER]]", "[[ALERTE_CRISE_TCA]]", "[[alerte_crise]]", "[ALERTE_DANGER]", "ALERTE_CRISE_TCA"];
+    for (const a of autour)
+      for (const b of balises)
+        for (const etat of ["normal", "crise"] as const) {
+          const [r] = await jouer(creerMagasin({ etat_conversation: etat }), ["ok"], agentFactice([`${a}${b}${a}`]).agent);
+          expect(r.reponse, `${etat} ${a}${b}`).not.toMatch(/alerte/i);
+          expect(r.texte_fixe, `${etat} ${a}${b}`).toMatch(/^crise_(v1|danger_v1|tca_v1)$/);
+          expect(r.reponse).toBe(TEXTES[r.texte_fixe as keyof typeof TEXTES]);
+        }
   });
 
   it("balise en mode restreint : texte fixe, jamais la balise", async () => {
