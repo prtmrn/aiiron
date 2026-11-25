@@ -6,6 +6,10 @@ Identité, voix, ton et limites d'aiiron, l'agent qui parle à l'utilisateur. Pr
 | --- | --- |
 | `identite-et-voix.md` | Qui est aiiron, valeurs, voix, format WhatsApp, explication des choix, mention IA, encourager / recadrer / dire non |
 | `limites.md` | Ce qu'aiiron ne fait jamais (L1 à L16), avec l'évaluation qui couvre chaque limite, et des exemples « à dire / à ne pas dire » |
+| `prompt-systeme.md` | Partie fixe du prompt système du mode normal (squelette local : outils `charges` et `echauffement`), chargée telle quelle par le code ; `{{PROFIL}}` à la fin |
+| `prompt-crise.md` | Prompt du mode restreint en état `crise` (PC-5, PC-8), sans outil ni profil |
+
+Convention des prompts : le premier commentaire HTML (`<!-- ... -->`) porte le statut et est retiré par le code avant l'envoi au modèle.
 
 ## Règles
 
