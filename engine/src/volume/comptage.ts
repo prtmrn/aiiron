@@ -28,8 +28,9 @@ export function compterVolume(lignes: LigneVolume[], d: DonneesVolume, options: 
   for (const { exercice, series } of lignes) {
     const r = resoudreExercice(exercice, d);
     for (const code of r.drapeaux) out.drapeaux.push({ code, exercice });
-    // MAP-11 hors volume ; MAP-3 cardio (principaux vides) : rien, même sur les secondaires
-    if (r.drapeaux.length > 0 || r.hors_volume !== null || r.principaux.length === 0) continue;
+    // EXERCICE_SANS_MAPPING ; MAP-11 hors volume ; MAP-3 cardio (cible connue à null) : rien, même sur les secondaires
+    if (r.drapeaux.includes("EXERCICE_SANS_MAPPING") || r.hors_volume !== null) continue;
+    if (r.principaux.length === 0 && !r.cible_inconnue) continue;
 
     let agregat = false;
     for (const [ids, w] of [[r.principaux, wP], [r.secondaires, wS]] as const) {

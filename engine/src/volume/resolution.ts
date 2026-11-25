@@ -38,6 +38,7 @@ export interface Resolution {
   groupe: string | null; // MAP-6, pour les séries d'approche
   hors_volume: string | null; // catégorie MAP-11 (etirement, mobilite, saut, gamme_course, activation)
   drapeaux: DrapeauVolume[];
+  cible_inconnue?: true; // MAP-2 : libellé cible hors table ; les secondaires connus comptent quand même
 }
 
 const vide = (drapeau: DrapeauVolume): Resolution => ({ principaux: [], secondaires: [], groupe: null, hors_volume: null, drapeaux: [drapeau] });
@@ -51,13 +52,18 @@ export function resoudreExercice(id: string, { mapping, exercices }: DonneesVolu
 
   let principaux: string[];
   let secondaires: string[];
+  const drapeaux: DrapeauVolume[] = [];
+  let cible_inconnue: true | undefined;
   if (Object.hasOwn(mapping.surcharges, id)) {
     ({ principaux, secondaires } = mapping.surcharges[id]);
   } else {
     // Object.hasOwn : un libellé « constructor » ne doit pas trouver Object.prototype
+    // MAP-2 : un libellé hors table est ignoré (avertissement LIBELLE_INCONNU), les autres comptent
+    const connu = (l: string) => Object.hasOwn(mapping.libelles, l);
     const libelles = [ex.muscle_cible, ex.groupe_musculaire, ...ex.muscles_secondaires];
-    if (libelles.some((l) => !Object.hasOwn(mapping.libelles, l))) return vide("LIBELLE_INCONNU");
-    const muscle = (l: string) => mapping.libelles[l].muscle;
+    if (libelles.some((l) => !connu(l))) drapeaux.push("LIBELLE_INCONNU");
+    if (!connu(ex.muscle_cible)) cible_inconnue = true;
+    const muscle = (l: string) => (connu(l) ? mapping.libelles[l].muscle : null);
     principaux = [muscle(ex.muscle_cible)].filter((m) => m !== null);
     secondaires = libelles.slice(1).map(muscle).filter((m) => m !== null);
   }
@@ -69,5 +75,5 @@ export function resoudreExercice(id: string, { mapping, exercices }: DonneesVolu
   const comptes = new Set(mapping.muscles.filter((m) => m.compte_volume).map((m) => m.id));
   const groupe = hors_volume === null ? (principaux.find((m) => comptes.has(m)) ?? null) : null;
 
-  return { principaux, secondaires, groupe, hors_volume, drapeaux: [] };
+  return { principaux, secondaires, groupe, hors_volume, drapeaux, ...(cible_inconnue && { cible_inconnue }) };
 }

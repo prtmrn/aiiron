@@ -31,9 +31,20 @@ describe("MAP-3 : ordre de résolution", () => {
     expect(resoudreExercice("mq-respiration", d)).toMatchObject({ principaux: ["abdominaux"], secondaires: [], hors_volume: "mobilite", groupe: null });
   });
 
-  it("libellé hors table : LIBELLE_INCONNU, rien compté, jamais de rapprochement", () => {
+  it("cible hors table : LIBELLE_INCONNU, les secondaires connus comptent, aucun groupe, jamais de rapprochement", () => {
     const ex: Exercice = { id: "test-inconnu", nom_en: "test", muscle_cible: "biceps brachii", groupe_musculaire: "forearms", muscles_secondaires: ["forearms"] };
-    expect(compterVolume([{ exercice: ex.id, series: 3 }], avec(ex))).toEqual({ ...rien, drapeaux: [{ code: "LIBELLE_INCONNU", exercice: ex.id }] });
+    expect(resoudreExercice(ex.id, avec(ex))).toMatchObject({ principaux: [], secondaires: ["avant_bras"], groupe: null, cible_inconnue: true });
+    expect(compterVolume([{ exercice: ex.id, series: 3 }], avec(ex))).toEqual({ ...rien, volume: { avant_bras: 1.5 }, drapeaux: [{ code: "LIBELLE_INCONNU", exercice: ex.id }] });
+  });
+
+  it("secondaire hors table : LIBELLE_INCONNU, le principal et les autres secondaires comptent", () => {
+    const ex: Exercice = { id: "test-inconnu-2", nom_en: "test", muscle_cible: "biceps", groupe_musculaire: "forearms", muscles_secondaires: ["forearms", "brachioradialis"] };
+    expect(compterVolume([{ exercice: ex.id, series: 2 }], avec(ex))).toEqual({ ...rien, volume: { biceps: 2, avant_bras: 1 }, drapeaux: [{ code: "LIBELLE_INCONNU", exercice: ex.id }] });
+  });
+
+  it("cardio avec un secondaire hors table : toujours rien compté", () => {
+    const ex: Exercice = { id: "test-cardio", nom_en: "test", muscle_cible: "cardiovascular system", groupe_musculaire: "quadriceps", muscles_secondaires: ["quadriceps", "brachioradialis"] };
+    expect(compterVolume([{ exercice: ex.id, series: 2 }], avec(ex))).toEqual({ ...rien, drapeaux: [{ code: "LIBELLE_INCONNU", exercice: ex.id }] });
   });
 
   it("libellé à null (« back ») : ignoré, le reste compte (2355 : abs ; shoulders, back)", () => {
