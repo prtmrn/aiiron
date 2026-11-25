@@ -154,6 +154,18 @@ describe("MAP-11 : exercices hors volume, rien nulle part", () => {
   });
 });
 
+describe("corrections.json : seules les corrections validées sont appliquées", () => {
+  it("0858 (wind sprints, classé abs dans le dataset) : corrigé en cardio, rien compté", () => {
+    expect(d.exercices.get("0858")).toMatchObject({ partie_du_corps: "cardio", muscle_cible: "cardiovascular system" });
+    expect(resoudreExercice("0858", d)).toMatchObject({ principaux: [], groupe: null });
+    expect(compterVolume([{ exercice: "0858", series: 3 }], d)).toEqual(rien);
+  });
+
+  it("corrections non validées ignorées : 0003 garde son nom d'origine", () => {
+    expect(d.exercices.get("0003")?.nom_en).toBe("air bike");
+  });
+});
+
 describe("Cardio (cible « cardiovascular system ») : rien compté", () => {
   it.each(["3360", "mq-rameur"])("%s : principaux vides, aucun groupe, rien compté même sur les secondaires", (id) => {
     const r = resoudreExercice(id, d);

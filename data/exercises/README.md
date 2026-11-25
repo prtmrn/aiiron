@@ -7,7 +7,7 @@
 
 Fichiers aiiron (contenu propre à aiiron, hors licence MIT upstream) :
 - `exercices-aiiron.json` : exercices créés par nos experts (identifiants `mq-…`, stables), au même schéma que `exercises.json` plus `nom_fr`, sans média.
-- `corrections.json` : entrées trompeuses du dataset et correction proposée. Les données d'origine (`exercises.json`, fichiers `*-upstream*`) ne sont jamais modifiées ; les corrections s'appliquent en surcouche.
+- `corrections.json` : entrées trompeuses du dataset et correction proposée. Les données d'origine (`exercises.json`, fichiers `*-upstream*`) ne sont jamais modifiées ; seules les corrections qui portent un champ `validee` s’appliquent, en surcouche à la lecture (aujourd’hui : `0858`).
 
 Trous connus, à combler par les experts : peu d'exercices de mobilité et d'échauffement (≈57 étirements), pas de gammes de course, stations Hyrox incomplètes, noms uniquement en anglais.
 

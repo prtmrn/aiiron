@@ -1,7 +1,7 @@
 {
  "source": "aiiron — corrections proposées par expert-sante-physique (contexte : knowledge/sante-physique/exercices-manquants.md)",
  "licence": "Contenu propre à aiiron, hors licence MIT du dataset d'origine",
- "regle": "exercises.json n'est jamais modifié. Ces corrections sont des propositions : le moteur peut les appliquer en surcouche à la lecture, après validation.",
+ "regle": "exercises.json n'est jamais modifié. Ces corrections sont des propositions : le moteur n'applique en surcouche, à la lecture, que celles qui portent un champ validee.",
  "corrections": [
   {
    "ids": ["0003"],
@@ -15,6 +15,7 @@
    "champ": "partie_du_corps, muscle_cible",
    "valeur_origine": "waist, abs",
    "correction_proposee": "cardio, cardiovascular system",
+   "validee": "Pierrot, 25/11/2026",
    "motif": "Les étapes décrivent des sprints courus ; le classement en abdominaux est erroné. Non utilisé : mq-acceleration à la place."
   },
   {
