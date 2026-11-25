@@ -89,12 +89,12 @@ Mapping : `knowledge/hypertrophie/mapping-muscles.json` (identifiants snake_case
 - **poids réels** (règle du mapping, validée par Pierrot le 25/11/2026) : muscle principal = 1, secondaire = 0,5, dédoublonnage par exercice (un identifiant une seule fois, avec le poids le plus élevé) ;
 - **poids 1** (mode de test explicite) : tout muscle associé à l'exercice compte 1. Il isole le bug de double comptage, indépendamment des poids.
 
-Entrée (reconstituée) : squat `0043` 3 séries, presse à cuisses `0739` 3 séries. Selon les surcharges du mapping, les deux exercices ont pour principaux {`quadriceps`, `fessiers`} et pour secondaire {`adducteurs`}. Dans le tableur, chaque ligne contenait le libellé du muscle deux fois (colonne muscle principal + colonne liste des muscles), et le comptage cherchait le libellé comme sous-chaîne dans la ligne.
+Entrée (reconstituée) : squat `0043` 3 séries, presse à cuisses `0739` 3 séries. Selon les surcharges du mapping (v3) : squat `0043` principaux {`quadriceps`, `fessiers`}, secondaires {`adducteurs`, `core`} ; presse `0739` principal {`quadriceps`}, secondaires {`fessiers`, `adducteurs`}. Dans le tableur, chaque ligne contenait le libellé du muscle deux fois (colonne muscle principal + colonne liste des muscles), et le comptage cherchait le libellé comme sous-chaîne dans la ligne.
 
 | Muscle | Attendu, poids réels | Attendu, poids 1 | Bugué (double comptage), poids réels | Bugué, poids 1 |
 | --- | --- | --- | --- | --- |
 | quadriceps | **6** | **6** | 12 | 12 |
-| fessiers | **6** | **6** | 12 | 12 |
+| fessiers | **4,5** | **6** | 9 | 12 |
 | adducteurs | **3** | **6** | 6 | 12 |
 
 Compteur séparé (hors volume hypertrophie, affiché à part) : `core` **1,5** en poids réels, **3** en poids 1 (secondaire de `0043` seulement). Il ne doit jamais apparaître dans les totaux de volume.
@@ -102,8 +102,8 @@ Compteur séparé (hors volume hypertrophie, affiché à part) : `core` **1,5** 
 Règle : `compte(m) = Σ séries(ex) × poids(ex, m)` sur l'ensemble **dédoublonné** des identifiants de muscles exacts de l'exercice. Les poids sont une décision d'`expert-hypertrophie` (portée par le mapping) ; ce test vérifie surtout qu'aucun couple (exercice, muscle) n'est compté deux fois.
 
 Cas réels de notre propre base `data/exercises/exercises.json`, à ajouter :
-- Doublon entre champs : `0027` (barbell bent over row, résolu par libellés, sans surcharge) a "biceps" à la fois dans `groupe_musculaire` et dans `muscles_secondaires`. Attendu par série : `haut_du_dos` 1 (« upper back », cible), `biceps` 0,5 une seule fois, `avant_bras` 0,5. Bugué : `biceps` 1 (compté deux fois). Même piège pour « hamstrings » sur `2287`. (`0025` avait le même doublon sur « triceps » ; il est maintenant résolu par surcharge.)
-- Synonymes : « quads » (`muscle_cible` de `2287`) et « quadriceps » (libellé du dataset) → même identifiant `quadriceps`, un seul compteur. `2287` par série : `quadriceps` 1, `ischio_jambiers` 0,5, `fessiers` 0,5.
+- Doublon entre champs : `0027` (barbell bent over row, résolu par libellés, sans surcharge) a "biceps" à la fois dans `groupe_musculaire` et dans `muscles_secondaires`. Attendu par série : `haut_du_dos` 1 (« upper back », cible), `biceps` 0,5 une seule fois, `avant_bras` 0,5. Bugué : `biceps` 1 (compté deux fois). (`0025` avait le même doublon sur « triceps » ; il est maintenant résolu par surcharge.)
+- Synonymes : « quads » (`muscle_cible` de `2287`) et « quadriceps » (libellé du dataset) → même identifiant `quadriceps`, un seul compteur. Le test porte sur la table des libellés (`quads` et `quadriceps` → `quadriceps`) ; `2287` est par ailleurs surchargé (presse) : par série `quadriceps` 1, `fessiers` 0,5, `adducteurs` 0,5.
 - Pièges de sous-chaîne, tirés des libellés réels du dataset. Attendu : correspondance par libellé entier uniquement.
 
 | Libellé | Attendu | Bugué si recherche par sous-chaîne |
@@ -273,7 +273,7 @@ Variante : si le front squat est prescrit à 60 kg (I = 0,60 < 0,80 → ECH-H4),
 
 ## Limites et contre-indications
 
-- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 2). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
+- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 3). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
 - Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal du mapping (`groupe_series_approche` : `principaux[0]`).
 - Les entrées T1 à T3 sont reconstituées et définitives : aucune ligne des tableurs d'origine n'entrera dans le repo. Seuls les mécanismes d'erreur sont décrits, pas la structure des programmes d'origine.
 - Toutes les valeurs dépendant de la table RPE utilisent la variante n = reps + 10 − RPE + 0,5 (`table-rpe.md`).
