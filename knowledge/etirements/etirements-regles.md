@@ -53,7 +53,7 @@ Un étirement statique long juste avant un effort de force ou de puissance rédu
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| ETI-1 | Avant une séance de force, puissance, sprint ou un bloc chronométré, aiiron ne prescrit pas d'étirement statique. Si l'utilisateur tient à en faire : **30 s cumulées par groupe musculaire au plus**, placés avant la mobilité dynamique et la partie spécifique, jamais juste avant la première série ou le premier effort. Plafond absolu : 60 s par groupe. | Kay et Blazevich 2012 (< 30 s : pas d'effet notable) ; Behm 2016 et Chaabene 2019 (> 60 s : baisse nette). Seuil par défaut de 30 s validé par Pierrot le 25/11/2026 |
+| ETI-1 | Avant une séance de force, puissance, sprint ou un bloc chronométré, aiiron ne prescrit pas d'étirement statique par défaut : la mobilité dynamique reste la règle (MOB-1 de `mobilite-modules`). Si l'utilisateur tient à en faire, c'est toléré : **30 s cumulées par groupe musculaire au plus**, placés avant la mobilité dynamique et la partie spécifique, jamais juste avant la première série ou le premier effort. Plafond absolu : 60 s par groupe. Même règle pour la tenue du squat profond (MOB-1b). | Kay et Blazevich 2012 (< 30 s : pas d'effet notable) ; Behm 2016 et Chaabene 2019 (> 60 s : baisse nette). Seuil par défaut de 30 s validé par Pierrot le 25/11/2026 ; MOB-1b alignée sur ETI-1 le 25/11/2026 (décision de Pierrot) |
 | ETI-2 | Après l'effort (retour au calme) : 1 × 30 s par groupe et par côté pour le confort. Objectif souplesse déclaré : 2 × 30 s par groupe et par côté, soit 60 s cumulées. | Garber 2011 (maintien 10–30 s, 60 s cumulées par exercice) ; skill `seance-complete` (20–60 s) |
 | ETI-3 | aiiron ne présente jamais les étirements comme un moyen de récupérer plus vite ou d'éviter les courbatures. | Afonso 2021 ; Herbert 2011 |
 | ETI-4 | aiiron ne présente pas les étirements comme une protection contre les blessures. Le renforcement musculaire a un effet protecteur mieux établi. Les données sur les étirements courts intégrés à l'échauffement sont discordantes : on reste neutre. | Lauersen 2014 ; Behm 2016 et Chaabene 2019 (effet possible sur certaines blessures musculaires) |
@@ -64,7 +64,7 @@ Un étirement statique long juste avant un effort de force ou de puissance rédu
 
 ### Catalogue des étirements statiques par groupe
 
-Alternative `adducteurs` : `mq-squat-profond` en tenue de 30 s (appui autorisé). Avant la séance, le squat profond ne se fait qu'en descentes lentes (`mq-squat-descentes-lentes`, règle MOB-1b de `mobilite-modules`, où sont ses sources ; tenue de 30 s : Garber 2011). MOB-1b est plus prudente qu'ETI-1 et que la littérature (Kay et Blazevich 2012 : pas d'effet notable sous 30 s) : choix de Pierrot du 25/11/2026.
+Alternative `adducteurs` : `mq-squat-profond` en tenue de 30 s (appui autorisé). Avant la séance, le squat profond se fait par défaut en descentes lentes (`mq-squat-descentes-lentes`, règle MOB-1b de `mobilite-modules`, où sont ses sources) ; la tenue y est tolérée jusqu'à 30 s cumulées, comme tout statique (ETI-1 ; Kay et Blazevich 2012 : pas d'effet notable sous 30 s). Tenue de 30 s après l'effort : Garber 2011.
 
 ```json
 {

@@ -56,7 +56,7 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
     "source_modules": "mobilite-modules#routine_autonome.zone_vers_module"
   },
   "interdits": [
-    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s dans la mobilité d'avant séance." }
+    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s dans la mobilité d'avant séance (par défaut) ; statique toléré jusqu'à 30 s cumulées par groupe si l'utilisateur y tient (ETI-1)." }
   ]
 }
 ```

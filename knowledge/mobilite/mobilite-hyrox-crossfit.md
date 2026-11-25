@@ -65,7 +65,7 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
     "source_modules": "mobilite-modules#routine_autonome.zone_vers_module"
   },
   "interdits": [
-    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s avant un bloc chronométré." }
+    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s avant un bloc chronométré (par défaut) ; statique toléré jusqu'à 30 s cumulées par groupe si l'utilisateur y tient (ETI-1)." }
   ]
 }
 ```

@@ -53,7 +53,7 @@ Avant une séance de course intense, la mobilité se place entre le footing et l
     "frequence_par_semaine": { "min": 2, "max": 3 }
   },
   "interdits": [
-    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s entre le footing et les gammes." },
+    { "regle": "MOB-1", "texte": "Pas de maintien statique de plus de 5 s entre le footing et les gammes (par défaut) ; statique toléré jusqu'à 30 s cumulées par groupe si l'utilisateur y tient (ETI-1)." },
     { "regle": "MOB-C1", "texte": "Pas de rebonds (pogos) pour un débutant en reprise : les remplacer par 1368 cercles de cheville." }
   ]
 }
