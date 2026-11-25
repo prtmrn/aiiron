@@ -38,6 +38,7 @@ Une **étape** :
 | `nature` | `cardio`, `mobilite_dynamique`, `activation`, `montee_en_charge`, `series_approche`, `gammes`, `accelerations`, `repetition_mouvements`, `potentialisation`, `etirements_statiques`, `respiration`, `auto_massage` | Type d'étape |
 | `duree_min` | nombre ou `null` | `null` = durée calculée par un autre moteur (paliers) |
 | `si` | objet, facultatif | Condition d'inclusion, ex. `{ "mouvement": ["squat"] }` |
+| `supprimable` | `true`, facultatif | Étape proposée par défaut que l'utilisateur peut retirer (activation : ECH-F3, ECH-M3, ECH-H3). Absent = étape obligatoire |
 | `ref` | `"<id-fiche>#<section>"`, facultatif | L'étape reprend les items d'une autre fiche |
 | `items` | liste d'items | Exercices |
 

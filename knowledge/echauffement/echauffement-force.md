@@ -51,7 +51,7 @@ Avant des séries lourdes, on monte la température avec un peu de cardio, on mo
 | --- | --- | --- |
 | ECH-F1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. Rameur, vélo, vélo à air, corde ou marche inclinée. | Bishop 2003 (5–10 min à intensité modérée) ; 3 min validé par Pierrot le 25/11/2026 |
 | ECH-F2 | Mobilité dynamique ciblée sur le premier mouvement principal : **4 exercices**, liste `mobilite-force#avant` (environ 3 min). Version courte : **2 exercices**, liste `mobilite-force#avant-courte`. | 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 ; sources et statut du nombre d'exercices : MOB-1 de `mobilite-modules` (heuristique de coach) |
-| ECH-F3 | Activation : 2 exercices légers (1 en version courte), choisis selon le mouvement, loin de la fatigue (RPE ≤ 5). | Heuristique de coach, validée par Pierrot le 25/11/2026. Sources partielles : activation légère intégrée à la mobilisation (Jeffreys 2017, qui réserve les exercices d'activation ciblés à des besoins précis) ; pont fessier : effet discordant des exercices fessiers à faible charge (gain de puissance : Crow 2012 ; pas de gain de force : Parr 2017) ; rester loin de la fatigue (Bishop 2003). Élastique pour l'épaule avant les développés, dead bug, nombre d'exercices et RPE ≤ 5 : aucune source trouvée |
+| ECH-F3 | Activation **par défaut, supprimable** (l'utilisateur peut la retirer sans justification ; les paliers d'ECH-F4, eux, ne le sont jamais) : 2 exercices légers (1 en version courte), choisis selon le mouvement, loin de la fatigue (RPE ≤ 5). | Heuristique de coach, validée par Pierrot le 25/11/2026. Sources partielles : activation légère intégrée à la mobilisation (Jeffreys 2017, qui réserve les exercices d'activation ciblés à des besoins précis) ; pont fessier : effet discordant des exercices fessiers à faible charge (gain de puissance : Crow 2012 ; pas de gain de force : Parr 2017) ; rester loin de la fatigue (Bishop 2003). Élastique pour l'épaule avant les développés, dead bug, nombre d'exercices et RPE ≤ 5 : aucune source trouvée. Passée d'obligatoire à « par défaut, supprimable » pour suivre Jeffreys 2017 : décision de Pierrot du 25/11/2026 |
 | ECH-F4 | Montée en charge obligatoire avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelle choisie par l'intensité I (règle ECH-6) : I ≥ 0,80 → paliers complets ; I < 0,80 → échelles « Léger » / « Modéré » ; I indéterminable → échelle « Lourd ». Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance : départ réduit selon R5, « Mouvement déjà chauffé », de la fiche force ; sinon paliers complets. Paliers, % et reps : `knowledge/force/paliers-montee-en-charge.md`. Jamais supprimée ni raccourcie en version courte. | Skill `seance-complete` ; règle ECH-6 ; règle « Mouvement déjà chauffé » : décision de Pierrot du 25/11/2026, détaillée par expert-force ; sources (partielles : Ribeiro 2020, Rhea 2003, Neves 2025, Wolf 2026) et part d'heuristique : `knowledge/force/paliers-montee-en-charge.md`, R2 et R5 |
 | ECH-F5 | Deuxième mouvement principal de la séance : on saute le cardio et on refait seulement la liste `avant-courte` de ce mouvement (2 exercices), puis ses paliers (ECH-F4). | Heuristique de coach, validée par Pierrot le 25/11/2026 |
 | ECH-F6 | Premier palier de travail dans les 10 min qui suivent la fin des paliers (règle ECH-4). | McGowan 2015 ; validé par Pierrot le 25/11/2026 |
@@ -70,13 +70,13 @@ Durée totale indicative hors paliers : 10 min standard (5 + 3 + 2), 6 min court
           "items": [ { "ex": "mq-rameur", "nom_fr": "Rameur", "duree_s": 300, "intensite": "RPE 3-4" } ] },
         { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 3, "nb_exercices": 4,
           "ref": "mobilite-force#avant" },
-        { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 2,
+        { "bloc": "preparation_specifique", "nature": "activation", "supprimable": true, "duree_min": 2,
           "si": { "mouvement": ["squat", "souleve_de_terre"] },
           "items": [
             { "ex": "3013", "nom_fr": "Pont fessier au sol", "series": 1, "reps": 10, "intensite": "RPE 4-5" },
             { "ex": "0276", "nom_fr": "Dead bug", "series": 1, "reps": 6, "par_cote": true, "intensite": "lent, bas du dos au sol" }
           ] },
-        { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 2,
+        { "bloc": "preparation_specifique", "nature": "activation", "supprimable": true, "duree_min": 2,
           "si": { "mouvement": ["developpe_couche", "developpe_militaire"] },
           "items": [
             { "ex": "mq-ecartes-elastique", "nom_fr": "Écartés à l'élastique", "series": 1, "reps": 15, "intensite": "élastique léger" },
@@ -93,10 +93,10 @@ Durée totale indicative hors paliers : 10 min standard (5 + 3 + 2), 6 min court
           "items": [ { "ex": "mq-rameur", "nom_fr": "Rameur", "duree_s": 180, "intensite": "RPE 3-4" } ] },
         { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 2, "nb_exercices": 2,
           "ref": "mobilite-force#avant-courte" },
-        { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 1,
+        { "bloc": "preparation_specifique", "nature": "activation", "supprimable": true, "duree_min": 1,
           "si": { "mouvement": ["squat", "souleve_de_terre"] },
           "items": [ { "ex": "3013", "nom_fr": "Pont fessier au sol", "series": 1, "reps": 10, "intensite": "RPE 4-5" } ] },
-        { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 1,
+        { "bloc": "preparation_specifique", "nature": "activation", "supprimable": true, "duree_min": 1,
           "si": { "mouvement": ["developpe_couche", "developpe_militaire"] },
           "items": [ { "ex": "mq-ecartes-elastique", "nom_fr": "Écartés à l'élastique", "series": 1, "reps": 15, "intensite": "élastique léger" } ] },
         { "bloc": "preparation_specifique", "nature": "montee_en_charge", "duree_min": null,
