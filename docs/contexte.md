@@ -66,8 +66,9 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - `readiness_basse_persistante` absent = faux (pas de deload déclenché sans signal).
 - T17 bis (Hyrox) : front squat puis back squat, pas de wall ball ni de thruster (schéma ambigu).
 - Renvois JSON `force-paliers-montee-en-charge` sans ancre ; le moteur calcule `premier_du_schema`.
-- Moteur volume, `corrections.json` non appliqué : ce sont des propositions non validées ; seul effet sur le volume, `0858` (wind sprints) compte encore en abdominaux.
-- Moteur volume, libellé hors table (`LIBELLE_INCONNU`) : l'exercice entier n'est pas compté, pas seulement le libellé.
+- Moteur volume, `corrections.json` : seules les corrections portant `validee` sont appliquées, en surcouche à la lecture ; une correction validée illisible (champs et valeurs en nombre différent) lève une erreur. Aujourd'hui : `0858` seulement (décision de Pierrot du 25/11/2026 : cardio, hors volume) ; les autres restent des propositions.
+- Moteur volume, libellé hors table (`LIBELLE_INCONNU`, décision de Pierrot du 25/11/2026) : le libellé est ignoré avec un avertissement, les autres muscles comptent. Si c'est la cible : secondaires connus comptés, aucun groupe de séries d'approche (choix prudent). Un exercice cardio (cible connue à `null`) ne compte toujours rien.
+- Mapping : activation d'échauffement (`mq-ecartes-elastique`, `mq-rotation-externe-elastique`) dans une catégorie hors volume `activation`, à part de la mobilité. `0050` (dentelé seul principal) : comportement conservé (ni volume ni compteur, secondaires comptés).
 - Moteur volume, données chargées par import JSON (`engine/src/volume/donnees.ts`) et passées en paramètre aux fonctions ; muscle de surcharge absent de `muscles` → exception (bug de données, couvert par le test de cohérence).
 - Moteur volume, sortie : muscles à zéro omis ; drapeaux rattachés à l'exercice (`{ code, exercice }`).
 
@@ -96,7 +97,7 @@ Logique nutrition retenue : métabolisme de base (Black, Harris-Benedict, Miffli
 - Protocoles d'échauffement, mobilité et étirements par type de séance (`knowledge/echauffement/`, `mobilite/`, `etirements/`), exercices manquants ajoutés (`data/exercises/exercices-aiiron.json`) et corrections du dataset (`data/exercises/corrections.json`).
 - Mapping des muscles (`knowledge/hypertrophie/mapping-muscles.json`) pour le moteur volume.
 - Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; écarts T1 (3 × 4 @ 6 à 117,5 kg) et T6 (haltères 23,2 → 22 avec `ECART_ARRONDI_IMPORTANT`) réglés, plus aucun `it.fails`.
-- Moteur volume écrit (`engine/src/volume/`, tests T4, T5, règles MAP et cohérence du mapping v3, `test/volume/`) ; deux écarts marqués `it.fails` : `mq-squat-descentes-lentes` (mobilité) absent de `exercices_hors_volume`, et la fiche annonce 39 exercices `mq-…` au lieu de 40.
+- Moteur volume écrit (`engine/src/volume/`, tests T4, T5, règles MAP et cohérence du mapping v3, `test/volume/`)  ; aucun `it.fails` ouvert (`mq-squat-descentes-lentes` en mobilité hors volume, fiche à 40 exercices `mq-…`).
 
 ## Prochaines étapes
 1. ~~`developpeur` : moteur force~~ fait (`engine/src/force/`).
