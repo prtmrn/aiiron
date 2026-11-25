@@ -1,0 +1,74 @@
+{
+  "id": "sante-mentale-lexique-crise",
+  "titre": "Lexique déterministe des garde-fous de crise (PC-1, PC-9)",
+  "statut": "brouillon",
+  "auteur_agent": "developpeur, à relire par expert-sante-mentale",
+  "source": "knowledge/sante-mentale/protocole-crise.md : exemples de PC-1 (niveaux 1 à 3) et exclusions de PC-9. Formulations et fautes ajoutées : heuristique à valider.",
+  "regle": "Expressions régulières JavaScript appliquées au texte normalisé : minuscules, sans accents, apostrophes droites, ponctuation remplacée par des espaces, puis corrections de « corrections ». Niveau 3 = danger, 2 = crise, 1 = doute. « ambigu » : avec un contexte sportif dans le même message, le signal descend au niveau 1 (jamais 0). « exclusions » : retirées du texte seulement si le message a un contexte sportif et que les exclusions sont actives (PC-9). Après une crise de moins de 30 jours, tout signal de niveau 1 passe au niveau 2 (PC-7).",
+  "corrections": [
+    ["\\bj ?ai\\b", "j'ai"],
+    ["\\b(chui|chuis|jsuis|jsui|j suis)\\b", "je suis"],
+    ["\\b(jvais|j'vais|jvai|j vais)\\b", "je vais"],
+    ["\\b(jveux|j'veux|jveu)\\b", "je veux"],
+    ["\\bveu[sx]?\\b", "veux"],
+    ["\\bmourr?ire?\\b", "mourir"],
+    ["\\benvi\\b", "envie"],
+    ["\\bplu\\b", "plus"],
+    ["\\btt\\b", "tout"],
+    ["\\bsa va\\b", "ca va"],
+    ["\\bfair\\b", "faire"],
+    ["\\bt ?inquiete?s?\\b", "t'inquiete"]
+  ],
+  "contexte_sportif": "\\b(salle|seances?|entrainements?|entraine|wods?|metcons?|burpees?|squats?|souleve|developpe|couche|deadlifts?|bench|series?|reps?|rameur|velo|cardio|course|footing|sprints?|navettes?|hyrox|crossfit|muscu|musculation|programmes?|kettlebells?|halteres?|tractions?|pompes?|gainage|courbatures?|echauffement|paliers?|compets?|competitions?|amrap|emom|tabata|pr|records?|fractionne|marathon|trail|coach)\\b",
+  "signaux": [
+    { "id": "danger_prise_medicaments", "niveau": 3, "type": "suicide", "motif": "\\b(j'ai|je viens de|viens d') ?(pris|avale|prendre|avaler) (toute? (la|ma|une|les) (boite|plaquette)|tous (mes|les) (cachets|medicaments|comprimes)|toutes? mes (pilules|boites))" },
+    { "id": "danger_lieu", "niveau": 3, "type": "suicide", "motif": "\\b(je suis|suis) (sur|au bord du|en haut du) (le )?(pont|toit|balcon|quai)\\b" },
+    { "id": "danger_ce_soir_prepare", "niveau": 3, "type": "suicide", "motif": "c'est ce soir.{0,60}(tout prepare|pret|prete|decide)|j'ai tout prepare.{0,40}(ce soir|maintenant|cette nuit)" },
+    { "id": "danger_maintenant", "niveau": 3, "type": "suicide", "motif": "(en finir|me suicider|mettre fin a mes jours|passer a l'acte).{0,30}\\b(ce soir|maintenant|tout de suite|cette nuit)\\b" },
+    { "id": "danger_saigne", "niveau": 3, "type": "automutilation", "motif": "(scarif|veines?|poignets?).{0,40}saign|saign.{0,40}(scarif|veines?|poignets?)" },
+    { "id": "danger_violence", "niveau": 3, "type": "autre", "motif": "\\b(il|elle|on) (me frappe|me bat|me tape dessus|va me tuer)\\b|\\bje vais tuer (quelqu'un|mon|ma|mes)\\b" },
+    { "id": "danger_le_tuer", "niveau": 3, "type": "autre", "ambigu": true, "motif": "\\b(je vais|j'ai envie de|je veux) (le|la|les) (tuer|frapper)\\b" },
+
+    { "id": "suicide", "niveau": 2, "type": "suicide", "motif": "suicid" },
+    { "id": "en_finir", "niveau": 2, "type": "suicide", "motif": "\\ben finir\\b" },
+    { "id": "fin_a_mes_jours", "niveau": 2, "type": "suicide", "motif": "mettre fin a (mes jours|ma vie)|m'oter la vie|me foutre en l'air|me supprimer\\b|me pendre\\b|me jeter (sous|du|d'un|par)|sauter (du|d'un|depuis le) (pont|toit|immeuble|balcon)" },
+    { "id": "envie_de_mourir", "niveau": 2, "type": "suicide", "motif": "(envie de|veux|voudrais|aimerais|prefere|prefererais|besoin de) (mourir|crever)\\b" },
+    { "id": "plus_envie_de_vivre", "niveau": 2, "type": "suicide", "motif": "(plus|pas) envie (de vivre|d'? ?etre (la|ici|en vie|vivante?)|d'? ?exister)|marre de vivre|plus la force de vivre" },
+    { "id": "disparaitre", "niveau": 2, "type": "suicide", "motif": "(envie de|veux|voudrais|aimerais|prefererais|vais|besoin de|pense a) disparaitre|disparaitre (pour toujours|a jamais|de la surface)" },
+    { "id": "mieux_sans_moi", "niveau": 2, "type": "suicide", "motif": "(serai[st]?|seraient) mieux sans moi" },
+    { "id": "ne_plus_se_reveiller", "niveau": 2, "type": "suicide", "motif": "(ne plus|plus jamais|pas) me reveiller" },
+    { "id": "adieux", "niveau": 2, "type": "suicide", "motif": "\\badieux?\\b|je donne (toutes )?mes affaires|dire au revoir a tout le monde" },
+    { "id": "me_tuer", "niveau": 2, "type": "suicide", "ambigu": true, "motif": "\\bme tuer\\b|(vais|veux|voudrais|envie de|aimerais|pense a) me tue\\b" },
+    { "id": "vais_mourir", "niveau": 2, "type": "suicide", "ambigu": true, "motif": "\\b(vais|va|vas) (mourir|crever)\\b|\\bme (flinguer|buter)\\b" },
+    { "id": "automutilation", "niveau": 2, "type": "automutilation", "motif": "me scarif|scarification|automutil|me faire du mal|me (couper|coupe)\\b(?! (les|mes|des|un|une|du|de la|le|la|l'|ma|mon|en)\\b)|me suis (coupe|coupee) (expres|volontairement|les veines|les poignets)" },
+    { "id": "detresse_aigue", "niveau": 2, "type": "suicide", "motif": "n'? ?en peux plus de (vivre|cette vie)|je craque completement" },
+
+    { "id": "tca_vomissements", "niveau": 2, "type": "tca", "motif": "me (faire|fais|fait|suis fait|suis faite|force a) (vomir|rendre)|je vomis (expres|volontairement|apres (chaque|les|mes) repas)|vomir (expres|apres (manger|avoir mange|les repas))" },
+    { "id": "tca_laxatifs", "niveau": 2, "type": "tca", "motif": "laxatif|diuretique" },
+    { "id": "tca_jeune_prolonge", "niveau": 2, "type": "tca", "motif": "jeun(e|er|es)? (depuis|pendant|de) (\\d+|deux|trois|quatre|cinq|plusieurs) (jours|semaines)|(mange|bouffe) (plus|rien) depuis (\\d+|deux|trois|quatre|plusieurs) jours|(arreter|j'arrete) de manger\\b(?! (de|du|des|d'|le|la|les|ces|mes|ce|cette|trop|apres|avant|entre)\\b)|ne plus (rien )?manger\\b(?! (de|du|des|d'|le|la|les|ces|mes|ce|cette|trop|apres|avant|entre)\\b)" },
+    { "id": "tca_compenser", "niveau": 2, "type": "tca", "motif": "(compenser|eliminer|bruler|rattraper) (ce que j'ai mange|mes repas|le repas|ce repas|ma bouffe|mes ecarts|l'ecart|mon craquage|mes craquages)" },
+    { "id": "tca_perte_de_controle", "niveau": 2, "type": "tca", "motif": "(je n'arrive pas|j'arrive pas|je n'arrive plus|j'arrive plus|impossible) a (m'arreter|arreter) de manger|crises? de boulimie|crises? d'hyperphagie|je me (gave|goinfre|empiffre).{0,60}(honte|degout|deteste|culpabil)" },
+    { "id": "tca_restriction_severe", "niveau": 2, "type": "tca", "motif": "manger le moins possible|(manger|mange) presque rien|presque rien manger|(couper|supprimer|sauter) (tous|toutes) (les|mes) repas" },
+
+    { "id": "devalorisation", "niveau": 1, "type": "suicide", "motif": "\\bje sers? a rien\\b|\\ba quoi bon\\b|\\bje (ne )?vaux rien\\b|\\bje suis (une )?(bon|bonne) a rien\\b" },
+    { "id": "idiome_fatigue", "niveau": 1, "type": "autre", "motif": "\\bje suis (mort|morte)\\b|\\bm'a (tue|tuee)\\b|\\bca me tue\\b|\\bj'ai cru (mourir|crever|y passer)\\b|\\bje (meurs|creve)\\b|\\ben pls\\b" }
+  ],
+  "exclusions": [
+    "\\bje suis (mort|morte)\\b",
+    "\\bm'a (tue|tuee)\\b",
+    "\\bca me tue\\b",
+    "\\bj'ai cru (mourir|crever|y passer)\\b",
+    "\\bje (meurs|creve)\\b",
+    "\\ben pls\\b",
+    "\\bnavettes? suicides?\\b",
+    "\\bsprints? suicides?\\b",
+    "\\bsuicides\\b",
+    "\\bdeath by \\w+",
+    "\\bdead ?bugs?\\b",
+    "\\bdead ?hangs?\\b"
+  ],
+  "dementis": {
+    "motifs": "je parl(e|ais|ai) (de|des|du|d')|(c'est|c'etait|cetait) (une )?(blague|expression|image|facon de parler|pour rire)|je (rigole|plaisante|blague)|de l'entrainement|de la seance|t'inquiete|pas d'inquietude|tout va bien|\\b(non|nan|nn) ca va\\b|ca va (bien|tres bien|super)|je vais bien|aucun (souci|probleme)|pas de (souci|probleme)",
+    "contraires": "ca va pas|ca ne va pas|pas bien|pas trop|pas vraiment|pas terrible|\\bbof\\b|je sais pas|je ne sais pas|j'en sais rien|ca depend|en fait non|en vrai non|pas sur"
+  }
+}
