@@ -87,7 +87,7 @@ derniere_revue: 2026-11-25
 
 # Protocole de crise
 
-**À valider par Pierrot avant toute mise en ligne.** Tant que cette fiche est `brouillon`, aucun utilisateur réel ne doit être exposé à aiiron.
+**Validé par Pierrot le 25/11/2026 pour un test solo seulement** (Pierrot seul utilisateur). La fiche reste `brouillon` : avant tout utilisateur réel, elle doit être relue par un psychologue ou un psychiatre (checklist de lancement, `docs/architecture.md` §10). Public : adultes (18 ans et plus), France seulement.
 
 ## 1. Principe
 
