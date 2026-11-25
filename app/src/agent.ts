@@ -51,9 +51,17 @@ export function promptTour(m: Magasin, message: string): string {
 /**
  * Environnement propre du processus Claude Code : rien n'est hérité de la session qui le lance (CLAUDE*, CLAUDECODE, AWS_*…).
  * HOME et CLAUDE_CONFIG_DIR pointent vers un dossier temporaire vide : ni réglages, ni identifiants, ni transcriptions de l'utilisateur.
+ * CLAUDE_CODE_ATTRIBUTION_HEADER=0 retire le bloc « x-anthropic-billing-header » du system ; ENABLE_TOOL_SEARCH=false donne
+ * nos outils d'emblée, sans recherche d'outils (doc env-vars). Pas de CLAUDE_CODE_SIMPLE : en mode bare, le hook PreToolUse de crise ne tourne plus.
  */
 export function envPropre(dossier: string, env = process.env): Record<string, string> {
-  const out: Record<string, string> = { HOME: dossier, CLAUDE_CONFIG_DIR: dossier, CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1" };
+  const out: Record<string, string> = {
+    HOME: dossier,
+    CLAUDE_CONFIG_DIR: dossier,
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
+    CLAUDE_CODE_ATTRIBUTION_HEADER: "0",
+    ENABLE_TOOL_SEARCH: "false",
+  };
   for (const k of ["PATH", "TMPDIR", "LANG", "ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL"]) if (env[k]) out[k] = env[k]!;
   return out;
 }

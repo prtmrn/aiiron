@@ -33,7 +33,15 @@ describe("agent", () => {
 
   it("environnement propre : rien de la session qui lance (CLAUDE*, CLAUDECODE, AWS_*)", () => {
     const env = envPropre("/tmp/vide", { PATH: "/bin", ANTHROPIC_API_KEY: "k", CLAUDECODE: "1", CLAUDE_CODE_ENTRYPOINT: "cli", AWS_PROFILE: "p", HOME: "/Users/x" });
-    expect(env).toEqual({ PATH: "/bin", ANTHROPIC_API_KEY: "k", HOME: "/tmp/vide", CLAUDE_CONFIG_DIR: "/tmp/vide", CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1" });
+    expect(env).toEqual({
+      PATH: "/bin",
+      ANTHROPIC_API_KEY: "k",
+      HOME: "/tmp/vide",
+      CLAUDE_CONFIG_DIR: "/tmp/vide",
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
+      CLAUDE_CODE_ATTRIBUTION_HEADER: "0",
+      ENABLE_TOOL_SEARCH: "false",
+    });
   });
 
   it("options de base : aucun outil intégré, aucun réglage du disque, aucune transcription", () => {

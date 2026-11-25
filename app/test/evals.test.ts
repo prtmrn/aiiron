@@ -10,8 +10,8 @@ const tour = (r: Partial<ResultatTour>): ResultatTour => ({ reponse: "", etiquet
 const agentFactice = (reponses: string[]): Agent => async () => ({ texte: reponses.shift() ?? "Ok.", outils: [], usage: [] });
 const jugeOk: Juge = async () => ({ echecs: [], usage: [] });
 
-it("les 11 cas de evals/ sont chargés", () => {
-  expect(cas).toHaveLength(11);
+it("les 12 cas de evals/ sont chargés", () => {
+  expect(cas).toHaveLength(12);
   expect(cas.every((c) => c.tours.length > 0)).toBe(true);
 });
 
