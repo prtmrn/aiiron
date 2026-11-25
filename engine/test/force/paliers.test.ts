@@ -25,6 +25,7 @@ describe("Exemples A à H (paliers-montee-en-charge.md)", () => {
     expect(p.echelle).toBe("tres_lourd");
     expect(resume(p.items)).toEqual([[20, 10], [37.5, 5], [57.5, 3], [72.5, 2], [82.5, 1], [90, 1]]);
     expect(repos(p.items)).toEqual([30, 60, 60, 90, 90, 180]);
+    expect(p.items.every((i) => i.exercice === "developpe_couche")).toBe(true); // alias normalisé
   });
 
   it("C — OHP 8 @ 7, e1RM 60 → 42,5 kg : modéré, palier 45 % supprimé (doublon de la barre)", () => {
@@ -100,12 +101,12 @@ describe("T13 — propriétés des paliers", () => {
 });
 
 describe("T17 — séries d'approche en musculation", () => {
-  // Groupes = principaux[0] de knowledge/hypertrophie/mapping-muscles.json
-  const presse: ExerciceSeance = { exercice: "0739", groupe: "quadriceps", schema: "squat", chargeTravail: 140, e1rm: null, reps: 10, materiel: pile5a300 };
-  const fentes: ExerciceSeance = { exercice: "0336", groupe: "quadriceps", schema: "squat", chargeTravail: 16, e1rm: null, reps: 10, materiel: haltères2a40 };
+  // Groupes = principaux[0] de knowledge/hypertrophie/mapping-muscles.json ; schémas lus dans data/exercises/schemas.json
+  const presse: ExerciceSeance = { exercice: "0739", groupe: "quadriceps", chargeTravail: 140, e1rm: null, reps: 10, materiel: pile5a300 };
+  const fentes: ExerciceSeance = { exercice: "0336", groupe: "quadriceps", chargeTravail: 16, e1rm: null, reps: 10, materiel: haltères2a40 };
   const curl: ExerciceSeance = { exercice: "curl_halteres", groupe: "biceps", chargeTravail: 12, e1rm: null, reps: 12, materiel: haltères2a40 };
   const legCurl: ExerciceSeance = { exercice: "leg_curl", groupe: "ischio_jambiers", chargeTravail: 40, e1rm: null, reps: 15, materiel: pile5a300 };
-  const rowing: ExerciceSeance = { exercice: "0027", groupe: "haut_du_dos", schema: "tirage", chargeTravail: 80, e1rm: 100, reps: 6, materiel: barre };
+  const rowing: ExerciceSeance = { exercice: "0027", groupe: "haut_du_dos", chargeTravail: 80, e1rm: 100, reps: 6, materiel: barre };
 
   it("séance complète, dans l'ordre", () => {
     const [p, f, c, lc, r] = echauffementSeance("musculation", [presse, fentes, curl, legCurl, rowing]);
@@ -149,9 +150,9 @@ describe("T17 — séries d'approche en musculation", () => {
   });
 
   describe("mouvement déjà chauffé (R5)", () => {
-    const squat: ExerciceSeance = { exercice: "0043", groupe: "quadriceps", schema: "squat", chargeTravail: 100, e1rm: 120, reps: 6, materiel: barre };
+    const squat: ExerciceSeance = { exercice: "0043", groupe: "quadriceps", chargeTravail: 100, e1rm: 120, reps: 6, materiel: barre };
     const presseLourde: ExerciceSeance = { ...presse, chargeTravail: 200, e1rm: 240, reps: 8 };
-    const couche: ExerciceSeance = { exercice: "0025", groupe: "pectoraux", schema: "poussee_horizontale", chargeTravail: 85, e1rm: 100, reps: 5, materiel: barre };
+    const couche: ExerciceSeance = { exercice: "0025", groupe: "pectoraux", chargeTravail: 85, e1rm: 100, reps: 5, materiel: barre };
 
     it("séance 1 : squat lourd complet puis presse (schéma squat déjà chauffé) départ à 60 %", () => {
       const [s, p] = echauffementSeance("musculation", [squat, presseLourde]);
@@ -182,6 +183,44 @@ describe("T17 — séries d'approche en musculation", () => {
       expect(b.items.every((i) => i.pct_travail! >= 0.6)).toBe(true);
       expect(b.items.length).toBeGreaterThan(0);
     });
+  });
+});
+
+describe("schéma lu dans le catalogue (R5)", () => {
+  const lourd = { chargeTravail: 85, e1rm: 100, reps: 5, materiel: barre };
+  it("developpe_couche puis 0025 (couché barre du catalogue) : même schéma, départ à 60 %", () => {
+    const [, b] = echauffementSeance("force", [{ exercice: "developpe_couche", ...lourd }, { exercice: "0025", ...lourd }]);
+    expect(b.items.every((i) => i.pct_travail! >= 0.6)).toBe(true);
+  });
+  it("alias couche puis couche_pause_1s : même schéma", () => {
+    const [, b] = echauffementSeance("force", [{ exercice: "couche", ...lourd }, { exercice: "couche_pause_1s", ...lourd }]);
+    expect(b.items[0].pct_travail).toBe(0.6);
+  });
+  it("developpe_couche puis developpe_militaire : schémas différents, paliers complets", () => {
+    const [, b] = echauffementSeance("force", [{ exercice: "developpe_couche", ...lourd }, { exercice: "developpe_militaire", ...lourd }]);
+    expect(b.items[0]).toMatchObject({ charge_kg: 20, reps: 10 });
+  });
+  it("exercice absent de schemas.json : pas de schéma, il ne profite pas du squat déjà chauffé", () => {
+    const [, b] = echauffementSeance("force", [{ exercice: "0043", ...lourd }, { exercice: "inconnu", ...lourd }]);
+    expect(b.items[0]).toMatchObject({ charge_kg: 20, reps: 10 });
+  });
+});
+
+describe("T17 bis — mouvement déjà chauffé en Hyrox/CrossFit", () => {
+  const front = { exercice: "0042", chargeTravail: 85, e1rm: 100, reps: 3, materiel: barre };
+  const back = { exercice: "0043", chargeTravail: 110, e1rm: 130, reps: 5, materiel: barre };
+  it("front squat 0042 complet puis back squat 0043 départ à 60 % ; durées 504 s et 354 s", () => {
+    const [f, b] = echauffementSeance("hyrox_crossfit", [front, back]);
+    expect(resume(f.items)).toEqual([[20, 10], [32.5, 5], [50, 3], [62.5, 2], [72.5, 1]]);
+    expect(repos(f.items)).toEqual([30, 60, 60, 90, 180]);
+    expect(resume(b.items)).toEqual([[65, 3], [82.5, 2], [92.5, 1]]);
+    expect(repos(b.items)).toEqual([60, 90, 180]);
+    expect([f.dureeS, b.dureeS]).toEqual([504, 354]);
+  });
+  it("variante : front squat à 60 kg (ECH-H4) → back squat paliers complets", () => {
+    const [f, b] = echauffementSeance("hyrox_crossfit", [{ ...front, chargeTravail: 60 }, back]);
+    expect(f.regle).toBe("ECH-H4");
+    expect(resume(b.items)).toEqual([[20, 10], [45, 5], [65, 3], [82.5, 2], [92.5, 1]]);
   });
 });
 

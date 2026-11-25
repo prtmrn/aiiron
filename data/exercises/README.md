@@ -8,6 +8,7 @@
 Fichiers aiiron (contenu propre à aiiron, hors licence MIT upstream) :
 - `exercices-aiiron.json` : exercices créés par nos experts (identifiants `mq-…`, stables), au même schéma que `exercises.json` plus `nom_fr`, sans média.
 - `corrections.json` : entrées trompeuses du dataset et correction proposée. Les données d'origine (`exercises.json`, fichiers `*-upstream*`) ne sont jamais modifiées ; seules les corrections qui portent un champ `validee` s’appliquent, en surcouche à la lecture (aujourd’hui : `0858`).
+- `schemas.json` : schéma moteur de chaque exercice (`squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`) pour la règle « Mouvement déjà chauffé » (`knowledge/force/paliers-montee-en-charge.md`, R5). Surcouche plate `id → schema`, lue par le moteur force (`engine/src/force/schemas.ts`). Clés : id du catalogue (`0043`, `mq-…`) ou identifiant du moteur force (`squat_pause_2s`, `developpe_couche`…), jamais un alias (`couche`). Un exercice absent n'a pas de schéma : le mouvement est l'exercice lui-même. Ajouter une ligne ici quand un nouvel exercice lourd entre dans un modèle de semaine ; une valeur hors liste fait échouer le chargement.
 
 Trous connus, à combler par les experts : peu d'exercices de mobilité et d'échauffement (≈57 étirements), pas de gammes de course, stations Hyrox incomplètes, noms uniquement en anglais.
 

@@ -2,6 +2,8 @@
 // (règle commune avec knowledge/echauffement/echauffement-force.md, ECH-F4)
 import { arrondirCharge, type Materiel } from "./arrondi";
 import { pct } from "./rpe";
+import { schemaExercice } from "./schemas";
+import { normaliserExercice } from "./variantes";
 
 export type TypeSeance = "force" | "musculation" | "hyrox_crossfit";
 export type Echelle = "leger" | "modere" | "lourd" | "tres_lourd";
@@ -69,7 +71,8 @@ function choisir(I: number | null, type: TypeSeance): { regle: PaliersSortie["re
 
 const duree = (items: Palier[]) => items.reduce((s, i) => s + i.reps * SECONDES_PAR_REP + i.repos_s, 0);
 
-export function paliers(e: PaliersEntree): PaliersSortie {
+export function paliers(entree: PaliersEntree): PaliersSortie {
+  const e = { ...entree, exercice: normaliserExercice(entree.exercice) };
   const I = intensite(e.chargeTravail, e.e1rm, e.reps, e.rpe);
   const { regle, echelle } = choisir(I, e.typeSeance);
   const items: Palier[] = [];
@@ -104,16 +107,15 @@ export function paliers(e: PaliersEntree): PaliersSortie {
 }
 
 export type ExerciceSeance = Omit<PaliersEntree, "typeSeance" | "premierDuSchema" | "premierDuGroupe"> & {
-  schema?: string; // champ du catalogue (squat, charniere, poussee_horizontale, poussee_verticale, tirage)
   groupe?: string; // principaux[0] de knowledge/hypertrophie/mapping-muscles.json
 };
 
-/** Séance entière, dans l'ordre : R5 « Mouvement déjà chauffé » et M1 « premier exercice du groupe ». */
+/** Séance entière, dans l'ordre : R5 « Mouvement déjà chauffé » (schéma lu dans data/exercises/schemas.json) et M1 « premier exercice du groupe ». */
 export function echauffementSeance(type: TypeSeance, exercices: ExerciceSeance[]): PaliersSortie[] {
   const chauffes = new Set<string>();
   const groupes = new Set<string>();
   return exercices.map((ex) => {
-    const cle = ex.schema ?? ex.exercice; // sans schéma : le mouvement est l'exercice lui-même
+    const cle = schemaExercice(ex.exercice) ?? normaliserExercice(ex.exercice); // sans schéma : le mouvement est l'exercice lui-même
     const sortie = paliers({
       ...ex,
       typeSeance: type,
