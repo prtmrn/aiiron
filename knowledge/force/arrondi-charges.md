@@ -31,7 +31,7 @@ type Materiel =
   | { type: "lest"; poids_corps_kg: number; increment_kg: number; max_lest_kg?: number }
 ```
 
-Défauts (choix de conception à valider) :
+Défauts (choix de conception validé par Pierrot le 25/11/2026) :
 
 | Situation | Valeurs |
 | --- | --- |
@@ -87,7 +87,7 @@ sinon → arrondirCharge(lest_cible, materiel lest)
 ## Limites et contre-indications
 
 - Haltères et kettlebells : les sauts de charge sont grands (2 à 4 kg par haltère, 4 kg par kettlebell). L'écart à la cible peut dépasser 10 % ; le drapeau le signale, l'ajustement passe par les reps.
-- Machines : la charge affichée diffère d'une machine à l'autre. L'e1RM d'un exercice machine n'est valable que pour cette machine (choix de conception à valider : un exercice machine = une salle).
+- Machines : la charge affichée diffère d'une machine à l'autre. L'e1RM d'un exercice machine n'est valable que pour cette machine (choix de conception validé par Pierrot le 25/11/2026 : un exercice machine = une salle).
 - Pas de conversion livres ↔ kg dans cette version.
 
 ## Exemple (réutilisable comme test)

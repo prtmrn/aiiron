@@ -86,7 +86,7 @@ RPE_implicite  = reps + 10,5 − n          // non arrondi
 ```
 - RPE_implicite > 10 → `PCT_IMPOSSIBLE` (le % dépasse ce que ces reps permettent avec la table) : ligne refusée.
 - 6 ≤ RPE_implicite ≤ 10 → arrondi au demi-point (égalité vers le haut) et utilisé, drapeau `RPE_DEDUIT_DU_PCT`.
-- RPE_implicite < 6 → série légère (technique) : charge = e1RM × pct saisi, drapeau `HORS_DOMAINE` informatif. Choix de conception à valider.
+- RPE_implicite < 6 → série légère (technique) : charge = e1RM × pct saisi, drapeau `HORS_DOMAINE` informatif. Choix de conception validé par Pierrot le 25/11/2026.
 
 ### R5 — Contrôle de cohérence % ↔ RPE
 

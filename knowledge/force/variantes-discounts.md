@@ -4,8 +4,8 @@ domaine: force
 titre: Variantes — coefficients d'initialisation et remises de contexte
 niveau_preuve: E
 sources:
-  - titre: "Concentric-only versus touch-and-go bench press one-repetition maximum in men and women (revue à confirmer)"
-    auteurs: "García-Ramos A, Janicijevic D, Jukic I et al."
+  - titre: "Concentric-only versus touch-and-go bench press one-repetition maximum in men and women (Sports Health 13:373-379)"
+    auteurs: "García-Ramos A, Janicijevic D, Jukic I"
     annee: 2021
     url: "https://rke.abertay.ac.uk/en/publications/concentric-only-versus-touch-and-go-bench-press-one-repetition-ma/"
   - titre: "Proximity to Failure and Total Repetitions Performed in a Set Influences Accuracy of Intraset RIR-based RPE"

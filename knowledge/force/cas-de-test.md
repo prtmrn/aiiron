@@ -258,6 +258,19 @@ Cas ajoutés, mouvement déjà chauffé (`paliers-montee-en-charge.md`, R5 « Mo
 
 Assertions : aucune série d'approche ≥ charge de travail ; reps non croissantes ; changer l'ordre (fentes avant la presse) déplace les séries d'approche sur les fentes et en retire à la presse ; à charge et e1RM égaux, changer le nombre de reps ne change pas l'échelle. Bugué à faire échouer : séries d'approche sur chaque exercice ; choix de l'échelle par le nombre de reps (règle courte au rowing 4 × 10 à I = 0,80, ou échelle complète au rowing 4 × 5 à I = 0,70).
 
+### T17 bis — Mouvement déjà chauffé en Hyrox/CrossFit (`paliers-montee-en-charge.md`, R5)
+
+Séance `hyrox_crossfit`, bloc force avant le metcon, barre 20 / 2,5. Le catalogue donne `schema` = `squat` aux deux exercices. I calculé depuis l'e1RM du slot (R2, point 1).
+
+| Ordre | Exercice | I | Attendu | Bugué à faire échouer |
+| --- | --- | --- | --- | --- |
+| 1 | Front squat 5 × 3 à 85 kg, e1RM 100 (1er du schéma `squat`) | 0,85 | « Lourd » complet : 20 × 10 (30 s) · 32,5 × 5 (60 s ; 34 : 35 serait +2,94 %) · 50 × 3 (60 s ; 51) · 62,5 × 2 (90 s ; 63,75 : égalité, vers le bas) · 72,5 × 1 (180 s ; 72,25) | ECH-H4 à la place des paliers (type de séance pris pour critère au lieu de I) |
+| 2 | Back squat 3 × 5 à 110 kg, e1RM 130 (schéma `squat` déjà chauffé) | 0,846 | départ à 60 % : 65 × 3 (60 s ; 66) · 82,5 × 2 (90 s) · 92,5 × 1 (180 s ; 93,5) ; pas de barre vide | paliers complets 20 × 10 · 45 × 5 (44 : 45 = +2,27 %) · 65 × 3 · 82,5 × 2 · 92,5 × 1 (règle limitée à force et musculation) ; ou ECH-H4 |
+
+Durées (R6) : front squat 21 reps × 4 + 420 = 504 s ; back squat 6 reps × 4 + 330 = 354 s.
+
+Variante : si le front squat est prescrit à 60 kg (I = 0,60 < 0,80 → ECH-H4), il n'« a pas eu ses paliers » : le back squat a ses paliers complets (colonne « bugué » ci-dessus devient l'attendu).
+
 ## Limites et contre-indications
 
 - T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 2). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.

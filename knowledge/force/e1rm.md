@@ -115,7 +115,7 @@ Valeurs 8 semaines et 0,95 : heuristiques de coach, validées par Pierrot le 25/
 
 ### R9 — Ce que les séries d'une variante mettent à jour
 
-Une série met à jour uniquement la référence de son propre exercice. Une pause squat ne modifie pas la référence du squat. Choix de conception à valider (évite qu'un exercice secondaire mal noté contamine le mouvement principal).
+Une série met à jour uniquement la référence de son propre exercice. Une pause squat ne modifie pas la référence du squat. Choix de conception validé par Pierrot le 25/11/2026 (évite qu'un exercice secondaire mal noté contamine le mouvement principal).
 
 ## Limites et contre-indications
 
