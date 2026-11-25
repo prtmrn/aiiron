@@ -4,6 +4,8 @@ import { arrondirCharge, type Materiel } from "./arrondi";
 import { pct } from "./rpe";
 import { estGuide, schemaExercice } from "./schemas";
 import { normaliserExercice } from "./variantes";
+import { donneesVolume } from "../volume/donnees";
+import { resoudreExercice } from "../volume/resolution";
 
 export type TypeSeance = "force" | "musculation" | "hyrox_crossfit";
 export type Echelle = "leger" | "modere" | "lourd" | "tres_lourd";
@@ -106,26 +108,29 @@ export function paliers(entree: PaliersEntree): PaliersSortie {
   return { regle, echelle, I, items, dureeS: duree(items) };
 }
 
-export type ExerciceSeance = Omit<PaliersEntree, "typeSeance" | "premierDuSchema" | "premierDuGroupe"> & {
-  groupe?: string; // principaux[0] de knowledge/hypertrophie/mapping-muscles.json
-};
+export type ExerciceSeance = Omit<PaliersEntree, "typeSeance" | "premierDuSchema" | "premierDuGroupe">;
 
-/** Séance entière, dans l'ordre : R5 « Mouvement déjà chauffé » (schéma lu dans data/exercises/schemas.json) et M1 « premier exercice du groupe ». */
+/**
+ * Séance entière, dans l'ordre : R5 « Mouvement déjà chauffé » (schéma lu dans data/exercises/schemas.json) et M1 « premier exercice du groupe ».
+ * Groupe = resoudreExercice(id).groupe du moteur volume (MAP-6). Groupe inconnu (identifiant du moteur force hors catalogue,
+ * exercice sans muscle principal compté) : l'exercice est traité comme premier de son groupe et reçoit ses séries d'approche.
+ */
 export function echauffementSeance(type: TypeSeance, exercices: ExerciceSeance[]): PaliersSortie[] {
   const chauffesLibre = new Set<string>();
   const chauffesGuide = new Set<string>();
   const groupes = new Set<string>();
   return exercices.map((ex) => {
+    const groupe = resoudreExercice(normaliserExercice(ex.exercice), donneesVolume).groupe;
     const cle = schemaExercice(ex.exercice) ?? normaliserExercice(ex.exercice); // sans schéma : le mouvement est l'exercice lui-même
     const guide = estGuide(ex.exercice);
     const sortie = paliers({
       ...ex,
       typeSeance: type,
       premierDuSchema: !chauffesLibre.has(cle) && !(guide && chauffesGuide.has(cle)), // machine puis barre libre : paliers complets
-      premierDuGroupe: ex.groupe === undefined || !groupes.has(ex.groupe),
+      premierDuGroupe: groupe === null || !groupes.has(groupe),
     });
     if (sortie.regle === "R2") (guide ? chauffesGuide : chauffesLibre).add(cle); // M2 et ECH-H4 ne comptent pas comme paliers
-    if (ex.groupe !== undefined) groupes.add(ex.groupe);
+    if (groupe !== null) groupes.add(groupe);
     return sortie;
   });
 }

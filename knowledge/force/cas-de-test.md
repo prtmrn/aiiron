@@ -274,7 +274,7 @@ Variante : si le front squat est prescrit à 60 kg (I = 0,60 < 0,80 → ECH-H4),
 ## Limites et contre-indications
 
 - T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 3). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
-- Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal du mapping (`groupe_series_approche` : `principaux[0]`).
+- Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal compté en volume, sinon aucun (MAP-6), lu par le moteur dans la résolution du moteur volume (`resoudreExercice(id).groupe`), jamais donné par l'appelant. Groupe inconnu (identifiant du moteur force absent du catalogue, comme `squat` ou `developpe_couche`, ou exercice sans principal compté) : l'exercice est traité comme premier de son groupe et reçoit ses séries d'approche (choix prudent).
 - Les entrées T1 à T3 sont reconstituées et définitives : aucune ligne des tableurs d'origine n'entrera dans le repo. Seuls les mécanismes d'erreur sont décrits, pas la structure des programmes d'origine.
 - Toutes les valeurs dépendant de la table RPE utilisent la variante n = reps + 10 − RPE + 0,5 (`table-rpe.md`).
 

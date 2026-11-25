@@ -62,7 +62,7 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Mobilité (23 exercices), gammes de course (8) et cardio : hors volume hypertrophie, comme les étirements (sinon `mq-respiration` comptait en abdominaux, `mq-chat-vache` en lombaires).
 - Ponts et hip thrusts : ischio-jambiers retirés (Plotkin 2023), pas gardés à 0,5. Charnières jambes tendues : ischio-jambiers + fessiers principaux (Bourne 2017).
 - Épaulés, arrachés, lancers de médecine-ball : pas classés comme sauts. Cas limites `0744`, `0749`, `0130`, `0484`, `0756` détaillés dans `hypertrophie/mapping-muscles.md`.
-- Groupe des séries d'approche : premier muscle principal compté en volume, sinon aucun.
+- Groupe des séries d'approche : premier muscle principal compté en volume, sinon aucun. Lu par `echauffementSeance` dans le moteur volume (`resoudreExercice(id).groupe`), plus donné par l'appelant. Aucune correspondance n'existe entre les identifiants du moteur force (`squat`, `developpe_couche`, variantes) et le catalogue (`0043`, `0025`…) : groupe inconnu → l'exercice est traité comme premier de son groupe et reçoit ses séries d'approche (en attendant le référentiel unique P1).
 - `readiness_basse_persistante` absent = faux (pas de deload déclenché sans signal).
 - T17 bis (Hyrox) : front squat puis back squat, pas de wall ball ni de thruster (schéma ambigu).
 - Renvois JSON `force-paliers-montee-en-charge` sans ancre ; le moteur calcule `premier_du_schema`.

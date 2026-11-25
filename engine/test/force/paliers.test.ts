@@ -101,12 +101,12 @@ describe("T13 — propriétés des paliers", () => {
 });
 
 describe("T17 — séries d'approche en musculation", () => {
-  // Groupes = principaux[0] de knowledge/hypertrophie/mapping-muscles.json ; schémas lus dans data/exercises/schemas.json
-  const presse: ExerciceSeance = { exercice: "0739", groupe: "quadriceps", chargeTravail: 140, e1rm: null, reps: 10, materiel: pile5a300 };
-  const fentes: ExerciceSeance = { exercice: "0336", groupe: "quadriceps", chargeTravail: 16, e1rm: null, reps: 10, materiel: haltères2a40 };
-  const curl: ExerciceSeance = { exercice: "curl_halteres", groupe: "biceps", chargeTravail: 12, e1rm: null, reps: 12, materiel: haltères2a40 };
-  const legCurl: ExerciceSeance = { exercice: "leg_curl", groupe: "ischio_jambiers", chargeTravail: 40, e1rm: null, reps: 15, materiel: pile5a300 };
-  const rowing: ExerciceSeance = { exercice: "0027", groupe: "haut_du_dos", chargeTravail: 80, e1rm: 100, reps: 6, materiel: barre };
+  // Groupe lu dans le moteur volume (resoudreExercice(id).groupe, MAP-6) ; schémas lus dans data/exercises/schemas.json
+  const presse: ExerciceSeance = { exercice: "0739", chargeTravail: 140, e1rm: null, reps: 10, materiel: pile5a300 };
+  const fentes: ExerciceSeance = { exercice: "0336", chargeTravail: 16, e1rm: null, reps: 10, materiel: haltères2a40 };
+  const curl: ExerciceSeance = { exercice: "0294", chargeTravail: 12, e1rm: null, reps: 12, materiel: haltères2a40 };
+  const legCurl: ExerciceSeance = { exercice: "0586", chargeTravail: 40, e1rm: null, reps: 15, materiel: pile5a300 };
+  const rowing: ExerciceSeance = { exercice: "0027", chargeTravail: 80, e1rm: 100, reps: 6, materiel: barre };
 
   it("séance complète, dans l'ordre", () => {
     const [p, f, c, lc, r] = echauffementSeance("musculation", [presse, fentes, curl, legCurl, rowing]);
@@ -126,6 +126,23 @@ describe("T17 — séries d'approche en musculation", () => {
     const [f, p] = echauffementSeance("musculation", [fentes, presse]);
     expect(f.items.length).toBeGreaterThan(0);
     expect(p.items).toEqual([]);
+  });
+
+  it("groupe lu dans le moteur volume : deux curls du catalogue (0294 puis 0285, biceps) → aucune série d'approche au second", () => {
+    const [a, b] = echauffementSeance("musculation", [curl, { ...curl, exercice: "0285" }]);
+    expect(resume(a.items)).toEqual([[6, 8], [8, 4]]);
+    expect(b.items).toEqual([]);
+  });
+
+  it("identifiant hors catalogue (groupe inconnu) : chaque exercice reçoit ses séries d'approche", () => {
+    const [a, b] = echauffementSeance("musculation", [{ ...curl, exercice: "curl_halteres" }, { ...curl, exercice: "curl_halteres" }]);
+    expect(resume(a.items)).toEqual([[6, 8], [8, 4]]);
+    expect(resume(b.items)).toEqual([[6, 8], [8, 4]]);
+  });
+
+  it("exercice hors volume (étirement 1709, groupe null) : ne prive pas le suivant de ses séries d'approche", () => {
+    const [, c] = echauffementSeance("musculation", [{ ...curl, exercice: "1709" }, curl]);
+    expect(resume(c.items)).toEqual([[6, 8], [8, 4]]);
   });
 
   it.each<[string, Partial<ExerciceSeance>, string]>([
@@ -150,9 +167,9 @@ describe("T17 — séries d'approche en musculation", () => {
   });
 
   describe("mouvement déjà chauffé (R5)", () => {
-    const squat: ExerciceSeance = { exercice: "0043", groupe: "quadriceps", chargeTravail: 100, e1rm: 120, reps: 6, materiel: barre };
+    const squat: ExerciceSeance = { exercice: "0043", chargeTravail: 100, e1rm: 120, reps: 6, materiel: barre };
     const presseLourde: ExerciceSeance = { ...presse, chargeTravail: 200, e1rm: 240, reps: 8 };
-    const couche: ExerciceSeance = { exercice: "0025", groupe: "pectoraux", chargeTravail: 85, e1rm: 100, reps: 5, materiel: barre };
+    const couche: ExerciceSeance = { exercice: "0025", chargeTravail: 85, e1rm: 100, reps: 5, materiel: barre };
 
     it("séance 1 : squat lourd complet puis presse (schéma squat déjà chauffé) départ à 60 %", () => {
       const [s, p] = echauffementSeance("musculation", [squat, presseLourde]);
