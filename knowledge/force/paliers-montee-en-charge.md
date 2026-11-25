@@ -12,6 +12,30 @@ sources:
     auteurs: "de Salles BF, Simão R, Miranda F, Novaes JS, Lemos A, Willardson JM"
     annee: 2009
     url: "https://pubmed.ncbi.nlm.nih.gov/19691365/"
+  - titre: "The Role of Specific Warm-up during Bench Press and Squat Exercises: A Novel Approach (IJERPH 17(18):6882)"
+    auteurs: "Ribeiro B, Pereira A, Neves PP, Sousa AC, Ferraz R, Marques MC, Marinho DA, Neiva HP"
+    annee: 2020
+    url: "https://pubmed.ncbi.nlm.nih.gov/32971729/"
+  - titre: "The effect of warm-up in resistance training and strength performance: a systematic review (Motricidade 17(1):87-94)"
+    auteurs: "Ribeiro B, Pereira A, Neves PP, Marinho D, Marques M, Neiva HP"
+    annee: 2021
+    url: "https://revistas.rcaap.pt/motricidade/article/view/21143"
+  - titre: "A meta-analysis to determine the dose response for strength development (Med Sci Sports Exerc 35(3):456-464)"
+    auteurs: "Rhea MR, Alvar BA, Burkett LN, Ball SD"
+    annee: 2003
+    url: "https://pubmed.ncbi.nlm.nih.gov/12618576/"
+  - titre: "Impact of Re-Warm-Up During Resistance Training: Analysis of Mechanical and Physiological Variables (Sports 13(5):142)"
+    auteurs: "Neves PP, Marques DL, Neiva HP, Marinho DA, Ferraz R, Marques MC, Alves AR"
+    annee: 2025
+    url: "https://doi.org/10.3390/sports13050142"
+  - titre: "Heavier warm-ups are best, new study suggests (Stronger by Science, 14/08/2024)"
+    auteurs: "Wolf M"
+    annee: 2024
+    url: "https://www.strongerbyscience.com/?p=61279"
+  - titre: "The Truth About Warming Up: What Lifters Get Wrong (RP Strength, 08/06/2026)"
+    auteurs: "Wolf M"
+    annee: 2026
+    url: "https://rpstrength.com/blogs/podcasts/the-truth-about-warming-up-what-lifters-get-wrong"
 statut: brouillon
 auteur_agent: expert-force
 derniere_revue: 2026-11-25
@@ -41,10 +65,12 @@ Pour tout exercice chargé :
 1. **Intensité du jour.** I = charge de travail / e1RM effectif. Si l'e1RM est inconnu, I = pct(reps prescrites, RPE prescrit) de la table RPE (`table-rpe.md`).
 2. **I ≥ 0,80 → paliers complets**, quel que soit le type de séance (force, musculation, Hyrox/CrossFit) et quel que soit le nombre de reps : échelle « Lourd » si 0,80 ≤ I < 0,90, échelle « Très lourd » si I ≥ 0,90.
 3. **I < 0,80** → mouvement principal d'une séance de force : échelle « Léger » (I < 0,70) ou « Modéré » (0,70 ≤ I < 0,80) ; musculation : règle courte M2 ; Hyrox/CrossFit : répétition des mouvements ECH-H4 (`knowledge/echauffement/echauffement-hyrox-crossfit.md`).
-4. **I indéterminable** (ni e1RM ni RPE prescrit) : séance de force → échelle « Lourd » ; musculation → règle courte M2 ; Hyrox/CrossFit → ECH-H4. Choix de conception validé par Pierrot le 25/11/2026.
+4. **I indéterminable** (ni e1RM ni RPE prescrit) : séance de force → échelle « Lourd » ; musculation → règle courte M2 ; Hyrox/CrossFit → ECH-H4. Choix de conception validé par Pierrot le 25/11/2026. Source : aucune étude sur ce cas précis, heuristique de coach. Justification de prudence : un échauffement trop léger ne prépare pas assez le squat et le développé couché (Ribeiro 2020 ; Ribeiro 2021), alors que des séries d'approche en plus ne dégradent pas la performance (Wolf 2026, qui résume une étude où 0, 1 ou 2 séries d'approche donnent la même performance). Dans le doute, l'échelle la plus complète coûte du temps, pas de la performance.
 5. Aucun critère en nombre de reps.
 
-Seuil 0,80 et règle commune : validés par Pierrot le 25/11/2026. Exercice d'assistance d'une séance de force à I < 0,80 : non couvert par le point 3 ; échelles « Léger » / « Modéré » comme le mouvement principal (comportement actuel du moteur), validé par Pierrot le 25/11/2026.
+Seuil 0,80 et règle commune : validés par Pierrot le 25/11/2026. Sources du seuil (partielles) : 80 % du 1RM est l'intensité moyenne la plus efficace pour la force chez les pratiquants entraînés (Rhea 2003, méta-analyse), donc un repère classique de « travail lourd » ; un échauffement spécifique progressif (40 % puis 80 % de la charge de travail) améliore, par rapport à une série légère seule, la performance de séries à 80 % du 1RM au développé couché, et une série d'approche à 80 % de la charge de travail fait mieux au squat (Ribeiro 2020) ; la revue de Ribeiro 2021 suggère que l'échauffement spécifique compte surtout quand on travaille près du maximum. La coupure exacte à 0,80 pour passer aux paliers complets : aucune étude, heuristique de coach. Nuance : les études récentes trouvent qu'une série d'approche lourde apporte l'essentiel du bénéfice et que des montées en pyramide ajoutent peu (Wolf 2024 ; Wolf 2026). Le nombre de paliers qui augmente avec I relève donc de la technique et de la prudence, pas d'un gain de performance démontré.
+
+Exercice d'assistance d'une séance de force à I < 0,80 : non couvert par le point 3 ; échelles « Léger » / « Modéré » comme le mouvement principal (comportement actuel du moteur), validé par Pierrot le 25/11/2026. Source : aucune source trouvée, heuristique de coach.
 
 | Échelle | Condition | Paliers (% de la charge de travail × reps) |
 | --- | --- | --- |
@@ -80,7 +106,7 @@ Le repos avant la série de travail suit l'ordre de grandeur de 3 à 5 min entre
 
 - **Haltères, kettlebells, machines** : pas de palier « barre vide » ; même échelle, mêmes filtres (sans l'étape 2).
 - **Soulevé de terre et variantes depuis le sol** : le palier barre vide se fait en soulevé de terre roumain depuis la position debout (la barre sans disques est trop basse). Validé par Pierrot le 25/11/2026.
-- **Mouvement déjà chauffé** (règle unique, identique en force, musculation et Hyrox/CrossFit ; validée par Pierrot le 25/11/2026) : si le même mouvement (même `schema` : `squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`) a déjà eu ses paliers dans la séance (`premier_du_schema` faux), la montée commence à 60 % : seuls les paliers ≥ 60 % de l'échelle choisie par I sont gardés, sans barre vide. Sinon (`premier_du_schema` vrai), paliers complets. Le groupe musculaire n'intervient pas dans ce choix. Exemples : pause squat après squat, presse à cuisses (schéma `squat`) après squat → départ à 60 % ; rowing (`tirage`) après développé couché (`poussee_horizontale`) → paliers complets. Écart volontaire à la convention « barre vide en premier palier », qui vaut pour le premier mouvement du schéma.
+- **Mouvement déjà chauffé** (règle unique, identique en force, musculation et Hyrox/CrossFit ; validée par Pierrot le 25/11/2026) : si le même mouvement (même `schema` : `squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`) a déjà eu ses paliers dans la séance (`premier_du_schema` faux), la montée commence à 60 % : seuls les paliers ≥ 60 % de l'échelle choisie par I sont gardés, sans barre vide. Sinon (`premier_du_schema` vrai), paliers complets. Le groupe musculaire n'intervient pas dans ce choix. Exemples : pause squat après squat, presse à cuisses (schéma `squat`) après squat → départ à 60 % ; rowing (`tirage`) après développé couché (`poussee_horizontale`) → paliers complets. Écart volontaire à la convention « barre vide en premier palier », qui vaut pour le premier mouvement du schéma. Sources (partielles) : un nouveau mouvement gagne à être réchauffé même après un autre exercice lourd (Neves 2025 : refaire un échauffement spécifique avant le squat, après le développé couché, améliore vitesse et puissance ; effet faible avant le développé couché fait après le squat) ; un mouvement déjà préparé par du travail lourd n'a presque plus besoin d'échauffement (Wolf 2026, avis de chercheur et coach, plus permissif que notre règle). Départ à 60 % : aucune source trouvée, heuristique de coach.
   - « A eu ses paliers » = a reçu une échelle de R2 (« Léger », « Modéré », « Lourd » ou « Très lourd »), complète ou à partir de 60 %. Les séries d'approche courtes M2 et la répétition ECH-H4 ne comptent pas : un exercice à I ≥ 0,80 placé après un exercice du même schéma qui n'a eu que M2 a ses paliers complets. Validé par Pierrot le 25/11/2026.
   - **Exercice à I ≥ 0,80 sans `schema`** (ex. curl lourd, extension triceps lourde) : le mouvement est l'exercice lui-même (même identifiant). Paliers complets la première fois dans la séance (sans palier barre si haltères, machine ou kettlebell), départ à 60 % si le même exercice a déjà eu ses paliers dans la séance. Jamais 0 série d'approche au-dessus du seuil, même si le groupe musculaire est déjà préparé. Validé par Pierrot le 25/11/2026.
 - **Séries suivantes** du même exercice : pas de paliers ; si une série est ajustée à la hausse en séance (`ajustement-rpe.md`), pas de palier supplémentaire.

@@ -28,6 +28,10 @@ sources:
     auteurs: "Halperin I, Malleron T, Har-Nir I et al."
     annee: 2022
     url: "https://pubmed.ncbi.nlm.nih.gov/34542869/"
+  - titre: "Self-rated Accuracy of Rating of Perceived Exertion-based Load Prescription in Powerlifters (JSCR 31(10):2938-2943)"
+    auteurs: "Helms ER, Brown SR, Cross MR, Storey A, Cronin J, Zourdos MC"
+    annee: 2017
+    url: "https://openrepository.aut.ac.nz/items/9d066ef2-8ebc-490b-af31-31b0fa9aca61/full"
   - titre: "The Reactive Training Manual (principe de la table RPE en powerlifting ; valeurs non reprises)"
     auteurs: "Tuchscherer M"
     annee: 2008
@@ -53,7 +57,7 @@ n   = reps + RIR + 0,5 = reps + 10 − RPE + 0,5
 ```
 - Correspondance RPE ↔ RIR : Zourdos 2016, Helms 2016.
 - Demi-rep de marge (+0,5) : validé par Pierrot le 25/11/2026. Elle va dans le sens de l'erreur moyenne de notation : les pratiquants sous-estiment leurs reps en réserve d'environ 1 rep (Halperin 2022). Effet : chaque cellule vaut celle d'un demi-point de RPE plus bas sans la marge.
-- Les demi-points de RPE sont traités linéairement (RPE 8,5 = 1,5 RIR) : choix de conception validé par Pierrot le 25/11/2026, cohérent avec la lecture « 1 ou 2 reps en réserve » des demi-points dans Helms 2016.
+- Les demi-points de RPE sont traités linéairement (RPE 8,5 = 1,5 RIR) : choix de conception validé par Pierrot le 25/11/2026. Source : l'échelle publiée de Zourdos 2016 contient des demi-points décrits comme des intervalles (8,5 = 1 à 2 reps en réserve, 7,5 = 2 à 3 ; 9,5 = plus de rep possible mais charge encore augmentable) ; prendre le milieu de l'intervalle est notre lecture. Contenu du tableau vérifié le 25/11/2026 sur une reproduction secondaire qui cite Zourdos 2016 (topendsports.com, « Resistance Training RPE »), le texte intégral n'ayant pas pu être ouvert. Même lecture attribuée à Helms 2016, non vérifiée en texte intégral.
 
 ### R2 — Fonction % (normative, pas d'interpolation tabulée)
 
@@ -90,13 +94,13 @@ RPE_implicite  = reps + 10,5 − n          // non arrondi
 
 ### R5 — Contrôle de cohérence % ↔ RPE
 
-Si un modèle donne à la fois un % et un RPE : calculer RPE_implicite(% saisi, reps). Si |RPE_implicite − RPE prescrit| > 0,5 → `INCOHERENCE_PCT_RPE`. Dans tous les cas, la charge est calculée depuis (reps, RPE), jamais depuis le % saisi. Un RPE_implicite > 10 donne ici `INCOHERENCE_PCT_RPE` et non `PCT_IMPOSSIBLE` : le RPE prescrit fait foi, la ligne n'est pas refusée (validé par Pierrot le 25/11/2026). Seuil 0,5 : heuristique de coach, validée par Pierrot le 25/11/2026 (la notation RPE a elle-même une erreur d'environ 1 rep, Halperin 2022).
+Si un modèle donne à la fois un % et un RPE : calculer RPE_implicite(% saisi, reps). Si |RPE_implicite − RPE prescrit| > 0,5 → `INCOHERENCE_PCT_RPE`. Dans tous les cas, la charge est calculée depuis (reps, RPE), jamais depuis le % saisi. Un RPE_implicite > 10 donne ici `INCOHERENCE_PCT_RPE` et non `PCT_IMPOSSIBLE` : le RPE prescrit fait foi, la ligne n'est pas refusée (validé par Pierrot le 25/11/2026). Seuil 0,5 : heuristique de coach, validée par Pierrot le 25/11/2026. Sources partielles : des powerlifters qui choisissent leur charge pour viser un RPE prescrit s'en écartent en moyenne de 0,33 ± 0,28 point (Helms 2017) : un écart > 0,5 dépasse donc l'erreur typique d'un pratiquant entraîné ; la prédiction des reps restantes a une erreur moyenne d'environ 1 rep, très variable (Halperin 2022). Aucune source ne fixe le seuil lui-même.
 
 ### R6 — Single à RPE 10 (conséquence de la marge +0,5)
 
 - pct(1, 10) = 0,983607 : un single réussi à RPE 10 donnerait un e1RM 1,67 % au-dessus de la charge (100 kg → 101,67). Règle pour l'e1RM : `e1rm.md`, R1 bis (e1RM = charge), validée par Pierrot le 25/11/2026.
 - Côté prescription, rien ne change : RPE 10 n'est jamais prescrit hors séance `test_1rm` (`ajustement-rpe.md`, R7).
-- Côté lecture de modèle (R4) : une ligne « 1 rep à 100 % » donne RPE_implicite 10,5 → `PCT_IMPOSSIBLE`. Toute ligne à 1 rep au-dessus de 98,4 % est refusée hors test : elle relève du futur protocole de test de 1RM. Choix de conception validé par Pierrot le 25/11/2026.
+- Côté lecture de modèle (R4) : une ligne « 1 rep à 100 % » donne RPE_implicite 10,5 → `PCT_IMPOSSIBLE`. Toute ligne à 1 rep au-dessus de 98,4 % est refusée hors test : elle relève du futur protocole de test de 1RM. Choix de conception validé par Pierrot le 25/11/2026. Source : aucune source trouvée sur ce refus, heuristique de coach ; il découle de notre table (plafond 98,4 %) et de la définition de RPE 10 comme effort maximal (Zourdos 2016) : une ligne à 100 % est une tentative de maximum.
 
 ### Table d'affichage (% e1RM, arrondi à 0,1)
 

@@ -24,6 +24,18 @@ sources:
     auteurs: "Zourdos MC, Klemp A, Dolan C et al."
     annee: 2016
     url: "https://openrepository.aut.ac.nz/items/efef3b25-6701-4fb5-bb82-55fcd2a26027/full"
+  - titre: "Self-rated Accuracy of Rating of Perceived Exertion-based Load Prescription in Powerlifters (JSCR 31(10):2938-2943)"
+    auteurs: "Helms ER, Brown SR, Cross MR, Storey A, Cronin J, Zourdos MC"
+    annee: 2017
+    url: "https://openrepository.aut.ac.nz/items/9d066ef2-8ebc-490b-af31-31b0fa9aca61/full"
+  - titre: "Effect of training cessation on muscular performance: A meta-analysis (Scand J Med Sci Sports 23(3):e140-e149)"
+    auteurs: "Bosquet L, Berryman N, Dupuy O, Mekary S, Arvisais D et al. (dernier auteur : Mujika I)"
+    annee: 2013
+    url: "https://doi.org/10.1111/sms.12047"
+  - titre: "The Development, Retention and Decay Rates of Strength and Power in Elite Rugby Union, Rugby League and American Football (Sports Med 43(5):367-384)"
+    auteurs: "McMaster D, Gill N, Cronin JB, McGuigan MR"
+    annee: 2013
+    url: "https://ro.ecu.edu.au/ecuworks2013/788"
 statut: brouillon
 auteur_agent: expert-force
 derniere_revue: 2026-11-25
@@ -50,7 +62,7 @@ Avec la marge +0,5 de la table, pct(1, 10) = 30/30,5 = 0,983607 : R1 donnerait u
 ```
 reps = 1 et RPE = 10 → e1rmSerie = charge
 ```
-- Raison : un single à fond est, par définition, le 1RM du jour. Afficher « environ 101,7 kg » après un 100 kg à fond serait incohérent.
+- Raison : un single à fond est, par définition, le 1RM du jour (RPE 10 = effort maximal, 0 rep en réserve dans l'échelle de Zourdos 2016). Afficher « environ 101,7 kg » après un 100 kg à fond serait incohérent.
 - Cohérence : même valeur que R7 (test de 1RM : ref = charge) et R8 (1RM déclaré = valeur).
 - Sans effet sur la prescription : RPE 10 n'est jamais prescrit hors séance `test_1rm` (`ajustement-rpe.md`, R7).
 - Effet de bord : entre 1 @ 9,5 (e1RM = charge × 1,0333) et 1 @ 10 (e1RM = charge), l'écart passe à 3,3 % au lieu de 1,6 %. Acceptable : on reste du côté prudent (e1RM plus bas).
@@ -61,7 +73,7 @@ reps = 1 et RPE = 10 → e1rmSerie = charge
 Une série compte seulement si toutes ces conditions sont vraies :
 - type `travail` (jamais un palier d'échauffement) ;
 - 1 ≤ reps réalisées ≤ 10, sinon `SERIE_TROP_LONGUE` (Reynolds 2006 : pas plus de 10 reps pour une prédiction linéaire) ;
-- 7 ≤ RPE ≤ 10, sinon `RPE_TROP_BAS_POUR_E1RM` (Zourdos 2021 : erreur plus grande loin de l'échec ; seuil 7 = heuristique de coach, validée par Pierrot le 25/11/2026) ;
+- 7 ≤ RPE ≤ 10, sinon `RPE_TROP_BAS_POUR_E1RM` (Zourdos 2021 : sur une série à l'échec à 70 % du 1RM, erreur moyenne d'environ 2 reps à RPE 9, 3,7 à RPE 7 et 5,2 à RPE 5 ; Halperin 2022 : prédictions plus justes près de l'échec et avec des charges lourdes ; Helms 2017 : chez des powerlifters, meilleure justesse près de l'échec au développé couché ; seuil 7 lui-même = heuristique de coach, validée par Pierrot le 25/11/2026) ;
 - pas de drapeau `DOULEUR` sur la série ;
 - charge > 0.
 
@@ -111,7 +123,7 @@ Si la séance est marquée `test_1rm` : ref = charge du meilleur single réussi 
 | variante sans historique | e1RM de la base × coefficient (voir `variantes-discounts.md`) |
 | rien | séance d'étalonnage : montée par paliers jusqu'à un 5 @ RPE 8 choisi en séance, puis R4 |
 
-Valeurs 8 semaines et 0,95 : heuristiques de coach, validées par Pierrot le 25/11/2026.
+Valeurs 8 semaines et 0,95 : heuristiques de coach, validées par Pierrot le 25/11/2026. Sources partielles : la force maximale se maintient environ 3 à 4 semaines sans entraînement puis baisse, d'autant plus que l'arrêt dure (McMaster 2013 : maintien jusqu'à 3 semaines ; Bosquet 2013 : relation dose-réponse avec la durée de l'arrêt). Ces études portent sur l'arrêt de l'entraînement, pas sur l'ancienneté d'un test chez quelqu'un qui continue à s'entraîner. Fenêtre de 8 semaines et facteur 0,95 (y compris pour un 1RM « estimé ») : aucune source trouvée.
 
 ### R9 — Ce que les séries d'une variante mettent à jour
 
