@@ -50,17 +50,17 @@ Réglages imposés en production :
 
 ## 3. Choix des modèles
 
-Prix officiels relevés le 25/11/2026 (USD par million de tokens, entrée / sortie, lecture de cache) : Opus 5.5 4 / 20 (0,20) ; Sonnet 5.5 2 / 10 (0,10) ; Haiku 5.5 0,10 / 0,50 (0,01) jusqu'à 100 000 tokens de prompt, puis 0,50 / 2,50. Batch : −50 %. Sur Bedrock, les points d'accès régionaux (UE) coûtent 10 % de plus.
+Prix officiels relevés le 25/11/2026 (USD par million de tokens, entrée / sortie, lecture de cache) : Opus 5.5 4 / 20 (0,20) ; Sonnet 5.5 2 / 10 (0,10) ; Haiku 5.5 0,10 / 0,50 (0,01) jusqu'à 100 000 tokens de prompt, puis 0,50 / 2,50. Batch : −50 %, **sur l'API directe seulement**. Sur Bedrock, les profils régionaux (UE) coûtent 10 % de plus que le profil global, et il n'y a ni Batch ni Flex pour ces trois modèles (section 7.1).
 
 | Rôle | Modèle | Pourquoi |
 | --- | --- | --- |
 | Classifieur des garde-fous (chaque message entrant) | `claude-haiku-5-5` | Appelé à chaque message, il doit être le moins cher et le plus rapide. Tâche fermée (une étiquette, une zone, une confiance), sortie JSON. Prompt court, très loin du seuil des 100 000 tokens. Ne décide jamais seul : le lexique déterministe tourne en parallèle (section 5). |
 | Conversation (aiiron) | `claude-sonnet-5-5` | La qualité du ton, le respect des limites et la fiabilité des appels d'outils comptent plus que quelques dixièmes de seconde sur WhatsApp. 20 fois moins cher qu'Opus en entrée, avec un cache à 0,05× du prix d'entrée. |
 | Échanges simples (accusé de log, confirmation) | Sonnet en v1 | Passage à Haiku seulement s'il réussit **toutes** les évaluations : on ne route pas vers un petit modèle avant d'avoir mesuré. |
-| Révision hebdomadaire, génération de bloc | `claude-opus-5-5` | Raisonnement long sur l'historique (prescrit vs réalisé), pas de contrainte de latence. Lot asynchrone (Batch API, −50 %) si l'hébergement le permet (voir section 7 : Bedrock n'a pas la Batch API d'Anthropic). |
+| Révision hebdomadaire, génération de bloc | `claude-opus-5-5` | Raisonnement long sur l'historique (prescrit vs réalisé), pas de contrainte de latence. Exécutée dans notre propre file, au tarif standard : Bedrock UE n'a ni Batch ni Flex pour Opus 5.5 (section 7.1). |
 | Juge des évaluations | `claude-opus-5-5` | Hors production. Un juge différent du modèle évalué limite la complaisance. |
 
-**Estimation du coût LLM par utilisateur actif** (hypothèses à mesurer : environ 87 messages entrants par mois, 1,6 appel de modèle par tour, environ 10 000 tokens de prompt fixe, 2 000 tokens variables, 250 tokens de sortie, environ 40 reprises après expiration du cache de 5 minutes) : conversation environ 2 $ par mois, classifieur moins de 0,05 $, révision hebdomadaire environ 1 $ (40 000 tokens en entrée, 4 000 en sortie, 4,3 fois par mois ; 0,5 $ en lot). Soit **environ 3 $ par mois et par utilisateur actif, hors WhatsApp**. C'est un ordre de grandeur, pas une promesse.
+**Estimation du coût LLM par utilisateur actif** (hypothèses à mesurer : environ 87 messages entrants par mois, 1,6 appel de modèle par tour, environ 10 000 tokens de prompt fixe, 2 000 tokens variables, 250 tokens de sortie, environ 40 reprises après expiration du cache de 5 minutes) : conversation environ 2 $ par mois, classifieur moins de 0,05 $, révision hebdomadaire environ 1 $ (40 000 tokens en entrée, 4 000 en sortie, 4,3 fois par mois, sans lot). Soit environ 3 $ par mois et par utilisateur actif au tarif global, et **environ 3,3 $ sur Bedrock UE (+10 %), hors WhatsApp**. C'est un ordre de grandeur, pas une promesse : la grille AWS des modèles 5.5 en UE n'a pas été relevée.
 
 **Mesure** : chaque appel enregistre modèle, tokens d'entrée, de lecture et d'écriture de cache, tokens de sortie et identifiant interne de l'utilisateur (jamais le numéro). Les webhooks de statut WhatsApp donnent la catégorie tarifaire de chaque message envoyé. L'admin affiche le coût par utilisateur et par semaine.
 
@@ -262,7 +262,7 @@ Sans P1, P6 et une partie de P5, l'outil `echauffement` est lui aussi incomplet 
 | Routage | Union des deux couches : si le lexique **ou** le classifieur signale une crise, on applique le protocole de crise. On préfère un faux positif (un message doux avec des ressources) à un faux négatif. | Oui |
 | Prompt système | Limites L1 à L16 (`persona/limites.md`), consignes des outils | Non |
 | Outils | Restriction douleur active → `charges` et `echauffement` refusent l'exercice (`DOULEUR`) ; en état « crise », tous les outils de prescription sont bloqués (hook `PreToolUse` qui refuse) | Oui |
-| Contrôle de sortie | (a) chaque chiffre suivi d'une unité (kg, %, min, km, kcal, g) doit figurer dans un résultat d'outil du tour, le profil ou le message de l'utilisateur ; (b) lexique interdit (noms de pathologies employés comme hypothèse, posologies, « ça reste entre nous »). Échec → une régénération avec l'erreur, puis un message de repli fixe | Oui |
+| Contrôle de sortie | (a) chaque chiffre suivi d'une unité (kg, %, min, km, kcal, g) doit figurer dans un résultat d'outil du tour, le profil ou le message de l'utilisateur ; (b) lexique interdit (noms de pathologies employés comme hypothèse, posologies, « ça reste entre nous », « personne ne lit tes messages »). Échec → une régénération avec l'erreur, puis un message de repli fixe | Oui |
 
 Si le classifieur échoue (erreur, délai dépassé), le lexique seul décide et le message part vers le LLM avec la consigne « prudence santé ». On ne bloque jamais l'utilisateur à cause d'une panne.
 
@@ -346,16 +346,65 @@ Le couple prescrit / réalisé est la donnée de résultat d'aiiron : il sert à
 - **Consentement explicite** avant d'enregistrer la moindre donnée de santé (douleur, sommeil, métriques, alimentation, poids) : message dédié avec boutons, séparé des conditions générales, horodaté avec la version du texte. Sans consentement : conseils généraux possibles, rien de sensible enregistré.
 - **Minimisation** : on garde la zone et la restriction, jamais une étiquette de diagnostic, même si l'utilisateur la donne. Le LLM ne reçoit jamais le numéro de téléphone : identifiant interne seulement.
 - **Droits** : « supprime mes données » déclenche un parcours déterministe (confirmation, suppression, accusé). Export sur demande.
+- **Transparence** : les conversations sont stockées et peuvent parfois être relues par l'équipe pour améliorer le service. aiiron le dit quand on le lui demande (phrase dans `persona/identite-et-voix.md`), et le texte de consentement le dit aussi. Jamais « personne ne lit tes messages ».
 - **Durées de conservation** (messages bruts, journal d'audit, résumés) : à fixer dans l'AIPD.
 - **Hébergement UE** : voir section 7. **Aucune donnée réelle dans le repo** : les évaluations utilisent des profils fictifs. Secrets uniquement en variables d'environnement ou dans un gestionnaire de secrets.
 
 ## 7. Hébergement UE
 
-| Brique | Option prudente | Constat (25/11/2026) |
+**Décision de Pierrot (25/11/2026)** : API Anthropic directe pour le développement, **sans aucune donnée réelle** (profils fictifs, numéro de test) ; Claude sur Amazon Bedrock en région UE **avant la première bêta**.
+
+| Brique | Développement | Bêta et production |
 | --- | --- | --- |
-| Application, file, Postgres | Hébergeur UE (région France ou UE) | — |
-| LLM | **Claude sur Amazon Bedrock, région UE** (`eu-west-3` Paris ou profil d'inférence « EU »), Agent SDK avec `CLAUDE_CODE_USE_BEDROCK=1` | L'API Anthropic directe ne propose que `inference_geo` `global` ou `us`, et un stockage (`workspace geo`) `us` seulement. Bedrock propose des régions UE (+10 % en point d'accès régional). L'accès à Opus 5.5, Sonnet 5.5 et Haiku 5.5 sur Bedrock UE est soumis à des critères d'accès propres à AWS : à vérifier dans la console. Bedrock (`bedrock-mantle`) n'a pas la Batch API d'Anthropic. |
-| WhatsApp | **Stockage local** du numéro activé sur `DE` (« EU (Germany) ») avant l'enregistrement du numéro | Le stockage local ne se règle que sur un numéro non enregistré. Le contenu peut transiter hors région jusqu'à 60 min pendant le traitement. Les numéros issus de cartes de contact restent stockés chez Meta. |
+| Application, file, Postgres | Local ou hébergeur UE, données fictives | Hébergeur UE (région France ou UE) |
+| LLM | API Anthropic directe (`claude-sonnet-5-5`, etc.). Elle ne propose que `inference_geo` `global` ou `us`, et un stockage (`workspace geo`) `us` seulement : aucune option UE | **Bedrock, profil d'inférence géographique `eu.`**, appelé depuis `eu-west-3` (Paris), endpoint `bedrock-runtime` (section 7.1) |
+| WhatsApp | Numéro de test de l'app Meta | **Stockage local** sur `DE` (« EU (Germany) ») activé **avant** l'enregistrement du numéro de production. Il ne se règle que sur un numéro non enregistré. Le contenu peut transiter hors région jusqu'à 60 min pendant le traitement ; les numéros issus de cartes de contact restent stockés chez Meta. |
+
+### 7.1 Claude sur Bedrock UE : vérification du 25/11/2026
+
+Sources : fiches modèles AWS (Opus 5.5, Sonnet 5.5, Haiku 5.5), page AWS « Regional availability by models », pages Anthropic « Claude in Amazon Bedrock » et « Claude on Amazon Bedrock (bedrock-runtime) », documentation Claude Code sur Bedrock (liens en fin de document). Consultées le 25/11/2026.
+
+**Identifiants** (endpoint `bedrock-runtime`, API Invoke, Converse et Messages)
+
+| Modèle | ID de base | Profil UE (à utiliser) | Profil global (interdit en production) |
+| --- | --- | --- | --- |
+| Opus 5.5 | `anthropic.claude-opus-5-5` | `eu.anthropic.claude-opus-5-5` | `global.anthropic.claude-opus-5-5` |
+| Sonnet 5.5 | `anthropic.claude-sonnet-5-5` | `eu.anthropic.claude-sonnet-5-5` | `global.anthropic.claude-sonnet-5-5` |
+| Haiku 5.5 | `anthropic.claude-haiku-5-5` | `eu.anthropic.claude-haiku-5-5` | `global.anthropic.claude-haiku-5-5` |
+
+**Disponibilité par région source** (`bedrock-runtime`). Résultat identique pour les trois modèles, et la fiche modèle AWS concorde avec la page « Regional availability » (une source tierce affirmait le contraire pour Opus 5.5 à Paris : démentie par les deux pages AWS).
+
+| Région source | In-Region (ID de base) | Geo EU (`eu.`) | Global |
+| --- | --- | --- | --- |
+| `eu-west-3` Paris | non | **oui** | oui |
+| `eu-central-1` Francfort | non | **oui** | oui |
+| `eu-west-1` Irlande | non | **oui** | oui |
+
+- **Régions de destination du profil `eu.`**, depuis Paris, Francfort ou Irlande, pour les trois modèles : `eu-central-1` (Francfort), `eu-north-1` (Stockholm), `eu-south-1` (Milan), `eu-south-2` (Espagne), `eu-west-1` (Irlande), `eu-west-3` (Paris). Londres n'y figure que si l'appel part de Londres. AWS précise que la liste de destinations d'un profil géographique ne change pas, mais demande de la vérifier par `GetInferenceProfile` depuis chaque région source utilisée (à faire sur notre compte : checklist, section 10).
+- **Régions « opt-in »** (Milan et Espagne) : une requête peut y être routée même si le compte ne les a pas activées, et les prompts et réponses peuvent y être stockés pour la détection d'abus (doc AWS). À mentionner dans l'AIPD. Une SCP qui bloque l'une des régions de destination fait échouer la requête.
+- **In-Region strict** (ID de base sans profil) : aucune région UE pour ces trois modèles. Opus 5.5 n'est en In-Region qu'à Londres (`eu-west-2`, hors UE).
+- **Endpoint `bedrock-mantle`** (API Messages native) : selon les fiches AWS, aucune région UE pour ces trois modèles (Opus 5.5 : `us-east-1`, `ap-southeast-4`, GovCloud ; Sonnet et Haiku 5.5 : GovCloud seulement). La page Anthropic liste `eu-west-1` en « In-region only » pour l'endpoint en général : **non confirmé pour les modèles 5.5**. On ne s'en sert pas.
+- **Accès** : Opus 5.5, Sonnet 5.5 et Haiku 5.5 ne sont pas dans la liste des modèles ouverts à tous les clients Bedrock ; leurs critères d'accès se lisent dans la console AWS. **Non confirmé pour notre compte** tant que la demande n'est pas faite.
+- **Tarif** : profil régional (dont `eu.`) = +10 % par rapport au profil global (doc Anthropic). Prix AWS des modèles 5.5 en UE : **non relevés**.
+
+**Ce qui manque sur Bedrock par rapport à l'API directe** (pour les trois modèles, sauf mention)
+
+| Fonction | Bedrock UE | Conséquence pour aiiron |
+| --- | --- | --- |
+| Message Batches (−50 %) | Non. Le palier Batch de Bedrock n'est pas proposé non plus pour ces modèles, ni Flex, ni Priority | Révision hebdomadaire au tarif standard, dans notre file |
+| Mise en cache automatique (`cache_control` au niveau de la requête) | Non ; points de cache explicites seulement (512 tokens minimum, 4 au plus, durée 5 min ou 1 h) | Points de cache explicites sur la partie fixe du prompt (section 2) |
+| `tool_choice` | `auto` et `none` seulement pour Opus 5.5 et Sonnet 5.5 (pas de restriction indiquée pour Haiku 5.5) | Ne jamais forcer un outil précis pour aiiron ; le routage déterministe reste dans le code |
+| Comptage de tokens (`count_tokens`) | Non sur `bedrock-runtime` | Coûts mesurés avec les champs `usage` des réponses (déjà prévu, section 3) |
+| API Usage and Cost, Admin, Models | Non | Coût par utilisateur calculé par nous (section 3) ; facture AWS côté Marketplace |
+| Files API, sources par URL, outils serveur (recherche et lecture web, exécution de code), Agent Skills et connecteur MCP côté API, repli serveur (`fallbacks`) | Non | Non utilisés : `tools: []`, et nos outils passent par un serveur MCP en processus, côté client |
+| Ce qui est disponible | Messages, streaming, outils côté client, sorties structurées, réflexion, citations, PDF, contexte de 1 M tokens, Guardrails, journaux d'invocation | — |
+
+**Configuration de l'Agent SDK en bêta.** L'Agent SDK lance le binaire Claude Code : mêmes variables que Claude Code sur Bedrock.
+- `CLAUDE_CODE_USE_BEDROCK=1`, `AWS_REGION=eu-west-3`, rôle IAM sans clé longue.
+- Modèles épinglés sur les profils `eu.` : `ANTHROPIC_DEFAULT_SONNET_MODEL`, `ANTHROPIC_DEFAULT_HAIKU_MODEL`, `ANTHROPIC_DEFAULT_OPUS_MODEL` (ou l'option `model`). Sans épinglage, le modèle des tâches de fond de Claude Code sur Bedrock est Sonnet 4.5 (déprécié).
+- `ANTHROPIC_BEDROCK_REGION_PREFIX=eu` et `CLAUDE_CODE_DISABLE_MODEL_ACCESS_FALLBACK=1` : en cas de modèle indisponible, la requête échoue au lieu de basculer vers un modèle non évalué.
+- Classifieur et résumés (hors Agent SDK) : `@anthropic-ai/bedrock-sdk`, même région et mêmes profils `eu.`.
+- Aucune `ANTHROPIC_API_KEY` dans l'environnement de bêta.
 
 ## 8. Connexion WhatsApp (Business Cloud API, Meta)
 
@@ -374,12 +423,16 @@ Le couple prescrit / réalisé est la donnée de résultat d'aiiron : il sert à
 
 ### 8.2 Proactivité et coût
 
-- Une relance hors fenêtre est un template facturé : pas de relance « pour rien ». Choix prudent proposé, à valider : au plus 2 relances par semaine, jamais entre 21 h et 8 h, arrêt après 2 relances sans réponse, aucune relance en état « crise » ou pendant une restriction douleur récente. Ton des relances : `expert-sante-mentale`.
-- Pendant la fenêtre ouverte, regrouper plutôt que multiplier les messages (au plus deux messages par réponse) : chaque message compte dans le quota gratuit puis se paie.
+- Une relance hors fenêtre est un template facturé : pas de relance « pour rien ».
+- **Validé par Pierrot le 25/11/2026** : au plus 2 relances par semaine ; aucune relance entre 21 h et 8 h (heure locale de l'utilisateur).
+- Aucune relance en état « crise » (protocole de crise, section 5.3).
+- Propositions, **non validées** : arrêt après 2 relances sans réponse ; aucune relance pendant une restriction douleur récente.
+- Ton des relances : `expert-sante-mentale`.
+- Pendant la fenêtre ouverte, regrouper plutôt que multiplier les messages : chaque message compte dans le quota gratuit puis se paie. Environ 60 mots par message au plus (**validé par Pierrot le 25/11/2026**) ; au plus deux messages par réponse (proposition, non validée).
 
 ### 8.3 Secrets (variables d'environnement, jamais commités)
 
-`WHATSAPP_TOKEN` (jeton d'utilisateur système), `WHATSAPP_APP_SECRET` (signature des webhooks), `WHATSAPP_VERIFY_TOKEN` (chaîne aléatoire choisie par nous), `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_WABA_ID`, identifiants Bedrock (`AWS_*`, ou rôle IAM sans clé longue), `DATABASE_URL`. En production : gestionnaire de secrets de l'hébergeur. `.env` est déjà ignoré par git.
+`WHATSAPP_TOKEN` (jeton d'utilisateur système), `WHATSAPP_APP_SECRET` (signature des webhooks), `WHATSAPP_VERIFY_TOKEN` (chaîne aléatoire choisie par nous), `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_WABA_ID`, `ANTHROPIC_API_KEY` (développement seulement, jamais en bêta), identifiants Bedrock (`AWS_*`, ou rôle IAM sans clé longue), `DATABASE_URL`. En production : gestionnaire de secrets de l'hébergeur. `.env` est déjà ignoré par git.
 
 ### 8.4 Étapes pour Pierrot, dans l'ordre
 
@@ -394,10 +447,11 @@ Le couple prescrit / réalisé est la donnée de résultat d'aiiron : il sert à
 9. **Templates** en français (rappel de séance, reprise après une pause, consentement si besoin), soumis à Meta. Vérifier la catégorie attribuée : un rappel reclassé en « marketing » coûte plus cher.
 10. **Moyen de paiement** sur le compte WhatsApp Business (au-delà des 1 000 messages service gratuits par mois).
 11. **AIPD** et registre des traitements avant le premier utilisateur réel (Meta et AWS sont sous-traitants de données de santé).
+12. **Checklist de lancement** (section 10) entièrement cochée avant la première bêta.
 
-### 8.5 Canal de secours
+### 8.5 Canal unique
 
-WhatsApp peut suspendre un numéro ou changer sa politique. Le code d'aiiron ne dépend pas du canal : un adaptateur par canal (WhatsApp, puis secours) transforme les messages entrants et sortants en un format commun. Le canal de secours n'est pas choisi (**choix produit, à valider par Pierrot**). Proposition prudente : une petite web app (PWA) sur le même backend, avec connexion par lien envoyé par e-mail, et l'e-mail pour les documents. Elle reste sous notre contrôle, et l'utilisateur garde son historique.
+WhatsApp seul (décision de Pierrot du 25/11/2026). Canal de secours : hors périmètre v1.
 
 ## 9. Choix techniques mineurs (option la plus prudente, appliquée)
 
@@ -412,6 +466,31 @@ WhatsApp peut suspendre un numéro ou changer sa politique. Le code d'aiiron ne 
 - Sortie de l'état « crise » seulement après revue humaine.
 - Pas d'étiquette de diagnostic stockée, même dite par l'utilisateur.
 - Aucun sous-agent en production v1 ; `settingSources: []` et `tools: []`.
+- Bedrock : région source `eu-west-3` (Paris), endpoint `bedrock-runtime`, profils `eu.` uniquement ; SCP qui refuse Bedrock hors des régions de destination du profil UE (un appel `global.` échoue au lieu de sortir de l'UE).
+- Bedrock : pas de bascule automatique de modèle (`CLAUDE_CODE_DISABLE_MODEL_ACCESS_FALLBACK=1`) ; tous les modèles épinglés.
+- Bedrock : journaux d'invocation désactivés (nos propres journaux en Postgres UE suffisent ; pas de copie supplémentaire de données de santé). À revoir dans l'AIPD.
+- Relances : « 21 h à 8 h » s'entend dans le fuseau de l'utilisateur, `Europe/Paris` par défaut tant qu'il n'est pas connu.
+
+## 10. Checklist de lancement de la bêta
+
+Rien ne part vers un utilisateur réel tant qu'une case reste vide. Chaque case cochée porte la date et la personne qui l'a vérifiée.
+
+**Données et hébergement**
+- [ ] **Bascule Bedrock UE vérifiée** : conversation, classifieur, résumés et révision hebdomadaire appellent les profils `eu.anthropic.claude-*-5-5` depuis `eu-west-3` ; aucun identifiant `global.` ni clé `ANTHROPIC_API_KEY` dans la configuration de bêta ; accès aux trois modèles accordé dans la console AWS ; `GetInferenceProfile` lancé depuis `eu-west-3` pour chaque profil, toutes les destinations dans l'UE, sortie archivée ; un appel `global.` refusé par la SCP ; évaluations rejouées sur Bedrock UE, pas seulement sur l'API directe.
+- [ ] **Stockage local WhatsApp sur `DE` activé avant l'enregistrement du numéro de production** (le réglage est impossible ensuite) et vérifié dans la configuration du numéro.
+- [ ] Application, file et Postgres chez un hébergeur UE ; secrets dans le gestionnaire de secrets ; aucune donnée réelle dans le repo.
+
+**Réglementaire**
+- [ ] **AIPD** faite et signée, registre des traitements à jour, durées de conservation fixées, sous-traitants (AWS, Meta, hébergeur) listés avec leurs contrats, régions de destination du profil UE et stockage pour détection d'abus mentionnés.
+- [ ] **Consentement explicite santé** : message dédié avec boutons, séparé des conditions générales, horodaté et versionné ; il dit que les conversations sont stockées et peuvent parfois être relues ; testé : sans consentement, rien de sensible n'est enregistré.
+- [ ] Mention IA dès le premier message et phrase de transparence en place (`persona/identite-et-voix.md`).
+
+**Sécurité**
+- [ ] **Protocole de crise validé par `expert-sante-mentale`**, puis par Pierrot : texte fixe, variante TCA, numéros vérifiés à la date du lancement, revue humaine des conversations signalées organisée (qui, sous quel délai).
+- [ ] **Évaluations critiques à 5/5** : chaque cas `critique: true` de `evals/` passe 5 essais sur 5, sur la configuration de bêta (Bedrock UE), rapport archivé.
+
+**WhatsApp**
+- [ ] Vérification d'entreprise Meta faite, numéro de production dédié, templates en français validés avec la bonne catégorie, moyen de paiement en place.
 
 ## Sources
 
@@ -424,7 +503,10 @@ WhatsApp peut suspendre un numéro ou changer sa politique. Le code d'aiiron ne 
 - Meta, démarrage : https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started.md
 - Anthropic, tarifs : https://platform.claude.com/docs/en/about-claude/pricing
 - Anthropic, résidence des données : https://platform.claude.com/docs/en/manage-claude/data-residency
-- Anthropic, Bedrock : https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock
+- Anthropic, Bedrock (consultées le 25/11/2026) : https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock et https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy
+- AWS, fiches modèles (consultées le 25/11/2026) : https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5-5.html , https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-sonnet-5-5.html , https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-haiku-5-5.html
+- AWS, disponibilité par région et profils d'inférence : https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html et https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html
+- Claude Code sur Bedrock (variables reprises par l'Agent SDK) : https://code.claude.com/docs/en/amazon-bedrock et https://code.claude.com/docs/en/agent-sdk/overview
 - Agent SDK, outils, hooks, démarrage : https://code.claude.com/docs/en/agent-sdk/custom-tools , https://code.claude.com/docs/en/agent-sdk/hooks.md , https://code.claude.com/docs/en/agent-sdk/quickstart.md
 - Standout, MCP (patron « le backend décide ») : https://standout.work/docs/mcp
 - 3114 : https://3114.fr
