@@ -103,7 +103,7 @@ Les signaux sont repérés par le lexique (code) et par le classifieur (Haiku), 
 | --- | --- | --- | --- |
 | **3 · Danger immédiat** | Passage à l'acte en cours ou annoncé pour tout de suite : « j'ai pris toute la boîte », « je suis sur le pont », « c'est ce soir, j'ai tout préparé » ; blessure qui saigne après automutilation ; violence en cours, subie ou annoncée envers quelqu'un | Texte `crise_danger_v1` | `crise` |
 | **2 · Crise** | Idées suicidaires **explicites** (« me suicider », « me tuer » sans contexte sportif, « en finir », « mettre fin à mes jours », « envie de mourir ») ou **indirectes** (« plus envie d'être là », « disparaître », « tout le monde serait mieux sans moi », « ne plus me réveiller », adieux, « je donne mes affaires ») ; **automutilation** (« me scarifier », « me couper », « me faire du mal ») ; **détresse aiguë** (« je craque complètement, je n'en peux plus de vivre comme ça ») | Texte `crise_v1` | `crise` |
-| **2 · Crise TCA** | Vomissements provoqués, laxatifs ou diurétiques pour le poids, jeûne prolongé, apport déclaré très bas (seuil : `expert-nutrition`), sport « pour compenser » ce qui a été mangé, perte de contrôle avec détresse, demande de restriction sévère | Texte `crise_tca_v1` | `crise` |
+| **2 · Crise TCA** | Vomissements provoqués, laxatifs ou diurétiques pour le poids, jeûne prolongé, apport déclaré très bas (règle déterministe : `knowledge/nutrition/seuil-apport-tres-bas.md`, SAB-4 et SAB-5), sport « pour compenser » ce qui a été mangé, perte de contrôle avec détresse, demande de restriction sévère | Texte `crise_tca_v1` | `crise` |
 | **1 · Doute** | Expression d'intention ambiguë avec un contexte sportif (« je vais me tuer à la salle demain », « ce programme va me tuer ») ou dévalorisation globale isolée (« je sers à rien », « à quoi bon ») **et** classifieur ≠ crise | Texte `crise_doute_v1` | `normal`, drapeau `doute_en_cours` |
 | **0 · Normal** | Idiome de fatigue dans un contexte sportif (voir PC-9), aucun autre signal | Coaching normal | `normal` |
 
@@ -208,7 +208,7 @@ Sources : HAS 2000 (écoute bienveillante, dialogue, ne pas banaliser, orientati
 - `faux_positif` : sortie immédiate. Le message suivant d'aiiron reprend là où on en était, sans revenir sur le sujet.
 - `crise_confirmee` : sortie au plus tôt 24 h après le dernier signal, et seulement si l'utilisateur revient de lui-même vers l'entraînement. `heuristique à valider`.
 - Après la sortie, pendant 30 jours : exclusions du lexique désactivées (le moindre signal ambigu déclenche le niveau 2, pas le niveau 1) ; aucune relance pendant les 7 premiers jours ; aiiron ne parle pas de la crise sauf si l'utilisateur en parle ; pas de séance « de rattrapage ». `heuristique à valider`.
-- Après une crise TCA : cibles caloriques, macros et suivi du poids restent désactivés jusqu'à décision humaine. À trancher avec `expert-nutrition` et Pierrot.
+- Après une crise TCA : cibles caloriques, macros et suivi du poids restent désactivés jusqu'à décision humaine (proposition détaillée : `knowledge/nutrition/seuil-apport-tres-bas.md`, SAB-9). Choix produit à trancher par Pierrot.
 
 ### PC-8 Ce qu'aiiron ne fait jamais en crise
 
