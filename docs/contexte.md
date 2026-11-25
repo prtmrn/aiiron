@@ -89,12 +89,14 @@ Logique nutrition retenue : métabolisme de base (Black, Harris-Benedict, Miffli
 - Spécification du moteur force écrite (`knowledge/force/`, brouillon) avec cas de test T1–T17.
 - Protocoles d'échauffement, mobilité et étirements par type de séance (`knowledge/echauffement/`, `mobilite/`, `etirements/`), exercices manquants ajoutés (`data/exercises/exercices-aiiron.json`) et corrections du dataset (`data/exercises/corrections.json`).
 - Mapping des muscles (`knowledge/hypertrophie/mapping-muscles.json`) pour le moteur volume.
-- Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; deux écarts fiche ↔ recalcul marqués `it.fails`, à arbitrer.
+- Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; écart T1 réglé (3 × 4 @ 6 à 117,5 kg) ; reste un écart fiche ↔ code marqué `it.fails` : T6, haltères 23,2 → 22 (la fiche n'a pas de drapeau, le code lève `ECART_ARRONDI_IMPORTANT`, −5,17 % > 5 % selon R3).
 
 ## Prochaines étapes
 1. ~~`developpeur` : moteur force~~ fait (`engine/src/force/`).
 2. `developpeur` : moteur volume (comptage par muscle via le mapping, cas T4/T5).
 3. `expert-ia` : persona d'aiiron et architecture runtime.
+
+Prérequis du moteur course : compter les sauts et les gammes de course (charge pliométrique). Ils sont hors volume hypertrophie dans le mapping v3 et ne sont suivis par aucun moteur aujourd'hui.
 
 ## Questions ouvertes pour Pierrot
 Aucune pour l'instant (fermées le 25/11/2026 : Lvl1/Lvl2 et Prime Nutrition viennent de coachs ; positionnement multisport large).
