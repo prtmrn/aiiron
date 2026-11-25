@@ -45,7 +45,7 @@ Une série faite dans un slot remisé met à jour la référence de l'exercice a
 
 ### R3 — Tableau des coefficients d'initialisation
 
-Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25/11/2026** (y compris le coefficient 0,95 de l'autre style de soulevé de terre). Identifiants en snake_case, à relier aux identifiants de `data/exercises/` par `developpeur`.
+Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25/11/2026** (y compris le coefficient 0,95 de l'autre style de soulevé de terre). Identifiants en snake_case, à relier aux identifiants de `data/exercises/` par `developpeur`. Le développé couché a pour identifiant `developpe_couche` (comme les fiches d'échauffement, de mobilité et de retour au calme) ; `couche` reste accepté en entrée comme alias. Schéma de chaque variante (R5 de `paliers-montee-en-charge.md`) : `data/exercises/schemas.json`.
 
 | Variante (id) | Base | Coef | Note |
 | --- | --- | --- | --- |
@@ -56,14 +56,14 @@ Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25
 | `squat_avant` | `squat` | 0,80 | front squat |
 | `squat_avant_pause_2s` | `squat_avant` | 0,90 | exemple de chaîne de bases |
 | `squat_safety_bar` | `squat` | 0,90 | |
-| `couche_pause_1s` | `couche` | 0,95 | base = couché touché-poitrine ; l'écart touché vs départ arrêté complet est d'environ 8 % (García-Ramos 2021), une pause d'1 s est entre les deux |
-| `couche_pause_3s` | `couche` | 0,90 | |
-| `couche_prise_serree` | `couche` | 0,92 | |
-| `couche_larsen` | `couche` | 0,92 | sans poussée des jambes |
-| `couche_spoto` | `couche` | 0,92 | arrêt à 2–3 cm de la poitrine |
-| `couche_tempo_3_1_0` | `couche` | 0,85 | |
-| `couche_incline_30` | `couche` | 0,80 | |
-| `developpe_militaire` | `couche` | 0,60 | OHP debout ; ratio très variable d'un individu à l'autre, à remplacer vite par ses propres données |
+| `couche_pause_1s` | `developpe_couche` | 0,95 | base = couché touché-poitrine ; l'écart touché vs départ arrêté complet est d'environ 8 % (García-Ramos 2021), une pause d'1 s est entre les deux |
+| `couche_pause_3s` | `developpe_couche` | 0,90 | |
+| `couche_prise_serree` | `developpe_couche` | 0,92 | |
+| `couche_larsen` | `developpe_couche` | 0,92 | sans poussée des jambes |
+| `couche_spoto` | `developpe_couche` | 0,92 | arrêt à 2–3 cm de la poitrine |
+| `couche_tempo_3_1_0` | `developpe_couche` | 0,85 | |
+| `couche_incline_30` | `developpe_couche` | 0,80 | |
+| `developpe_militaire` | `developpe_couche` | 0,60 | OHP debout ; ratio très variable d'un individu à l'autre, à remplacer vite par ses propres données |
 | `developpe_militaire_assis` | `developpe_militaire` | 0,95 | |
 | `push_press` | `developpe_militaire` | 1,00 | réellement plus lourd ; plafonné à 1 (R1) |
 | `sdt_deficit_5cm` | `souleve_de_terre` | 0,90 | |
@@ -72,7 +72,7 @@ Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25
 | `sdt_roumain` | `souleve_de_terre` | 0,70 | |
 | `sdt_blocs` | `souleve_de_terre` | 1,00 | réellement plus lourd ; plafonné à 1 |
 
-Mouvements de base (pas de coefficient) : `squat`, `couche`, `souleve_de_terre` (style choisi par l'utilisateur, conventionnel ou sumo ; l'autre style est une variante à coef 0,95, heuristique), `developpe_militaire` quand l'utilisateur a déjà ses données.
+Mouvements de base (pas de coefficient) : `squat`, `developpe_couche`, `souleve_de_terre` (style choisi par l'utilisateur, conventionnel ou sumo ; l'autre style est une variante à coef 0,95, heuristique), `developpe_militaire` quand l'utilisateur a déjà ses données.
 
 Sans coefficient, initialisation par séance d'étalonnage (`e1rm.md`, R8) : `power_clean`, haltérophilie en général, exercices aux haltères, exercices machine. Raison : ratio trop variable ou dépendant du matériel.
 

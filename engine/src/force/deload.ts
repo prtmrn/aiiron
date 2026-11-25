@@ -3,6 +3,7 @@ import type { Materiel } from "./arrondi";
 import { chargeLigne } from "./charge";
 import { normaliserRpe, pct } from "./rpe";
 import type { Drapeau } from "./types";
+import { normaliserCles, normaliserExercice } from "./variantes";
 
 // R2 : plafonds d'une semaine de deload
 const RPE_MAX = 7;
@@ -46,8 +47,12 @@ function limiteSeries(ex: string, ref: Semaine | null): number | null {
   return e ? Math.ceil(total(e.lignes) / 2) : SERIES_EXERCICE_ABSENT;
 }
 
+// Alias d'exercices (couche → developpe_couche) normalisés en entrée, pour que semaine, référence, e1RM et matériel se retrouvent
+const normaliserSemaine = (s: Semaine): Semaine => ({ ...s, exercices: s.exercices.map((e) => ({ ...e, exercice: normaliserExercice(e.exercice) })) });
+
 /** R3 */
-export function validerDeload(semaine: Semaine, ref: Semaine | null, e1rm: Record<string, number>): { violations: Violation[]; drapeaux: Drapeau[] } {
+export function validerDeload(semaineEntree: Semaine, refEntree: Semaine | null, e1rmEntree: Record<string, number>): { violations: Violation[]; drapeaux: Drapeau[] } {
+  const [semaine, ref, e1rm] = [normaliserSemaine(semaineEntree), refEntree && normaliserSemaine(refEntree), normaliserCles(e1rmEntree)];
   const violations: Violation[] = [];
   if (!semaine.deload) return { violations, drapeaux: [] };
   for (const { exercice, lignes } of semaine.exercices) {
@@ -69,11 +74,13 @@ export function validerDeload(semaine: Semaine, ref: Semaine | null, e1rm: Recor
 
 /** R4 : correction automatique. e1rm = e1RM effectif par exercice. */
 export function corrigerDeload(
-  semaine: Semaine,
-  ref: Semaine | null,
-  e1rm: Record<string, number>,
-  materiel: Record<string, Materiel>,
+  semaineEntree: Semaine,
+  refEntree: Semaine | null,
+  e1rmEntree: Record<string, number>,
+  materielEntree: Record<string, Materiel>,
 ): { semaine: Semaine; changements: string[] } {
+  const [semaine, ref] = [normaliserSemaine(semaineEntree), refEntree && normaliserSemaine(refEntree)];
+  const [e1rm, materiel] = [normaliserCles(e1rmEntree), normaliserCles(materielEntree)];
   const changements: string[] = [];
   const exercices = semaine.exercices.map(({ exercice, lignes }) => {
     const e = e1rm[exercice];

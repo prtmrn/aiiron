@@ -3,7 +3,7 @@
 import { describe, expect, it } from "vitest";
 import { e1rmSerie, mettreAJourReference, referenceInitiale } from "../../src/force/e1rm";
 import { pct } from "../../src/force/rpe";
-import { COEFS_VARIANTES, e1rmEffectif, e1rmExercice } from "../../src/force/variantes";
+import { COEFS_VARIANTES, e1rmEffectif, e1rmExercice, normaliserExercice } from "../../src/force/variantes";
 
 describe("e1rmSerie — e1rm.md, exemples", () => {
   it.each([
@@ -150,6 +150,25 @@ describe("variantes — variantes-discounts.md", () => {
     const { e1rm, refs } = e1rmExercice("squat_avant_pause_2s", { squat: 150 });
     expect(e1rm).toBeCloseTo(108, 9);
     expect(refs.squat_avant).toBeCloseTo(120, 9);
+  });
+
+  it("identifiant canonique developpe_couche : base des variantes du couché", () => {
+    expect(e1rmExercice("couche_pause_1s", { developpe_couche: 100 }).e1rm).toBeCloseTo(95, 9);
+    expect(e1rmExercice("developpe_militaire", { developpe_couche: 100 }).e1rm).toBeCloseTo(60, 9);
+  });
+
+  it("alias couche accepté en entrée, normalisé vers developpe_couche", () => {
+    expect(normaliserExercice("couche")).toBe("developpe_couche");
+    expect(normaliserExercice("squat")).toBe("squat");
+    expect(normaliserExercice("constructor")).toBe("constructor");
+    expect(e1rmExercice("couche", { couche: 100 })).toEqual({ e1rm: 100, refs: { developpe_couche: 100 } });
+    const { e1rm, refs } = e1rmExercice("couche_prise_serree", { couche: 100 });
+    expect(e1rm).toBeCloseTo(92, 9);
+    expect(Object.keys(refs).sort()).toEqual(["couche_prise_serree", "developpe_couche"]);
+  });
+
+  it("alias et identifiant canonique tous deux dans les refs : erreur (référence ambiguë)", () => {
+    expect(() => e1rmExercice("developpe_couche", { couche: 100, developpe_couche: 105 })).toThrow();
   });
 
   it("exercice sans référence ni base : null (séance d'étalonnage)", () => {

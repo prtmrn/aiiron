@@ -151,3 +151,21 @@ describe("T12 — déclencheurs de deload", () => {
     expect(evaluerDeload({ ...base, semaineDeloadDuModele: true, refsHebdo: {} }).raisons).toEqual(["planifie"]);
   });
 });
+
+describe("alias couche → developpe_couche", () => {
+  const couche: Semaine = { deload: true, exercices: [{ exercice: "couche", lignes: [{ series: 3, reps: 5, charge: 90 }] }] };
+  const ref: Semaine = { deload: false, exercices: [{ exercice: "developpe_couche", lignes: [{ series: 4, reps: 5, rpe: 8 }] }] };
+
+  it("validerDeload : e1RM saisi sous l'identifiant canonique, la charge est quand même contrôlée", () => {
+    const { violations } = validerDeload(couche, ref, { developpe_couche: 100 });
+    expect(violations).toContainEqual({ code: "DELOAD_INTENSITE_TROP_HAUTE", exercice: "developpe_couche", ligne: 0 });
+    expect(violations).toContainEqual({ code: "DELOAD_VOLUME_TROP_HAUT", exercice: "developpe_couche" });
+  });
+
+  it("corrigerDeload : e1RM et matériel sous l'alias, sortie sous l'identifiant canonique", () => {
+    const s: Semaine = { deload: true, exercices: [{ exercice: "couche", lignes: [{ series: 2, reps: 5, rpe: 8 }] }] };
+    const { semaine } = corrigerDeload(s, ref, { couche: 100 }, { couche: barre });
+    expect(semaine.exercices[0].exercice).toBe("developpe_couche");
+    expect(semaine.exercices[0].lignes.every((l) => l.charge !== undefined && l.charge <= 80)).toBe(true);
+  });
+});

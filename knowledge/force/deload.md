@@ -34,7 +34,7 @@ Un deload est une période de stress d'entraînement réduit, destinée à dissi
 | Déclencheur | Définition testable | Statut |
 | --- | --- | --- |
 | Planifié | le modèle place une semaine `deload` ; à défaut, après N semaines de charge : débutant 6, intermédiaire 5, avancé 4 | fréquence moyenne Rogerson 2024 ; N par niveau = heuristique, validé par Pierrot le 25/11/2026 |
-| Régression | sur un mouvement principal (`squat`, `couche`, `souleve_de_terre`, `developpe_militaire` s'il est principal du modèle), ref actuelle ≤ 0,95 × max des refs des 4 dernières semaines | heuristique, validé par Pierrot le 25/11/2026 |
+| Régression | sur un mouvement principal (`squat`, `developpe_couche`, `souleve_de_terre`, `developpe_militaire` s'il est principal du modèle), ref actuelle ≤ 0,95 × max des refs des 4 dernières semaines | heuristique, validé par Pierrot le 25/11/2026 |
 | Stagnation | ref actuelle ≤ ref d'il y a 3 semaines, sur au moins un mouvement principal | heuristique, validé par Pierrot le 25/11/2026 |
 | Fatigue | ≥ 3 `SERIE_DURE` ou ≥ 1 `ARRET_EXERCICE` sur les 7 derniers jours, ou 2 séances consécutives du même mouvement principal avec un écart de top set ≥ +1 | heuristique, validé par Pierrot le 25/11/2026 |
 | Readiness basse | booléen `readiness_basse_persistante` fourni par la couche récupération (`expert-sante-physique`). Le moteur force n'interprète aucune métrique wearable | interface validée par Pierrot le 25/11/2026 ; le calcul du booléen reste à définir par `expert-sante-physique` (absent = faux) |

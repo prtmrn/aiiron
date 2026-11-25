@@ -9,14 +9,14 @@ export const COEFS_VARIANTES: Record<string, { base: string; coef: number }> = {
   squat_avant: { base: "squat", coef: 0.8 },
   squat_avant_pause_2s: { base: "squat_avant", coef: 0.9 },
   squat_safety_bar: { base: "squat", coef: 0.9 },
-  couche_pause_1s: { base: "couche", coef: 0.95 },
-  couche_pause_3s: { base: "couche", coef: 0.9 },
-  couche_prise_serree: { base: "couche", coef: 0.92 },
-  couche_larsen: { base: "couche", coef: 0.92 },
-  couche_spoto: { base: "couche", coef: 0.92 },
-  couche_tempo_3_1_0: { base: "couche", coef: 0.85 },
-  couche_incline_30: { base: "couche", coef: 0.8 },
-  developpe_militaire: { base: "couche", coef: 0.6 },
+  couche_pause_1s: { base: "developpe_couche", coef: 0.95 },
+  couche_pause_3s: { base: "developpe_couche", coef: 0.9 },
+  couche_prise_serree: { base: "developpe_couche", coef: 0.92 },
+  couche_larsen: { base: "developpe_couche", coef: 0.92 },
+  couche_spoto: { base: "developpe_couche", coef: 0.92 },
+  couche_tempo_3_1_0: { base: "developpe_couche", coef: 0.85 },
+  couche_incline_30: { base: "developpe_couche", coef: 0.8 },
+  developpe_militaire: { base: "developpe_couche", coef: 0.6 },
   developpe_militaire_assis: { base: "developpe_militaire", coef: 0.95 },
   push_press: { base: "developpe_militaire", coef: 1 },
   sdt_deficit_5cm: { base: "souleve_de_terre", coef: 0.9 },
@@ -27,6 +27,22 @@ export const COEFS_VARIANTES: Record<string, { base: string; coef: number }> = {
   souleve_de_terre_autre_style: { base: "souleve_de_terre", coef: 0.95 },
 };
 
+// Identifiant canonique du développé couché : developpe_couche, comme les fiches d'échauffement, de mobilité et de retour au calme.
+export const ALIAS_EXERCICES: Record<string, string> = { couche: "developpe_couche" };
+
+export const normaliserExercice = (id: string): string => (Object.hasOwn(ALIAS_EXERCICES, id) ? ALIAS_EXERCICES[id] : id);
+
+/** Clés d'un enregistrement par exercice, normalisées ; alias et canonique tous deux présents → erreur (référence ambiguë). */
+export function normaliserCles<T>(r: Record<string, T>): Record<string, T> {
+  const out: Record<string, T> = {};
+  for (const [k, v] of Object.entries(r)) {
+    const id = normaliserExercice(k);
+    if (Object.hasOwn(out, id)) throw new Error(`Exercice en double (alias) : ${k} et ${id}`);
+    out[id] = v;
+  }
+  return out;
+}
+
 // R1 : profondeur maximale de la chaîne de bases
 const PROFONDEUR_MAX = 3;
 // R4 : bornes de la remise de contexte
@@ -34,7 +50,9 @@ const REMISE_MIN = 0.8;
 const REMISE_MAX = 1;
 
 /** R1 : e1RM de l'exercice ; initialisation paresseuse depuis la base, stockée dans les refs renvoyées. */
-export function e1rmExercice(ex: string, refs: Record<string, number>, profondeur = 0): { e1rm: number | null; refs: Record<string, number> } {
+export function e1rmExercice(id: string, refsEntree: Record<string, number>, profondeur = 0): { e1rm: number | null; refs: Record<string, number> } {
+  const ex = normaliserExercice(id);
+  const refs = profondeur === 0 ? normaliserCles(refsEntree) : refsEntree;
   if (refs[ex] !== undefined) return { e1rm: refs[ex], refs };
   const v = COEFS_VARIANTES[ex];
   if (!v) return { e1rm: null, refs }; // R3 : séance d'étalonnage (e1rm.md R8)
