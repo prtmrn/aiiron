@@ -97,6 +97,8 @@ Entrée (reconstituée) : squat `0043` 3 séries, presse à cuisses `0739` 3 sé
 | fessiers | **6** | **6** | 12 | 12 |
 | adducteurs | **3** | **6** | 6 | 12 |
 
+Compteur séparé (hors volume hypertrophie, affiché à part) : `core` **1,5** en poids réels, **3** en poids 1 (secondaire de `0043` seulement). Il ne doit jamais apparaître dans les totaux de volume.
+
 Règle : `compte(m) = Σ séries(ex) × poids(ex, m)` sur l'ensemble **dédoublonné** des identifiants de muscles exacts de l'exercice. Les poids sont une décision d'`expert-hypertrophie` (portée par le mapping) ; ce test vérifie surtout qu'aucun couple (exercice, muscle) n'est compté deux fois.
 
 Cas réels de notre propre base `data/exercises/exercises.json`, à ajouter :
@@ -119,7 +121,7 @@ Cas réels de notre propre base `data/exercises/exercises.json`, à ajouter :
 Entrée : séance de 3 exercices, mapping `knowledge/hypertrophie/mapping-muscles.json`.
 - `0025` couché (surcharge) : principal `pectoraux` ; secondaires `triceps`, `deltoides_anterieurs`.
 - `0027` rowing barre (libellés) : principal `haut_du_dos` ; secondaires `biceps`, `avant_bras`.
-- `0043` squat (surcharge) : principaux `quadriceps`, `fessiers` ; secondaire `adducteurs`.
+- `0043` squat (surcharge) : principaux `quadriceps`, `fessiers` ; secondaires `adducteurs`, `core` (compteur séparé).
 
 | Ordre | Exercice | Séries |
 | --- | --- | --- |
@@ -138,6 +140,8 @@ Entrée : séance de 3 exercices, mapping `knowledge/hypertrophie/mapping-muscle
 | quadriceps | **5** | **5** | 0 | 0 |
 | fessiers | **5** | **5** | 0 | 0 |
 | adducteurs | **2,5** | **5** | 0 | 0 |
+
+Compteur séparé : `core` **2,5** en poids réels, **5** en poids 1 (secondaire de `0043`) ; bugué : 0. Jamais dans les totaux de volume.
 
 Assertions : mélanger l'ordre des lignes ne change aucun total ; un exercice sans mapping lève `EXERCICE_SANS_MAPPING` (jamais de reprise des muscles d'une ligne voisine).
 
@@ -256,7 +260,7 @@ Assertions : aucune série d'approche ≥ charge de travail ; reps non croissant
 
 ## Limites et contre-indications
 
-- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 1). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
+- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 2). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
 - Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal du mapping (`groupe_series_approche` : `principaux[0]`).
 - Les entrées T1 à T3 sont reconstituées et définitives : aucune ligne des tableurs d'origine n'entrera dans le repo. Seuls les mécanismes d'erreur sont décrits, pas la structure des programmes d'origine.
 - Toutes les valeurs dépendant de la table RPE utilisent la variante n = reps + 10 − RPE + 0,5 (`table-rpe.md`).
