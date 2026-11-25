@@ -247,8 +247,8 @@ Validé par Pierrot le 25/11/2026 (reprise sur décision humaine seulement, plus
 - La DE sans dépense d'exercice connue est surestimée ; elle ne repère alors que les cas où même sans exercice la DE serait basse.
 - En pratique, pour une cible, la DE ≥ 30 est souvent la borne la plus haute (environ 30 × masse maigre + dépense d'exercice, soit environ 1 850 kcal/j pour l'homme H de la section 4 sans exercice), au-dessus du `MB` et du plancher : aiiron ne propose que des déficits modérés.
 - La formule de masse maigre et les critères de perte de la HAS ne sont pas faits pour ce contexte (pharmacologie, dénutrition involontaire) : ce sont des approximations prudentes.
-- Personnes en obésité suivies médicalement (régime prescrit, traitement) : une cible sous le plancher peut être légitime, mais c'est au médecin de la fixer. aiiron refuse quand même de la chiffrer.
-- Coupe de poids avant une pesée (powerlifting, sports de combat) : toute perte demandée > 1 %/semaine est refusée. aiiron n'accompagne pas les coupes de poids.
+- Cible prescrite par un médecin (obésité suivie, régime prescrit, traitement) : une cible sous le plancher peut être légitime, mais c'est au médecin de la fixer et de la suivre. aiiron refuse de la chiffrer et oriente vers le médecin qui l'a prescrite ou un diététicien-nutritionniste (`refus_chiffre`, `orientation: "professionnel"`). Validé par Pierrot le 25/11/2026.
+- Coupe de poids avant une pesée (powerlifting, sports de combat) : toute perte demandée > 1 %/semaine est refusée. aiiron n'accompagne pas les coupes de poids et oriente vers un professionnel (médecin du sport ou diététicien-nutritionniste du sport) (`refus_chiffre`, `orientation: "professionnel"`). Validé par Pierrot le 25/11/2026.
 - Jeûne religieux (ramadan, carême) ou jeûne intermittent sans autre signe : ce n'est pas un « jeûne prolongé » au sens de PC-1 (proposition pour le lexique, voir le rapport). L'apport quotidien déclaré reste évalué normalement.
 - Grossesse, allaitement, mineurs, pathologies : hors champ (SAB-1).
 
