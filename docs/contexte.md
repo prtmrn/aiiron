@@ -72,11 +72,19 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Moteur volume, données chargées par import JSON (`engine/src/volume/donnees.ts`) et passées en paramètre aux fonctions ; muscle de surcharge absent de `muscles` → exception (bug de données, couvert par le test de cohérence).
 - Moteur volume, sortie : muscles à zéro omis ; drapeaux rattachés à l'exercice (`{ code, exercice }`).
 
+### Décisions du 25/11/2026 sur le runtime
+- Hébergement : API Anthropic directe pour le développement, sans donnée réelle ; Claude sur Bedrock UE (profils `eu.`, vérifiés pour Opus, Sonnet et Haiku 5.5) avant la première bêta. Stockage local WhatsApp `DE` dans la checklist de lancement (`docs/architecture.md` §10).
+- WhatsApp seul, pas de canal de secours en v1.
+- Persona validé : pas d'emoji par défaut, environ 60 mots par message, relances au plus 2 par semaine, rien entre 21 h et 8 h. Transparence : les échanges sont enregistrés et peuvent être relus pour améliorer le service.
+- Protocole de crise : `knowledge/sante-mentale/protocole-crise.md`, brouillon jusqu'à validation par Pierrot. Ligne TCA confirmée : 09 69 325 900.
+- Identifiant canonique `developpe_couche` (alias `couche`) ; champ `schema` en surcouche (`data/exercises/schemas.json`) ; `js-yaml` pour valider la forme des évaluations.
+- Choix techniques mineurs : profils Bedrock `eu.` seulement, modèles épinglés, pas de bascule automatique de modèle ; « 21 h à 8 h » dans le fuseau de l'utilisateur (`Europe/Paris` par défaut) ; textes fixes de crise en un seul message même au-delà de 60 mots ; rappel fixe des ressources à chaque réponse en état crise ; fentes `0336` et hack squat `0046` sans schéma (paliers complets) ; un mélange alias / identifiant canonique dans une même entrée lève une erreur.
+
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
 - Données de santé = RGPD art. 9 : consentement explicite, AIPD, hébergement UE.
 - AI Act : dire clairement qu'aiiron est une IA.
-- WhatsApp interdit les chatbots généralistes depuis le 15/01/2026 : aiiron reste spécialisé, canal de secours prévu.
+- WhatsApp interdit les chatbots généralistes depuis le 15/01/2026 : aiiron reste spécialisé. WhatsApp seul pour l'instant, pas de canal de secours (décision du 25/11/2026) : une suspension du numéro couperait tout accès.
 - Santé mentale : pas de thérapie (un chatbot thérapeute est un dispositif médical) ; protocole de crise obligatoire.
 
 ## Audit des Excel de Pierrot (détail dans `aiiron-sources-muscu.md`)
