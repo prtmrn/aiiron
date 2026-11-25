@@ -1,7 +1,7 @@
 // Deload : knowledge/force/deload.md
 import type { Materiel } from "./arrondi";
 import { chargeLigne } from "./charge";
-import { pct } from "./rpe";
+import { normaliserRpe, pct } from "./rpe";
 import type { Drapeau } from "./types";
 
 // R2 : plafonds d'une semaine de deload
@@ -9,8 +9,11 @@ const RPE_MAX = 7;
 const PCT_MAX = 0.8;
 const RPE_SINGLE_LOURD = 8;
 const SERIES_EXERCICE_ABSENT = 2;
-// R4, étape 4 : ligne de remplacement 3 reps @ RPE 6
-const REMPLACEMENT_REPS = 3;
+// R4, étape 2 : plancher du RPE (table-rpe.md R3) ; 1 à 3 reps n'ont aucun RPE ≥ 6 sous 0,80 → 4 reps @ 6
+const RPE_PLANCHER = 6;
+const REPS_SOUS_PLAFOND = 4;
+// R4, étape 4 : ligne de remplacement 4 reps @ RPE 6
+const REMPLACEMENT_REPS = 4;
 const REMPLACEMENT_RPE = 6;
 // R1 : déclencheurs
 const SEMAINES_PLANIFIEES = { debutant: 6, intermediaire: 5, avance: 4 } as const;
@@ -23,6 +26,16 @@ const DELAI_MIN_ENTRE_DELOADS = 3; // semaines
 export type Ligne = { series: number; reps: number; rpe?: number; pct?: number; charge?: number; amrap?: boolean; test1rm?: boolean };
 export type Semaine = { deload: boolean; exercices: { exercice: string; lignes: Ligne[] }[] };
 export type Violation = { code: Drapeau; exercice: string; ligne?: number };
+
+/** R4, étape 2 : RPE := min(RPE, 7), puis baissé par demi-point jusqu'à pct(reps, RPE) ≤ 0,80 ; sinon 4 reps @ 6. */
+function plafonnerRpe(l: Ligne): Ligne {
+  const n = l.rpe === undefined ? null : normaliserRpe(l.rpe);
+  if (n === null) return l;
+  const trop = (reps: number, rpe: number) => (pct(reps, rpe) ?? 0) > PCT_MAX;
+  let rpe = Math.min(n, RPE_MAX);
+  while (rpe > RPE_PLANCHER && trop(l.reps, rpe)) rpe -= 0.5;
+  return trop(l.reps, rpe) ? { ...l, reps: REPS_SOUS_PLAFOND, rpe: RPE_PLANCHER } : { ...l, rpe };
+}
 
 const total = (lignes: Ligne[]) => lignes.reduce((s, l) => s + l.series, 0);
 
@@ -80,11 +93,15 @@ export function corrigerDeload(
     }
     // 2. plafonds RPE et charge
     gardees = gardees.map((l) => {
-      const r = charge(l);
-      const out: Ligne = { series: l.series, reps: l.reps, rpe: r.rpe ?? undefined, charge: r.charge ?? undefined };
+      // le RPE peut venir du % saisi (table-rpe.md R4) : on plafonne celui que la charge utilise
+      const r0 = charge(l);
+      const p = plafonnerRpe({ series: l.series, reps: l.reps, rpe: r0.rpe ?? undefined });
+      const r = p.reps === l.reps && p.rpe === (r0.rpe ?? undefined) ? r0 : charge(p);
+      const out: Ligne = { series: l.series, reps: p.reps, rpe: r.rpe ?? undefined, charge: r.charge ?? undefined };
       if (out.rpe === undefined) delete out.rpe;
       if (out.charge === undefined) delete out.charge;
-      if (l.rpe !== out.rpe || l.charge !== out.charge) changements.push(`${exercice} : ${l.series} × ${l.reps} → RPE ${out.rpe ?? "—"}, ${out.charge ?? "—"} kg`);
+      if (l.reps !== out.reps || l.rpe !== out.rpe || l.charge !== out.charge)
+        changements.push(`${exercice} : ${l.series} × ${l.reps} → ${out.series} × ${out.reps} @ RPE ${out.rpe ?? "—"}, ${out.charge ?? "—"} kg`);
       return out;
     });
     // 3. volume, en retirant depuis la dernière ligne ; minimum 1 série

@@ -89,9 +89,9 @@ Une semaine marquée `deload` avec au moins une violation est refusée telle que
 
 Pour chaque exercice, dans cet ordre :
 1. Supprimer les lignes interdites : singles à RPE ≥ 8, AMRAP, tests.
-2. Plafonner les lignes restantes : RPE := min(RPE, 7) ; charge par la formule de R2.
+2. Plafonner les lignes restantes : RPE := min(RPE, 7), puis baissé par demi-point jusqu'à pct(reps, RPE) ≤ 0,80, sans descendre sous 6 (plancher de `table-rpe.md`, R3). De 1 à 3 reps, aucun RPE ≥ 6 ne passe sous 0,80 (pct(3, 6) = 81,9 %) : la ligne devient **4 reps @ RPE 6** (pct(4, 6) = 79,2 %), même nombre de séries. Charge par la formule de R2. Ainsi toute ligne corrigée passe R3 (heuristique, décision de Pierrot du 25/11/2026 ; corrige l'écart T1 trouvé par le moteur).
 3. Volume : tant que le total de séries dépasse ceil(référence / 2), retirer une série en partant de la dernière ligne ; minimum 1 série au total.
-4. Si l'étape 1 a tout supprimé : une ligne de remplacement ceil(référence / 2) × 3 reps @ RPE 6, plafonnée par R2 (pct(3, 6) = 81,9 % > 80 %, donc charge = 0,80 × e1RM effectif ; heuristique, validé par Pierrot le 25/11/2026).
+4. Si l'étape 1 a tout supprimé : une ligne de remplacement ceil(référence / 2) × 4 reps @ RPE 6, charge par R2 (pct(4, 6) = 79,2 % ; heuristique, validé par Pierrot le 25/11/2026, passée de 3 à 4 reps avec l'étape 2).
 Chaque changement est listé en clair (pour que aiiron puisse l'expliquer en une phrase).
 
 ### R5 — Sortie de deload
@@ -108,4 +108,4 @@ La semaine suivante reprend le bloc depuis la référence e1RM courante, sans «
 
 Squat, e1RM 150, semaine de référence : 1 × 1 @ 8 + 4 × 3 @ 8 (5 séries). Semaine marquée « DELOAD » : 1 × 1 @ 9, 1 × 1 @ 10, 3 × 3 @ 7.
 - Validation : `DELOAD_RPE_TROP_HAUT` × 2, `DELOAD_SINGLE_LOURD` × 2, `DELOAD_INTENSITE_TROP_HAUTE` × 3 (95,2 %, 98,4 %, 84,5 %), `DELOAD_VOLUME_TROP_HAUT` (5 > 3). Refusée.
-- Correction : singles supprimés ; 3 × 3 @ 7 (n = 6,5) → 150 × min(0,845070 ; 0,80) = 120 → **3 × 3 à 120 kg** ; total 3 séries ≤ 3.
+- Correction : singles supprimés ; 3 × 3 @ 7 : pct(3, 7) = 84,5 % > 80 % et pct(3, 6) = 81,9 % > 80 %, donc 4 reps @ 6 (n = 8,5) → 150 × 0,791667 = 118,75 → **3 × 4 @ 6 à 117,5 kg** ; total 3 séries ≤ 3. La semaine corrigée passe R3.

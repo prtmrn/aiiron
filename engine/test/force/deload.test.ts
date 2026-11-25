@@ -46,16 +46,15 @@ describe("T1 — semaine « DELOAD » avec singles à RPE 9–10", () => {
     expect(violations).toHaveLength(8); // bugué : semaine acceptée telle quelle
   });
 
-  it("corrigerDeload : squat 3 × 3 à 120 kg, singles supprimés, changements listés", () => {
+  // R4 étape 2 (décision de Pierrot du 25/11/2026) : 3 reps n'ont aucun RPE ≥ 6 sous 0,80 → 4 reps @ 6.
+  // pct(4, 6) = min(30/37,5 ; 28,5/36) = 0,791667 ; 150 × 0,791667 = 118,75 → arrondi.
+  it("corrigerDeload : squat 3 × 4 @ 6 à 117,5 kg, singles supprimés, changements listés", () => {
     const { semaine, changements } = corrigerDeload(S4, S3, e1rm, materiel);
-    expect(semaine.exercices[0].lignes).toEqual([{ series: 3, reps: 3, rpe: 7, charge: 120 }]);
+    expect(semaine.exercices[0].lignes).toEqual([{ series: 3, reps: 4, rpe: 6, charge: 117.5 }]);
     expect(changements.length).toBeGreaterThan(0);
   });
 
-  // ÉCART: deload.md R4 garde la ligne 3 × 3 @ 7 (charge plafonnée à 0,80 × e1RM = 120), mais R3 compte
-  // DELOAD_INTENSITE_TROP_HAUTE dès que pct(reps, RPE) > 0,80 : pct(3, 7) = 0,845. La semaine corrigée
-  // attendue par T1 est donc refusée par validerDeload tel qu'écrit.
-  it.fails("la semaine corrigée de T1 passe validerDeload", () => {
+  it("la semaine corrigée de T1 passe validerDeload", () => {
     const { semaine } = corrigerDeload(S4, S3, e1rm, materiel);
     expect(validerDeload(semaine, S3, e1rm).violations).toEqual([]);
   });
@@ -83,16 +82,26 @@ describe("T1 — semaine « DELOAD » avec singles à RPE 9–10", () => {
       expect(l.reps === 1 && (l.rpe ?? 0) >= 8).toBe(false);
     }
     expect(semaine.exercices[0].lignes.reduce((s, l) => s + l.series, 0)).toBeLessThanOrEqual(3);
+    expect(validerDeload(semaine, S3, e1rm).violations).toEqual([]);
   });
 
-  it("étape 4 : tout supprimé → ceil(référence / 2) × 3 reps @ RPE 6, charge 0,80 × e1RM", () => {
+  it("étape 2 : RPE baissé jusqu'à pct ≤ 0,80 ; 1 à 3 reps → 4 reps @ 6", () => {
+    const lignes = (l: Semaine["exercices"][0]["lignes"]) =>
+      corrigerDeload({ deload: true, exercices: [{ exercice: "squat", lignes: l }] }, null, e1rm, materiel).semaine.exercices[0].lignes;
+    expect(lignes([{ series: 1, reps: 5, rpe: 9 }])[0]).toMatchObject({ reps: 5, rpe: 7 }); // pct(5, 7) = 0,792
+    expect(lignes([{ series: 1, reps: 4, rpe: 8 }])[0]).toMatchObject({ reps: 4, rpe: 6 }); // pct(4, 6,5) = 0,806 > 0,80
+    expect(lignes([{ series: 1, reps: 2, rpe: 7 }])[0]).toMatchObject({ reps: 4, rpe: 6 });
+    expect(lignes([{ series: 1, reps: 1, rpe: 7.3 }])[0]).toMatchObject({ reps: 4, rpe: 6 });
+  });
+
+  it("étape 4 : tout supprimé → ceil(référence / 2) × 4 reps @ RPE 6", () => {
     const singles: Semaine = {
       deload: true,
       exercices: [{ exercice: "squat", lignes: [{ series: 2, reps: 1, rpe: 9 }] }],
     };
     const { semaine } = corrigerDeload(singles, S3, e1rm, materiel);
-    expect(pct(3, 6)).toBeGreaterThan(0.8);
-    expect(semaine.exercices[0].lignes).toEqual([{ series: 3, reps: 3, rpe: 6, charge: 120 }]);
+    expect(pct(4, 6)).toBeLessThanOrEqual(0.8);
+    expect(semaine.exercices[0].lignes).toEqual([{ series: 3, reps: 4, rpe: 6, charge: 117.5 }]);
   });
 
   it("sans semaine de référence : DELOAD_VOLUME_NON_VERIFIABLE", () => {

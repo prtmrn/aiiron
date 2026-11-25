@@ -40,9 +40,9 @@ Entrée : squat, e1RM 150. Semaine de référence (S3) : 1 × 1 @ 8 + 4 × 3 @ 8
 | 3 × 3 @ 7 | `DELOAD_INTENSITE_TROP_HAUTE` (n = 6,5 : 84,5 %) |
 | exercice | `DELOAD_VOLUME_TROP_HAUT` (5 séries > ceil(5/2) = 3) |
 
-`corrigerDeload(S4, S3)` attendu : **squat 3 × 3 à 120 kg** (150 × min(0,845070 ; 0,80) = 120), 2 singles supprimés, liste de changements non vide.
+`corrigerDeload(S4, S3)` attendu : **squat 3 × 4 @ 6 à 117,5 kg** (3 reps : aucun RPE ≥ 6 sous 80 %, donc 4 reps @ 6 ; 150 × 0,791667 = 118,75 → 117,5), 2 singles supprimés, liste de changements non vide. Et `validerDeload` de la semaine corrigée ne renvoie aucune violation (`deload.md`, R4 étape 2).
 
-Propriété : toute semaine `deload` produite par le moteur a RPE max ≤ 7, charge max ≤ 0,80 × e1RM effectif, aucun single à RPE ≥ 8, aucun AMRAP.
+Propriété : toute semaine `deload` produite par le moteur a RPE max ≤ 7, pct(reps, RPE) ≤ 0,80, charge max ≤ 0,80 × e1RM effectif, aucun single à RPE ≥ 8, aucun AMRAP, et passe `validerDeload`.
 
 Comportement bugué à faire échouer : semaine acceptée telle quelle.
 
