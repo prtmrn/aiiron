@@ -127,3 +127,45 @@ describe("chaîne et classifieur", () => {
     expect(variable).toMatch(/# Consignes du code pour ce message\n\n- Consigne A$/);
   });
 });
+
+describe("compteur hors sujet (5.4)", () => {
+  const suite = (etiquettes: (Awaited<ReturnType<Classifieur>>["etiquette"] | "panne")[]): Classifieur => async () => {
+    const e = etiquettes.shift()!;
+    if (e === "panne") throw new Error("délai");
+    return { etiquette: e, confiance: 0.9 };
+  };
+  const jouer = async (etiquettes: Parameters<typeof suite>[0], m = creerMagasin({})) => {
+    const classifieur = suite([...etiquettes]);
+    const appels: EntreeAgent[] = [];
+    const agent: Agent = async (e) => (appels.push(e), { texte: "Ok.", outils: [], usage: [] });
+    const r = [];
+    for (const _ of etiquettes) r.push(await traiterMessage(m, "un message", { agent, classifieur }));
+    return { r, appels };
+  };
+
+  it("texte fixe brouillon : court, tutoiement, mention IA, sans chiffre ni emoji", () => {
+    const t = donnees.textes.hors_sujet_v1;
+    expect(t).toMatch(/\bIA\b/);
+    expect(t).toMatch(/\bt'aide\b|\bta\b/);
+    expect(t).not.toMatch(/\d|\p{Extended_Pictographic}/u);
+    expect(t.split(/\s+/).length).toBeLessThanOrEqual(60);
+  });
+
+  it("troisième hors sujet d'affilée : texte fixe sans LLM, et les suivants aussi", async () => {
+    const { r, appels } = await jouer(["hors_sujet", "hors_sujet", "hors_sujet", "hors_sujet"]);
+    expect(r.map((x) => x.texte_fixe)).toEqual([null, null, "hors_sujet_v1", "hors_sujet_v1"]);
+    expect(r[2]).toMatchObject({ etiquette: "hors_sujet", appel_llm: false, reponse: donnees.textes.hors_sujet_v1 });
+    expect(appels).toHaveLength(2);
+  });
+
+  it("remise à zéro sur un message normal (ou toute autre étiquette) ; une panne ne change rien", async () => {
+    expect((await jouer(["hors_sujet", "hors_sujet", "normal", "hors_sujet"])).r.map((x) => x.texte_fixe)).toEqual([null, null, null, null]);
+    expect((await jouer(["hors_sujet", "medical", "hors_sujet", "hors_sujet"])).r.at(-1)!.texte_fixe).toBeNull();
+    expect((await jouer(["hors_sujet", "hors_sujet", "panne", "hors_sujet"])).r.map((x) => x.texte_fixe)).toEqual([null, null, null, "hors_sujet_v1"]);
+  });
+
+  it("état crise : jamais ce texte, le mode restreint passe avant", async () => {
+    const { r } = await jouer(["hors_sujet", "hors_sujet", "hors_sujet"], creerMagasin({ etat_conversation: "crise" }));
+    expect(r.every((x) => x.texte_fixe === null)).toBe(true);
+  });
+});

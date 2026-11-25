@@ -24,6 +24,9 @@ export type ResultatTour = {
   etat: Magasin["etat"];
   usage: Usage[];
 };
+// 5.4 : au troisième message hors sujet d'affilée, texte fixe sans LLM
+const HORS_SUJET_MAX = 3;
+
 export type Dependances = { agent: Agent; classifieur?: Classifieur; maintenant?: () => Date; idMessage?: string };
 
 // PC-9 et PC-7 : fenêtres de prudence (heuristique à valider)
@@ -67,6 +70,9 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
     return { ...out, outils: [...parCode, ...(r.outils ?? [])], usage: [...usageClasse, ...(r.usage ?? [])] };
   };
 
+  // 5.4 : seul le classifieur dit « hors sujet » ; tout autre message le remet à zéro ; en panne, rien ne change
+  if (classe) m.hors_sujet_d_affilee = etiquette === "hors_sujet" ? m.hors_sujet_d_affilee + 1 : 0;
+
   // PC-2 : danger > drapeau rouge > crise > crise TCA > doute ; un seul texte fixe par message
   if (rouge) signaler({ type: "drapeau_rouge", ...(zone && { zone }) });
   if (rouge && d.niveau < 3) {
@@ -88,6 +94,8 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
 
   // PC-5 : mode restreint, sans aucun outil ; le code ajoute le rappel ; LLM indisponible → crise_repli_v1
   const mode = m.etat === "crise" ? "crise" : "normal";
+  if (mode === "normal" && m.hors_sujet_d_affilee >= HORS_SUJET_MAX) return fin(donnees.textes.hors_sujet_v1, { texte_fixe: "hors_sujet_v1" });
+
   // 5.2 : douleur → signaler_sante par le code, puis le LLM avec la consigne (rien n'entre dans le profil en crise, PC-4.3)
   if (douleur && mode === "normal") signaler({ type: "douleur", ...(classe?.exercice && { exercice: classe.exercice }), ...(zone && { zone }) });
   const consignes = mode === "crise" ? [] : consignesDuTour(classe, etiquette, prescriptionBloquee(m, t));

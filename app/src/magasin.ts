@@ -32,6 +32,7 @@ export type Magasin = {
   dernier_signal: string | null; // signal de niveau 1 à 3, fenêtre de 24 h (PC-9)
   doute_en_cours: boolean; // PC-4, point 6 : vaut pour le message suivant
   drapeau_rouge: string | null; // dernier drapeau rouge physique : plus de prescription ce jour-là (5.2.5)
+  hors_sujet_d_affilee: number; // 5.4 : messages hors sujet consécutifs (étiquette du classifieur)
   relances_coupees: boolean;
   signalements: Signalement[]; // journal local de revue humaine (pas d'alerte de garde dans le squelette)
   historique: Tour[];
@@ -57,6 +58,7 @@ export function creerMagasin(c: Contexte = {}, maintenant = new Date()): Magasin
     dernier_signal: null,
     doute_en_cours: false,
     drapeau_rouge: null,
+    hors_sujet_d_affilee: 0,
     relances_coupees: enCrise,
     signalements: [],
     historique: [],
