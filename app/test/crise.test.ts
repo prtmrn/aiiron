@@ -49,6 +49,13 @@ describe("PC-1 niveau 2, crise", () => {
     ["j'ai envie de me scarifier", "automutilation"],
     ["je vais me couper", "automutilation"],
     ["j'ai envie de me faire du mal", "automutilation"],
+    // relecture orchestrateur : formes courantes absentes de la première version
+    ["je veux plus vivre", "suicide"],
+    ["je ne veux pas vivre comme ça", "suicide"],
+    ["je n'ai plus aucune raison de vivre", "suicide"],
+    ["je suis un fardeau pour tout le monde", "suicide"],
+    ["personne ne me regretterait", "suicide"],
+    ["je me suis scarifiée hier soir", "automutilation"],
   ])("%s", (t, type) => expect(detecter(t, actif)).toMatchObject({ niveau: 2, type }));
 });
 
