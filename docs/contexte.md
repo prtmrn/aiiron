@@ -80,6 +80,14 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Identifiant canonique `developpe_couche` (alias `couche`) ; champ `schema` en surcouche (`data/exercises/schemas.json`) ; `js-yaml` pour valider la forme des évaluations.
 - Choix techniques mineurs : profils Bedrock `eu.` seulement, modèles épinglés, pas de bascule automatique de modèle ; « 21 h à 8 h » dans le fuseau de l'utilisateur (`Europe/Paris` par défaut) ; textes fixes de crise en un seul message même au-delà de 60 mots ; rappel fixe des ressources à chaque réponse en état crise ; fentes `0336` et hack squat `0046` sans schéma (paliers complets) ; un mélange alias / identifiant canonique dans une même entrée lève une erreur.
 
+### Décisions du 25/11/2026 : public, crise, nutrition, schémas
+- Public : 18 ans et plus (âge demandé au premier message), France seulement au lancement.
+- Protocole de crise validé pour un test solo ; brouillon maintenu ; relecture par un psychologue ou un psychiatre avant tout utilisateur réel (checklist de lancement).
+- Seuil « apport très bas » : `knowledge/nutrition/seuil-apport-tres-bas.md` (brouillon). ≤ 800 kcal/j déclaré ou demandé, ou un signe comportemental → protocole TCA ; planchers 1 200 / 1 500 kcal, disponibilité énergétique < 30 kcal/kg MM, cible sous le métabolisme de base → refus de chiffrer.
+- Schémas R5 : fentes et presses unilatérales sans schéma ; hack squat machine, presses bilatérales et Smith en `squat` ; `0046` et `0047` (incliné 45°) sans schéma ; `couche_incline_30` en `poussee_horizontale`.
+- vitest 3.2.7 : les alertes `npm audit` (tinypool critique, @vitest/mocker modéré) restent, la correction demande vitest 5.x.
+- Choix techniques mineurs : pays déduit de l'indicatif +33, sinon demandé ; seul le refus est enregistré pour un mineur ou hors France ; nutrition : sexe inconnu → homme, âge inconnu → 18 ans, poids de référence 50 kg, dépense inconnue → 0 ; un jour isolé sous 800 kcal déclenche le protocole (faux positif assumé).
+
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
 - Données de santé = RGPD art. 9 : consentement explicite, AIPD, hébergement UE.
