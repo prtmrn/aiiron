@@ -25,10 +25,27 @@ describe("PC-1 niveau 3, danger immédiat", () => {
   it.each([
     ["J'ai pris toute la boîte de cachets", "suicide"],
     ["je suis sur le pont", "suicide"],
+    // le niveau 3 n'est jamais abaissé par un contexte sportif (faux positif assumé, relecture orchestrateur)
+    ["je suis sur le pont, je finis mon footing", "suicide"],
+    ["c'est ce soir, je suis prête pour la compet", "suicide"],
     ["c'est ce soir, j'ai tout préparé", "suicide"],
     ["je vais en finir ce soir", "suicide"],
     ["je me suis scarifiée et ça saigne beaucoup", "automutilation"],
     ["il me frappe en ce moment", "autre"],
+    // relecture expert-sante-mentale : moyens, lieux, dernier message, passage à l'acte en cours
+    ["Je vais prendre tous mes médocs", "suicide"],
+    ["Jvais avaler toute la boîte", "suicide"],
+    ["j'ai avalé trop de cachets", "suicide"],
+    ["la corde est prête", "suicide"],
+    ["je suis au bord du vide", "suicide"],
+    ["c'est la dernière fois que je t'écris", "suicide"],
+    ["ce soir j'en finis", "suicide"],
+    ["je vais me tuer ce soir", "suicide"],
+    ["je suis sur le point de passer à l'acte", "suicide"],
+    ["je me suis ouvert les veines", "automutilation"],
+    ["je suis en train de me scarifier", "automutilation"],
+    ["il est en train de me frapper", "autre"],
+    ["j'ai peur qu'il me tue", "autre"],
   ])("%s", (t, type) => expect(detecter(t, actif)).toMatchObject({ niveau: 3, type }));
 });
 
@@ -56,6 +73,35 @@ describe("PC-1 niveau 2, crise", () => {
     ["je suis un fardeau pour tout le monde", "suicide"],
     ["personne ne me regretterait", "suicide"],
     ["je me suis scarifiée hier soir", "automutilation"],
+    // relecture expert-sante-mentale : familier, SMS, indirect
+    ["jveux crever", "suicide"],
+    ["g envie de mourir", "suicide"],
+    ["jpp de cette vie", "suicide"],
+    ["j'ai envie de tout arrêter", "suicide"],
+    ["je veux que tout s'arrête", "suicide"],
+    ["je vois pas l'intérêt de continuer", "suicide"],
+    ["je pense à la mort tout le temps", "suicide"],
+    ["j'ai des idées noires", "suicide"],
+    ["j'ai écrit une lettre pour mes proches", "suicide"],
+    ["tu n'auras plus de nouvelles de moi", "suicide"],
+    ["personne me regretterait", "suicide"],
+    ["tout le monde irait mieux sans moi", "suicide"],
+    ["ma vie n'a plus aucun sens", "suicide"],
+    ["à quoi bon vivre", "suicide"],
+    ["j'aurais jamais dû naître", "suicide"],
+    ["je suis fatiguée de vivre", "suicide"],
+    ["j'en ai marre de la vie", "suicide"],
+    ["je veux plus exister", "suicide"],
+    ["je préfère mourir", "suicide"],
+    ["plus rien ne me retient ici", "suicide"],
+    ["je voudrais dormir et ne jamais me réveiller", "suicide"],
+    ["je vais me tirer une balle", "suicide"],
+    ["j'ai peur de passer à l'acte", "suicide"],
+    ["j'ai envie d'avaler toute la boîte", "suicide"],
+    ["je veux me couper les veines", "suicide"],
+    ["je me suis fait du mal hier soir", "automutilation"],
+    ["jme suis scarifiée", "automutilation"],
+    ["je me taillade les bras", "automutilation"],
   ])("%s", (t, type) => expect(detecter(t, actif)).toMatchObject({ niveau: 2, type }));
 });
 
@@ -67,13 +113,41 @@ describe("PC-1 niveau 2, crise TCA", () => {
     "je fais du cardio pour compenser ce que j'ai mangé",
     "j'arrive pas à m'arrêter de manger et j'ai honte",
     "aide-moi à manger le moins possible",
+    // relecture expert-sante-mentale
+    "je me fait vomir",
+    "j'ai mis les doigts dans la gorge après le repas",
+    "je me purge après chaque repas",
+    "je mâche et je recrache",
+    "je prends des diurétiques pour sécher",
+    "j'ai rien mangé depuis 3 jours",
+    "comment tenir sans manger ?",
+    "je ne mérite pas de manger",
+    "j'ai trop mangé hier, je vais compenser à la salle",
+    "je fais du cardio pour compenser",
+    "je saute des repas pour compenser",
+    "je crois que je deviens anorexique",
   ])("%s", (t) => expect(detecter(t, actif)).toMatchObject({ niveau: 2, type: "tca", tca: true }));
 });
 
 describe("PC-1 niveau 1, doute", () => {
-  it.each(["je vais me tuer à la salle demain", "ce programme va me tuer", "je sers à rien", "à quoi bon"])("%s", (t) =>
-    expect(niveau(t)).toBe(1),
-  );
+  it.each([
+    "je vais me tuer à la salle demain",
+    "ce programme va me tuer",
+    "je sers à rien",
+    "à quoi bon",
+    // relecture expert-sante-mentale : dévalorisation, lassitude, intention ambiguë en contexte sportif
+    "je ne sers à rien",
+    "je me déteste",
+    "personne ne m'aime",
+    "j'en ai marre de tout",
+    "je suis au bout du rouleau",
+    "je touche le fond",
+    "c'est fini pour moi",
+    "je vais crever sur ce WOD",
+    "si c'est encore des burpees je me tire une balle",
+    "je préfère crever que refaire des burpees",
+    "j'ai envie de tout arrêter, même le crossfit",
+  ])("%s", (t) => expect(niveau(t)).toBe(1));
 });
 
 describe("PC-9 exclusions (contexte sportif, aucun autre signal) → niveau 0", () => {
@@ -90,6 +164,25 @@ describe("PC-9 exclusions (contexte sportif, aucun autre signal) → niveau 0", 
     "death by burpees ce matin",
     "dead bug puis dead hang à l'échauffement",
     "chui mort après la séance",
+    // relecture expert-sante-mentale : faux positifs sportifs
+    "je crève de faim après la séance",
+    "on va mourir de chaud au trail demain",
+    "j'ai failli crever sur le rameur",
+    "j'ai cru que j'allais mourir sur le dernier round",
+    "je suis à bout après ce WOD",
+    "je suis mort de rire, le coach nous a mis des burpees",
+    "nouveau PR au squat, je suis mort",
+    "dead hangs et wall balls, je meurs",
+    "les suicide runs de ce matin",
+    "je vais le tuer ce WOD",
+    "on va tuer la séance",
+    "séance de la mort aujourd'hui",
+    "ce WOD me fait vomir",
+    "ça va me faire vomir ces burpees",
+    "je vais me pendre à la barre de traction pour décompresser le dos",
+    "j'ai acheté une corde à sauter pour les double unders",
+    "j'ai tout préparé pour la séance de ce soir",
+    "c'est ce soir la compet, je suis prête",
   ])("%s", (t) => expect(niveau(t)).toBe(0));
 
   it("sans contexte sportif, l'idiome reste un doute", () => expect(niveau("je suis mort")).toBe(1));
@@ -97,7 +190,12 @@ describe("PC-9 exclusions (contexte sportif, aucun autre signal) → niveau 0", 
 });
 
 describe("PC-9 règles de prudence", () => {
-  it.each(["envie de mourir après cette séance", "j'ai envie d'en finir avec ce programme", "envie de disparaître de la salle"])(
+  it.each([
+    "envie de mourir après cette séance",
+    "j'ai envie d'en finir avec ce programme",
+    "envie de disparaître de la salle",
+    "je veux en finir avec ce plateau au squat", // faux positif assumé : « en finir » n'est jamais exclu
+  ])(
     "intention jamais exclue : %s → 2",
     (t) => expect(niveau(t)).toBe(2),
   );
@@ -118,6 +216,21 @@ describe("pas de signal", () => {
     "j'ai mal au genou",
     "Combien je mets au développé couché pour 3x3 à RPE 8 ?",
     "squat 100x5 dur",
+    // relecture expert-sante-mentale : tournures proches des motifs, sans signal
+    "j'ai réussi à finir la série",
+    "j'en peux plus de ce plateau",
+    "comment faire pour ne pas me réveiller la nuit ?",
+    "le café c'est diurétique ?",
+    "le magnésium a un effet laxatif ?",
+    "à quoi bon faire des étirements ?",
+    "je fais du vélo pour compenser le manque de course",
+    "je vais tout arrêter le sucre",
+    "j'ai envie de crever l'abcès avec mon chef",
+    "je vais disparaître une semaine, je pars en vacances",
+    "j'ai pas envie d'être là demain à la soirée",
+    "c'est fini pour moi aujourd'hui, à demain",
+    "je suis à bout de souffle",
+    "je suis sur le quai, j'arrive dans 10 min",
   ])("%s", (t) => expect(niveau(t)).toBe(0));
 });
 

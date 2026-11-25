@@ -260,7 +260,7 @@ Sources : union lexique + classifieur et préférence pour le faux positif (`doc
 
 - Ce protocole ne remplace aucun professionnel et n'évalue pas le risque suicidaire. Il oriente.
 - Aucune étude ne valide un protocole de crise pour un coach sportif IA : tout repose sur des recommandations pour non-professionnels et sur des retours d'expérience de chatbots. Une loi californienne (SB 243, 2025) impose désormais aux chatbots compagnons un protocole de prévention du suicide qui oriente vers des lignes de crise : ce n'est pas le droit applicable à aiiron, mais c'est le standard minimal qui émerge.
-- Mineurs : la HAS a une recommandation propre aux enfants et adolescents, non intégrée ici. L'âge minimum d'aiiron n'est pas fixé.
+- Mineurs : la HAS a une recommandation propre aux enfants et adolescents, non intégrée ici. L'âge minimum d'aiiron est fixé à 18 ans (décision de Pierrot du 25/11/2026).
 - Le lexique ne couvre que le français. Un message dans une autre langue passe par le classifieur seul.
 - Douleur thoracique, malaise ou essoufflement pendant une crise d'angoisse : c'est le drapeau rouge physique (`docs/architecture.md` 5.2) qui s'applique d'abord.
 
