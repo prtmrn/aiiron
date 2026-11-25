@@ -78,7 +78,7 @@ Sans coefficient, initialisation par séance d'étalonnage (`e1rm.md`, R8) : `po
 
 ### R4 — Remise de contexte (dans les modèles)
 
-- Champ `remise_contexte` du slot, multiplicateur dans [0,80 ; 1,00]. Hors bornes → erreur de modèle. Bornes : choix de conception à valider.
+- Champ `remise_contexte` du slot, multiplicateur dans [0,80 ; 1,00]. Hors bornes → erreur de modèle. Bornes : choix de conception validé par Pierrot le 25/11/2026.
 - Usage type : exercice placé après un mouvement qui fatigue les mêmes muscles (OHP après couché), back-off défini comme « −10 % » (préférer alors un RPE cible plus bas, plus lisible).
 - Une remise annoncée dans un modèle doit être identique dans toutes les séances et semaines du modèle pour ce slot ; une variation volontaire se fait en créant un autre slot.
 

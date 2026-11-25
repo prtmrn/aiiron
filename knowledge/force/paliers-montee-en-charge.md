@@ -32,7 +32,7 @@ Avant la première série lourde d'un mouvement, on monte progressivement : barr
 - `reps`, `rpe` : prescription de la première série de travail (`rpe` peut être absent).
 - `type_seance` : `force`, `musculation` ou `hyrox_crossfit`.
 - `materiel` (`arrondi-charges.md`).
-- `premier_du_schema` : vrai si c'est le premier exercice de la séance pour ce schéma moteur (`squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`). Le schéma est un champ du catalogue d'exercices, à fournir par `developpeur`.
+- `premier_du_schema` : vrai si aucun exercice précédent de la séance ayant le même schéma moteur (`squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`) n'a eu ses paliers (R5, « Mouvement déjà chauffé »). Le schéma est un champ du catalogue d'exercices, à fournir par `developpeur`. Exercice sans schéma : voir R5.
 
 ### R2 — Choix de l'échelle (règle commune avec `expert-sante-physique`)
 
@@ -41,10 +41,10 @@ Pour tout exercice chargé :
 1. **Intensité du jour.** I = charge de travail / e1RM effectif. Si l'e1RM est inconnu, I = pct(reps prescrites, RPE prescrit) de la table RPE (`table-rpe.md`).
 2. **I ≥ 0,80 → paliers complets**, quel que soit le type de séance (force, musculation, Hyrox/CrossFit) et quel que soit le nombre de reps : échelle « Lourd » si 0,80 ≤ I < 0,90, échelle « Très lourd » si I ≥ 0,90.
 3. **I < 0,80** → mouvement principal d'une séance de force : échelle « Léger » (I < 0,70) ou « Modéré » (0,70 ≤ I < 0,80) ; musculation : règle courte M2 ; Hyrox/CrossFit : répétition des mouvements ECH-H4 (`knowledge/echauffement/echauffement-hyrox-crossfit.md`).
-4. **I indéterminable** (ni e1RM ni RPE prescrit) : séance de force → échelle « Lourd » ; musculation → règle courte M2 ; Hyrox/CrossFit → ECH-H4. Choix de conception à valider.
+4. **I indéterminable** (ni e1RM ni RPE prescrit) : séance de force → échelle « Lourd » ; musculation → règle courte M2 ; Hyrox/CrossFit → ECH-H4. Choix de conception validé par Pierrot le 25/11/2026.
 5. Aucun critère en nombre de reps.
 
-Seuil 0,80 et règle commune : validés par Pierrot le 25/11/2026. Exercice d'assistance d'une séance de force à I < 0,80 : non couvert par le point 3 ; défaut proposé = échelles « Léger » / « Modéré » comme le mouvement principal (comportement actuel du moteur), à valider.
+Seuil 0,80 et règle commune : validés par Pierrot le 25/11/2026. Exercice d'assistance d'une séance de force à I < 0,80 : non couvert par le point 3 ; échelles « Léger » / « Modéré » comme le mouvement principal (comportement actuel du moteur), validé par Pierrot le 25/11/2026.
 
 | Échelle | Condition | Paliers (% de la charge de travail × reps) |
 | --- | --- | --- |
@@ -80,11 +80,13 @@ Le repos avant la série de travail suit l'ordre de grandeur de 3 à 5 min entre
 
 - **Haltères, kettlebells, machines** : pas de palier « barre vide » ; même échelle, mêmes filtres (sans l'étape 2).
 - **Soulevé de terre et variantes depuis le sol** : le palier barre vide se fait en soulevé de terre roumain depuis la position debout (la barre sans disques est trop basse). Validé par Pierrot le 25/11/2026.
-- **Deuxième exercice du même schéma dans la séance** (`premier_du_schema` faux, ex. pause squat après squat) : seuls les paliers ≥ 60 % de l'échelle sont gardés, pas de barre vide. Écart volontaire à la convention « barre vide en premier palier », qui vaut pour le premier mouvement du schéma. Validé par Pierrot le 25/11/2026.
+- **Mouvement déjà chauffé** (règle unique, identique en force et en musculation ; validée par Pierrot le 25/11/2026) : si le même mouvement (même `schema` : `squat`, `charniere`, `poussee_horizontale`, `poussee_verticale`, `tirage`) a déjà eu ses paliers dans la séance (`premier_du_schema` faux), la montée commence à 60 % : seuls les paliers ≥ 60 % de l'échelle choisie par I sont gardés, sans barre vide. Sinon (`premier_du_schema` vrai), paliers complets. Le groupe musculaire n'intervient pas dans ce choix. Exemples : pause squat après squat, presse à cuisses (schéma `squat`) après squat → départ à 60 % ; rowing (`tirage`) après développé couché (`poussee_horizontale`) → paliers complets. Écart volontaire à la convention « barre vide en premier palier », qui vaut pour le premier mouvement du schéma.
+  - « A eu ses paliers » = a reçu une échelle de R2 (« Léger », « Modéré », « Lourd » ou « Très lourd »), complète ou à partir de 60 %. Les séries d'approche courtes M2 et la répétition ECH-H4 ne comptent pas : un exercice à I ≥ 0,80 placé après un exercice du même schéma qui n'a eu que M2 a ses paliers complets. Précision à valider.
+  - **Exercice à I ≥ 0,80 sans `schema`** (ex. curl lourd, extension triceps lourde) : le mouvement est l'exercice lui-même (même identifiant). Paliers complets la première fois dans la séance (sans palier barre si haltères, machine ou kettlebell), départ à 60 % si le même exercice a déjà eu ses paliers dans la séance. Jamais 0 série d'approche au-dessus du seuil, même si le groupe musculaire est déjà préparé. Proposition à valider.
 - **Séries suivantes** du même exercice : pas de paliers ; si une série est ajustée à la hausse en séance (`ajustement-rpe.md`), pas de palier supplémentaire.
 - **Deload** : même règle, calculée sur la charge de deload.
 - **Douleur pendant les paliers** : on n'enchaîne pas sur la séance prévue (skill `seance-complete`) ; le moteur émet `DOULEUR` pour l'exercice.
-- **Musculation** : R2 s'applique (I ≥ 0,80 → paliers complets) ; sous le seuil ou si I est indéterminable, règle courte de la section [Musculation](#musculation).
+- **Musculation** : R2 s'applique (I ≥ 0,80 → échelle « Lourd » ou « Très lourd », départ selon « Mouvement déjà chauffé » ci-dessus) ; sous le seuil ou si I est indéterminable, règle courte de la section [Musculation](#musculation).
 - **Alignement Hyrox/CrossFit** : ECH-H5 de `knowledge/echauffement/echauffement-hyrox-crossfit.md` applique la même règle R2 : I ≥ 0,80 → paliers de cette fiche pour ce mouvement ; I < 0,80 ou indéterminable → ECH-H4. Plus aucun critère en nombre de reps (l'ancien « série ≤ 5 reps » est supprimé des deux côtés).
 
 ### R6 — Durée estimée (pour tenir dans le créneau)
@@ -105,7 +107,7 @@ Le repos avant la série de travail suit l'ordre de grandeur de 3 à 5 min entre
 
 ## Musculation
 
-Séries d'approche des séances de musculation (référencée par ECH-M4 de `knowledge/echauffement/echauffement-musculation.md`, `ref: "force-paliers-montee-en-charge#musculation"`). Principe du skill `seance-complete` : 1 à 2 séries d'approche légères sur le premier exercice de chaque groupe musculaire, aucune sur les suivants. Valeurs de cette section : heuristiques de coach, validées par Pierrot le 25/11/2026, sauf la ligne « 1 à 6 reps » de M2 (nouvelle, à valider).
+Séries d'approche des séances de musculation (référencée par ECH-M4 de `knowledge/echauffement/echauffement-musculation.md`, `ref: "force-paliers-montee-en-charge#musculation"`). Principe du skill `seance-complete` : 1 à 2 séries d'approche légères sur le premier exercice de chaque groupe musculaire, aucune sur les suivants. Valeurs de cette section : heuristiques de coach, validées par Pierrot le 25/11/2026 (ligne « 1 à 6 reps » de M2 comprise).
 
 ### M1 — Quelle règle s'applique
 
@@ -113,8 +115,9 @@ I est calculé comme en R2 (point 1).
 
 | Exercice | Règle |
 | --- | --- |
-| I ≥ 0,80, quel que soit le nombre de reps, exercice à la barre | échelle R2 à R5 (« Lourd » ou « Très lourd » ; barre vide si premier du schéma) |
-| I ≥ 0,80, quel que soit le nombre de reps, haltères / machine / kettlebell | échelle R2, sans palier barre (R5) |
+| I ≥ 0,80, quel que soit le nombre de reps, exercice à la barre | échelle R2 (« Lourd » ou « Très lourd ») ; paliers complets avec barre vide si le schéma n'a pas encore eu ses paliers dans la séance, sinon départ à 60 % sans barre vide (R5, « Mouvement déjà chauffé ») |
+| I ≥ 0,80, quel que soit le nombre de reps, haltères / machine / kettlebell | idem, sans palier barre (R5) |
+| I ≥ 0,80, exercice sans `schema` | R5, « Exercice à I ≥ 0,80 sans `schema` » (proposition à valider) |
 | I < 0,80 ou indéterminable, premier exercice de son groupe dans la séance | règle courte M2 |
 | I < 0,80 ou indéterminable, exercice suivant du même groupe dans la séance | 0 série d'approche |
 | Exercice au poids du corps sans charge | 0 série d'approche calculée par le moteur |
@@ -129,7 +132,7 @@ I est calculé comme en R2 (point 1).
 | 7 à 12 | 50 % × 8 · 75 % × 4 | 60 s puis 90 s |
 | 13 et plus | 60 % × 8 | 90 s |
 
-La charge de travail est celle de la première série de travail, déjà arrondie. Le choix entre R2 et M2 dépend de I (M1) ; le contenu de M2 ne dépend que des reps prescrites. Ligne « 1 à 6 » : heuristique à valider (deux séries, comme pour 7 à 12, avec moins de reps pour ne pas fatiguer avant des séries courtes).
+La charge de travail est celle de la première série de travail, déjà arrondie. Le choix entre R2 et M2 dépend de I (M1) ; le contenu de M2 ne dépend que des reps prescrites. Ligne « 1 à 6 » : heuristique validée par Pierrot le 25/11/2026 (deux séries, comme pour 7 à 12, avec moins de reps pour ne pas fatiguer avant des séries courtes).
 
 ### M3 — Calcul et filtrage
 
@@ -147,6 +150,8 @@ La charge de travail est celle de la première série de travail, déjà arrondi
 - **Rowing barre 6 reps à 80 kg, e1RM 100** : I = 0,80, donc échelle complète R2 (« Lourd »).
 - **Rowing barre 10 reps à 80 kg, e1RM 100** : I = 0,80, donc échelle complète R2 (« Lourd ») malgré les 10 reps, mêmes paliers que ci-dessus.
 - **Rowing barre 5 reps à 70 kg, e1RM 100**, premier exercice de son groupe : I = 0,70 < 0,80, donc règle courte ligne « 1 à 6 » : 35 × 5 (60 s) · 52,5 × 3 (90 s) · puis 70 × 5.
+- **Presse à cuisses 8 reps à 200 kg, e1RM 240, après un squat lourd** (pile 5 à 300, pas 5) : I = 0,833 → « Lourd » ; schéma `squat` déjà chauffé → départ à 60 % : 120 × 3 (60 s) · 150 × 2 (90 s) · 170 × 1 (180 s). Ni 0 série d'approche (règle des groupes), ni paliers complets.
+- **Rowing barre 6 reps à 80 kg, e1RM 100, après un développé couché lourd** : schéma `tirage` pas encore chauffé → paliers complets « Lourd » avec barre vide, comme s'il était seul.
 
 ## Limites et contre-indications
 
@@ -182,7 +187,7 @@ barre × 10 · (45 % = 19,125 → 20 → supprimé, doublon de la barre) · 27,5
 **F. Développé couché haltères, 30 kg par haltère, e1RM 36, haltères de 2 à 40 kg par pas de 2** — I = 0,833 → lourd, pas de barre.
 12 × 5 · 18 × 3 · 22 × 2 (22,5) · 26 × 1 (25,5 : 26 = +1,96 %).
 
-**G. Pause squat après squat, 110 kg, e1RM 132,583** — I = 0,830 → lourd, deuxième du schéma.
+**G. Pause squat après squat, 110 kg, e1RM 132,583** — I = 0,830 → lourd, schéma `squat` déjà chauffé → départ à 60 %.
 65 × 3 (66) · 82,5 × 2 · 92,5 × 1 (93,5). Pas de barre vide.
 
 **H. Séance de force, e1RM inconnu, 5 @ 8 prescrit** → I = pct(5, 8) = 0,819 → lourd. **Séance de force, ni e1RM ni RPE** → lourd (I indéterminable).

@@ -86,7 +86,7 @@ Assertions :
 ### T4 — Set counts « Semaine libre » : double comptage par sous-chaîne (moteur volume)
 
 Mapping : `knowledge/hypertrophie/mapping-muscles.json` (identifiants snake_case). Deux modes de comptage sont testés :
-- **poids réels** (règle du mapping, à valider) : muscle principal = 1, secondaire = 0,5, dédoublonnage par exercice (un identifiant une seule fois, avec le poids le plus élevé) ;
+- **poids réels** (règle du mapping, validée par Pierrot le 25/11/2026) : muscle principal = 1, secondaire = 0,5, dédoublonnage par exercice (un identifiant une seule fois, avec le poids le plus élevé) ;
 - **poids 1** (mode de test explicite) : tout muscle associé à l'exercice compte 1. Il isole le bug de double comptage, indépendamment des poids.
 
 Entrée (reconstituée) : squat `0043` 3 séries, presse à cuisses `0739` 3 séries. Selon les surcharges du mapping, les deux exercices ont pour principaux {`quadriceps`, `fessiers`} et pour secondaire {`adducteurs`}. Dans le tableur, chaque ligne contenait le libellé du muscle deux fois (colonne muscle principal + colonne liste des muscles), et le comptage cherchait le libellé comme sous-chaîne dans la ligne.
@@ -174,9 +174,9 @@ Ref 150 ; 5 @ 8 prescrites à 122,5 ; logué 122,5 × 3, RPE absent. Attendu en 
 
 ### T10 — Aller-retour (propriété)
 
-Pour toute ref ∈ [20, 400], reps ∈ [1, 10], RPE ∈ {7 ; 7,5 ; … ; 10} : loguer la charge brute (non arrondie) prescrite au RPE prescrit laisse la ref inchangée à 1e-9 près. Avec la charge arrondie : e1rmJour = ref × charge / brute. Si `e1rm.md` R1 bis (single @ 10 → e1RM = charge) est validée, le couple (1 rep, RPE 10) sort de la propriété : il donne e1rmJour = ref × 0,983607. Sans conséquence en pratique, RPE 10 n'étant jamais prescrit hors test.
+Pour toute ref ∈ [20, 400], reps ∈ [1, 10], RPE ∈ {7 ; 7,5 ; … ; 10} : loguer la charge brute (non arrondie) prescrite au RPE prescrit laisse la ref inchangée à 1e-9 près. Avec la charge arrondie : e1rmJour = ref × charge / brute. Avec `e1rm.md` R1 bis (single @ 10 → e1RM = charge, validée par Pierrot le 25/11/2026), le couple (1 rep, RPE 10) sort de la propriété : il donne e1rmJour = ref × 0,983607. Sans conséquence en pratique, RPE 10 n'étant jamais prescrit hors test.
 
-### T10 bis — Single @ 10 (`e1rm.md`, R1 bis, à valider)
+### T10 bis — Single @ 10 (`e1rm.md`, R1 bis, validée par Pierrot le 25/11/2026)
 
 | Entrée | Sans R1 bis | Avec R1 bis |
 | --- | --- | --- |
@@ -243,11 +243,20 @@ Cas ajoutés, chacun à la place du rowing 4 × 6 (rowing premier exercice de so
 | Rowing 4 × 5 @ 7,5, e1RM inconnu | pct(5 ; 7,5) = 0,8056 | échelle « Lourd » |
 | Rowing 4 × 5 @ 7, e1RM inconnu | pct(5 ; 7) = 0,7917 | règle courte M2, ligne « 1 à 6 » |
 
+Cas ajoutés, mouvement déjà chauffé (`paliers-montee-en-charge.md`, R5 « Mouvement déjà chauffé ») ; séances de musculation séparées, barre 20 / 2,5, presse pile 5 à 300 pas 5. Le catalogue donne `schema` = `squat` pour le squat et la presse, `poussee_horizontale` pour le couché, `tirage` pour le rowing.
+
+| Séance | Exercice | I | Attendu | Bugué à faire échouer |
+| --- | --- | --- | --- | --- |
+| 1 | Squat 4 × 6 à 100 kg, e1RM 120 (1er du schéma `squat`) | 0,833 | « Lourd » complet : 20 × 10 (30 s) · 40 × 5 (60 s) · 60 × 3 (60 s) · 75 × 2 (90 s) · 85 × 1 (180 s) | — |
+| 1 | Presse 3 × 8 à 200 kg, e1RM 240 (schéma `squat` déjà chauffé, 2e `quadriceps`) | 0,833 | départ à 60 % : 120 × 3 (60 s) · 150 × 2 (90 s) · 170 × 1 (180 s) | 0 série d'approche (règle des groupes) ; ou paliers complets 80 × 5 · 120 × 3 · 150 × 2 · 170 × 1 |
+| 2 | Couché 4 × 5 à 85 kg, e1RM 100 (1er du schéma `poussee_horizontale`) | 0,85 | « Lourd » complet : 20 × 10 · 32,5 × 5 (34 : 35 serait +2,94 %) · 50 × 3 (51) · 62,5 × 2 (63,75 : égalité, vers le bas) · 72,5 × 1 (72,25) ; repos 30, 60, 60, 90, 180 s | — |
+| 2 | Rowing barre 4 × 6 à 80 kg, e1RM 100 (1er du schéma `tirage`) | 0,80 | « Lourd » complet : 20 × 10 · 32,5 × 5 · 47,5 × 3 · 60 × 2 · 67,5 × 1 ; repos 30, 60, 60, 90, 180 s | départ à 60 % (47,5 × 3 · 60 × 2 · 67,5 × 1) parce qu'un exercice lourd à la barre a déjà été fait |
+
 Assertions : aucune série d'approche ≥ charge de travail ; reps non croissantes ; changer l'ordre (fentes avant la presse) déplace les séries d'approche sur les fentes et en retire à la presse ; à charge et e1RM égaux, changer le nombre de reps ne change pas l'échelle. Bugué à faire échouer : séries d'approche sur chaque exercice ; choix de l'échelle par le nombre de reps (règle courte au rowing 4 × 10 à I = 0,80, ou échelle complète au rowing 4 × 5 à I = 0,70).
 
 ## Limites et contre-indications
 
-- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 1). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), à valider par Pierrot ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
+- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 1). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
 - Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal du mapping (`groupe_series_approche` : `principaux[0]`).
 - Les entrées T1 à T3 sont reconstituées et définitives : aucune ligne des tableurs d'origine n'entrera dans le repo. Seuls les mécanismes d'erreur sont décrits, pas la structure des programmes d'origine.
 - Toutes les valeurs dépendant de la table RPE utilisent la variante n = reps + 10 − RPE + 0,5 (`table-rpe.md`).

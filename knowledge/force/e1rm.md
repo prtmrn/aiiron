@@ -44,9 +44,9 @@ e1rmSerie(charge, reps, rpe) = charge / pct(reps, rpe)      // pct : table-rpe.m
 ```
 `charge` = charge déplacée (kg). Exercice lesté (tractions, dips) : charge = poids du corps + lest (voir `arrondi-charges.md`, R6).
 
-### R1 bis — Single réussi à RPE 10 (proposition, à valider)
+### R1 bis — Single réussi à RPE 10 (validé par Pierrot le 25/11/2026)
 
-Avec la marge +0,5 de la table, pct(1, 10) = 30/30,5 = 0,983607 : R1 donnerait un e1RM 1,67 % au-dessus de la charge (100 kg × 1 @ 10 → 101,67). Règle proposée :
+Avec la marge +0,5 de la table, pct(1, 10) = 30/30,5 = 0,983607 : R1 donnerait un e1RM 1,67 % au-dessus de la charge (100 kg × 1 @ 10 → 101,67). Règle :
 ```
 reps = 1 et RPE = 10 → e1rmSerie = charge
 ```
@@ -54,14 +54,14 @@ reps = 1 et RPE = 10 → e1rmSerie = charge
 - Cohérence : même valeur que R7 (test de 1RM : ref = charge) et R8 (1RM déclaré = valeur).
 - Sans effet sur la prescription : RPE 10 n'est jamais prescrit hors séance `test_1rm` (`ajustement-rpe.md`, R7).
 - Effet de bord : entre 1 @ 9,5 (e1RM = charge × 1,0333) et 1 @ 10 (e1RM = charge), l'écart passe à 3,3 % au lieu de 1,6 %. Acceptable : on reste du côté prudent (e1RM plus bas).
-- Sans R1 bis, la règle générale R1 s'applique (101,67). Choix de conception à valider par Pierrot.
+- Sans R1 bis, la règle générale R1 s'appliquerait (101,67). Choix de conception validé par Pierrot le 25/11/2026.
 
 ### R2 — Série valide pour l'e1RM
 
 Une série compte seulement si toutes ces conditions sont vraies :
 - type `travail` (jamais un palier d'échauffement) ;
 - 1 ≤ reps réalisées ≤ 10, sinon `SERIE_TROP_LONGUE` (Reynolds 2006 : pas plus de 10 reps pour une prédiction linéaire) ;
-- 7 ≤ RPE ≤ 10, sinon `RPE_TROP_BAS_POUR_E1RM` (Zourdos 2021 : erreur plus grande loin de l'échec ; seuil 7 = heuristique de coach à valider) ;
+- 7 ≤ RPE ≤ 10, sinon `RPE_TROP_BAS_POUR_E1RM` (Zourdos 2021 : erreur plus grande loin de l'échec ; seuil 7 = heuristique de coach, validée par Pierrot le 25/11/2026) ;
 - pas de drapeau `DOULEUR` sur la série ;
 - charge > 0.
 
@@ -107,11 +107,11 @@ Si la séance est marquée `test_1rm` : ref = charge du meilleur single réussi 
 | --- | --- |
 | 1RM testé il y a ≤ 8 semaines | valeur déclarée |
 | 1RM plus ancien ou « estimé » | 0,95 × valeur déclarée |
-| « x kg pour r reps à fond », r ≤ 10 | e1rmSerie(x, r, 10) (r = 1 : x si R1 bis est validée) |
+| « x kg pour r reps à fond », r ≤ 10 | e1rmSerie(x, r, 10) (r = 1 : x, R1 bis) |
 | variante sans historique | e1RM de la base × coefficient (voir `variantes-discounts.md`) |
 | rien | séance d'étalonnage : montée par paliers jusqu'à un 5 @ RPE 8 choisi en séance, puis R4 |
 
-Valeurs 8 semaines et 0,95 : heuristiques de coach à valider.
+Valeurs 8 semaines et 0,95 : heuristiques de coach, validées par Pierrot le 25/11/2026.
 
 ### R9 — Ce que les séries d'une variante mettent à jour
 
