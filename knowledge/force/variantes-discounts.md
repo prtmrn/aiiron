@@ -62,7 +62,7 @@ Toutes les valeurs sont des **heuristiques de coach, validées par Pierrot le 25
 | `couche_larsen` | `developpe_couche` | 0,92 | sans poussée des jambes |
 | `couche_spoto` | `developpe_couche` | 0,92 | arrêt à 2–3 cm de la poitrine |
 | `couche_tempo_3_1_0` | `developpe_couche` | 0,85 | |
-| `couche_incline_30` | `developpe_couche` | 0,80 | |
+| `couche_incline_30` | `developpe_couche` | 0,80 | banc à 30° seulement (schéma `poussee_horizontale`) ; un banc à 45° n'est pas cette variante (R5 de `paliers-montee-en-charge.md`) |
 | `developpe_militaire` | `developpe_couche` | 0,60 | OHP debout ; ratio très variable d'un individu à l'autre, à remplacer vite par ses propres données |
 | `developpe_militaire_assis` | `developpe_militaire` | 0,95 | |
 | `push_press` | `developpe_militaire` | 1,00 | réellement plus lourd ; plafonné à 1 (R1) |

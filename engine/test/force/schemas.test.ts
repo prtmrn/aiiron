@@ -31,6 +31,8 @@ describe("schemas.json", () => {
     ["0739", "squat"], // presse à cuisses (T17)
     ["0025", "poussee_horizontale"], // couché barre (T17)
     ["0027", "tirage"], // rowing barre (T17)
+    ["0743", "squat"], // hack squat machine, aligné sur la presse
+    ["0770", "squat"], // squat à la Smith
     ["squat_avant", "squat"],
     ["developpe_militaire", "poussee_verticale"],
     ["sdt_roumain", "charniere"],
@@ -41,7 +43,9 @@ describe("schemas.json", () => {
 
   it("exercice sans schéma : undefined (R5, le mouvement est l'exercice lui-même)", () => {
     expect(schemaExercice("curl_halteres")).toBeUndefined();
-    expect(schemaExercice("0336")).toBeUndefined(); // fentes : non classées, en attente d'expert-force
+    expect(schemaExercice("0336")).toBeUndefined(); // fentes : unilatéral, pas de schéma (R5, critère 2)
+    expect(schemaExercice("0046")).toBeUndefined(); // barbell hack squat : entre squat et charnière (R5, critère 3)
+    expect(schemaExercice("0047")).toBeUndefined(); // incliné à 45° : entre horizontal et vertical (R5, critère 3)
     expect(schemaExercice("constructor")).toBeUndefined();
   });
 });
