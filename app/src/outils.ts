@@ -1,14 +1,15 @@
 // Handlers des outils charges et echauffement : docs/architecture.md 4.1 à 4.3. Le backend décide, le LLM converse.
 // Tout chiffre vient d'engine/src/force ; les guidances ne contiennent aucun chiffre et ne citent aucun outil absent.
 import type { SdkMcpToolDefinition } from "@anthropic-ai/claude-agent-sdk";
+import { ajusterSeance, type SeriePrevue } from "../../engine/src/force/ajustement";
 import type { Materiel } from "../../engine/src/force/arrondi";
-import { chargeLigne, type Resultat } from "../../engine/src/force/charge";
-import { referenceInitiale } from "../../engine/src/force/e1rm";
+import { chargeCible, chargeLigne, type Resultat } from "../../engine/src/force/charge";
+import { mettreAJourReference, referenceInitiale, rpeRetenu, type SerieLoguee } from "../../engine/src/force/e1rm";
 import { echauffementSeance, type Echelle } from "../../engine/src/force/paliers";
 import type { Drapeau, Phase } from "../../engine/src/force/types";
 import { COEFS_VARIANTES, e1rmEffectif, e1rmExercice, normaliserExercice } from "../../engine/src/force/variantes";
 import { restrictionDouleur, type Magasin } from "./magasin";
-import { prescriptionBloquee, signalerSante, zoneSure, type SignalementSante } from "./sante";
+import { jourLocal, prescriptionBloquee, signalerSante, zoneSure, type SignalementSante } from "./sante";
 
 export type Retour<T> = {
   statut: "ok" | "incomplet" | "refuse" | "indisponible";
@@ -264,6 +265,117 @@ export function signaler(e: SignalerEntree, m: Magasin, messageId = "outil"): Re
     resultat: { type: e.type, restriction: r && { exercice: r.exercice, zone: r.zone }, prescription_bloquee_aujourdhui: prescriptionBloquee(m) },
     drapeaux: e.type === "douleur" && exercice ? ["DOULEUR"] : [],
     guidance: [GS[e.type]],
+    still_to_ask: [],
+  };
+}
+
+type SerieDite = { charge: number; reps: number; rpe?: number; rir?: number; douleur?: boolean };
+export type LogEntree = { exercice: string; series: SerieDite[]; unite_dite?: "kg" | "lb" | null; confirme?: boolean };
+export type SerieSuivante = { reps: number; rpe: number; charge_kg: number | null; annulee: boolean };
+export type LogResultat = {
+  exercice: string;
+  series: { charge_kg: number; reps: number; rpe: number | null }[]; // enregistrées dans ce tour, RPE retenu par le code
+  reference: "mise_a_jour" | "inchangee";
+  series_suivantes: SerieSuivante[] | null; // null : le moteur ne change rien au plan de la séance
+};
+// Contrat 4.5, log_series (sans chiffre)
+const GL = {
+  livres: "Rien n'est enregistré : tu ne gères que les kilos pour l'instant. Dis-le simplement, sans équivalent ni conversion, et propose de noter la charge en kilos si elle est affichée, ou de laisser cette séance hors suivi.",
+  rpe_manquant: "Série gardée, mais pas utilisée pour estimer son max. Si tu n'as pas encore demandé les reps en réserve, demande-les une fois ; sinon n'insiste pas et propose de les noter à la prochaine série.",
+  a_confirmer: "Rien n'est enregistré : séance très au-dessus ou en dessous de sa référence. Demande si les chiffres sont justes (charge, reps, unité), puis rappelle l'outil avec confirme si oui.",
+  serie_dure: "Séries suivantes allégées par le moteur : donne les nouvelles charges du résultat, sans reproche.",
+  arret: "Séries restantes de l'exercice annulées par le moteur : dis-le sans reproche et demande si c'est la fatigue ou une douleur.",
+  ajuste: "Charges des séries suivantes ajustées par le moteur : donne-les telles quelles.",
+  douleur: "Douleur notée : restriction posée sur cet exercice, plus aucune série ni charge pour lui aujourd'hui. Aucun diagnostic ; propose de continuer sans, et un médecin ou un kiné si ça persiste.",
+  toujours: "Dis que c'est noté. Ne cite ni max, ni estimation, ni référence.",
+};
+const RPE_MAX = 10; // knowledge/force/table-rpe.md : RPE = 10 − RIR
+
+/** RPE retenu par le code (jamais par le LLM) ; RPE et RIR donnés ensemble : le plus haut des deux, côté prudent. */
+export function rpeDit(s: SerieDite): number | undefined {
+  const depuisRir = s.rir === undefined ? undefined : RPE_MAX - s.rir;
+  if (s.rpe === undefined) return depuisRir;
+  return depuisRir === undefined ? s.rpe : Math.max(s.rpe, depuisRir);
+}
+
+/**
+ * Plan de l'exercice dans la séance en cours. Charges : celles du plan, sinon recalculées depuis la référence du début de séance.
+ * shortcut: lu dans la chaîne « 3 × 5 @ RPE 8 » de seance_en_cours (format des évals) ; à remplacer par le prescrit stocké (P7).
+ */
+function planEnCours(m: Magasin, ex: string, ref: number | null, materiel: Materiel | undefined): SeriePrevue[] | null {
+  const seance = m.profil.seance_en_cours as { exercices?: { exercice: string; prescription?: string; charge_kg?: number }[] } | undefined;
+  const x = seance?.exercices?.find((y) => normaliserExercice(y.exercice) === ex);
+  const p = x?.prescription?.match(/^\s*(\d+)\s*[×x]\s*(\d+)\s*@\s*(?:RPE\s*)?(\d+(?:[.,]5)?)\s*$/i);
+  if (!p) return null;
+  const [series, reps, rpe] = [Number(p[1]), Number(p[2]), Number(p[3].replace(",", "."))];
+  const charge = x!.charge_kg ?? (ref !== null && materiel ? chargeCible(ref, materiel, reps, rpe).charge : null);
+  return Array.from({ length: series }, () => ({ reps, rpe, charge }));
+}
+
+/**
+ * log_series (contrat 4.5). La référence est recalculée depuis celle du début de séance avec toutes les séries du jour
+ * (mettreAJourReference, e1rm.md R4 à R6) : plusieurs appels donnent le même résultat qu'un seul, sans lissage répété.
+ * Séance en cours connue : ajusterSeance donne les séries suivantes (ajustement-rpe.md).
+ */
+export function logSeries(e: LogEntree, m: Magasin, maintenant = new Date()): Retour<LogResultat> {
+  if (e.unite_dite && e.unite_dite !== "kg") return vide("refuse", { guidance: [GL.livres] });
+  if (prescriptionBloquee(m, maintenant)) return vide("refuse", { guidance: [G.drapeau_rouge] });
+  const ex = exerciceConnu(m, e.exercice);
+  if (restrictionDouleur(m, ex)) return vide("refuse", { drapeaux: ["DOULEUR"], guidance: [G.douleur] });
+
+  const jour = jourLocal(maintenant);
+  const seance = m.journal.find((x) => x.jour === jour && x.exercice === ex);
+  const refAvant = seance ? seance.ref_avant : e1rmExercice(ex, m.references).e1rm;
+  const materiel = m.profil.materiel;
+  const plan = planEnCours(m, ex, refAvant, materiel);
+  const avant = seance?.series ?? [];
+  const nouvelles: SerieLoguee[] = e.series.map((x, i) => ({
+    charge: x.charge, reps: x.reps, rpe: rpeDit(x), ...(x.douleur && { douleur: true }), ...(plan?.[avant.length + i] && { repsPrescrites: plan[avant.length + i].reps }),
+  }));
+  const toutes = [...avant, ...nouvelles];
+  const confirme = e.confirme === true || seance?.confirme === true; // une confirmation vaut pour la séance de l'exercice
+  const maj = mettreAJourReference(refAvant, toutes, { confirme });
+  if (maj.drapeaux.includes("A_CONFIRMER"))
+    return vide("incomplet", {
+      drapeaux: ["A_CONFIRMER"],
+      guidance: [GL.a_confirmer],
+      still_to_ask: [{ cle: `confirmer_log.${ex}`, question: `Tu confirmes ces chiffres pour le ${nom(ex)} : charge, reps, et c'est bien en kilos ?` }],
+    });
+
+  if (seance) seance.series.push(...nouvelles);
+  else m.journal.push({ jour, exercice: ex, ref_avant: refAvant, series: nouvelles });
+  if (confirme) m.journal.find((x) => x.jour === jour && x.exercice === ex)!.confirme = true;
+  const reference = maj.ref !== null && maj.ref !== m.references[ex] ? "mise_a_jour" : "inchangee";
+  if (maj.ref !== null && reference === "mise_a_jour") {
+    m.references[ex] = maj.ref;
+    m.provenance[ex] = "moteur";
+  }
+  if (nouvelles.some((x) => x.douleur)) signalerSante(m, { type: "douleur", exercice: ex }, "log_series", maintenant);
+
+  const aj = plan && materiel && refAvant !== null ? ajusterSeance(plan, toutes, { ref: refAvant, materiel, debutant: m.profil.niveau === "debutant" }) : null;
+  const restantes = aj ? aj.series.slice(toutes.length) : [];
+  const change = restantes.some((x, i) => x.annulee || x.charge !== plan![toutes.length + i].charge || x.rpe !== plan![toutes.length + i].rpe);
+  const dNouvelles: Drapeau[] = [];
+  nouvelles.forEach((x) => x.douleur || rpeRetenu(x, dNouvelles)); // RPE manquant : seulement pour les séries de ce tour
+  const sansRpe = (d: Drapeau) => d !== "RPE_MANQUANT" && d !== "RPE_INVALIDE";
+  const drapeaux = unique([...dNouvelles, ...maj.drapeaux.filter(sansRpe), ...(aj?.drapeaux.filter(sansRpe) ?? [])]);
+
+  const guidance = [GL.toujours];
+  if (drapeaux.includes("DOULEUR")) guidance.push(GL.douleur);
+  else if (drapeaux.includes("ARRET_EXERCICE")) guidance.push(GL.arret);
+  else if (drapeaux.includes("SERIE_DURE")) guidance.push(GL.serie_dure);
+  else if (change) guidance.push(GL.ajuste);
+  if (dNouvelles.includes("RPE_MANQUANT")) guidance.push(GL.rpe_manquant);
+  return {
+    statut: "ok",
+    resultat: {
+      exercice: ex,
+      series: nouvelles.map((x) => ({ charge_kg: x.charge, reps: x.reps, rpe: (x.rpe as number | undefined) ?? null })),
+      reference,
+      series_suivantes: change ? restantes.map((x) => ({ reps: x.reps, rpe: x.rpe, charge_kg: x.charge, annulee: !!x.annulee })) : null,
+    },
+    drapeaux,
+    guidance,
     still_to_ask: [],
   };
 }

@@ -77,13 +77,13 @@ describe("drapeau_rouge_v1 et blocage de la prescription", () => {
 
   it("charges et echauffement refusent tout aujourd'hui ; ils ne sont même pas proposés au LLM", () => {
     const m = magasin();
-    expect(outilsProposes(m).map((t) => t.name)).toEqual(["charges", "echauffement", "signaler_sante"]);
+    expect(outilsProposes(m).map((t) => t.name)).toEqual(["charges", "echauffement", "log_series", "signaler_sante"]);
     signalerSante(m, { type: "drapeau_rouge" }, "m1");
     expect(charges({ exercice: "couche", lignes: [{ reps: 5, rpe: 8 }] }, m)).toMatchObject({ statut: "refuse", resultat: null });
     const e = echauffement({ type_seance: "force", version: "standard", exercices: [{ exercice: "squat", premiere_ligne: { reps: 5, rpe: 8 } }] }, m);
     expect(e.statut).toBe("refuse");
     expect(e.guidance[0]).toMatch(/jusqu'à demain/);
-    expect(outilsProposes(m).map((t) => t.name)).toEqual(["signaler_sante"]);
+    expect(outilsProposes(m).map((t) => t.name)).toEqual(["log_series", "signaler_sante"]);
   });
 });
 
@@ -154,7 +154,7 @@ describe("chaîne : routage santé", () => {
     const t2 = await traiterMessage(m, "ok ça va mieux après 5 min assis, je peux reprendre doucement ?", { agent });
     expect(t2.appel_llm).toBe(true);
     expect(appels[0].consignes).toEqual([donnees.consignes.drapeau_rouge_du_jour]);
-    expect(outilsProposes(m).map((t) => t.name)).toEqual(["signaler_sante"]);
+    expect(outilsProposes(m).map((t) => t.name)).toEqual(["log_series", "signaler_sante"]);
   });
 
   it("PC-2 : drapeau rouge > crise (texte du drapeau rouge, état crise quand même) ; danger > drapeau rouge", async () => {

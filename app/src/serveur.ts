@@ -1,8 +1,8 @@
-// Serveur MCP en processus « aiiron » : outils mcp__aiiron__charges, echauffement, signaler_sante (docs/architecture.md 2, 4.5).
+// Serveur MCP en processus « aiiron » : outils mcp__aiiron__charges, echauffement, log_series, signaler_sante (docs/architecture.md 2, 4.5).
 import { createSdkMcpServer, tool } from "@anthropic-ai/claude-agent-sdk";
 import { z } from "zod";
 import type { Magasin } from "./magasin";
-import { charges, echauffement, enResultatMcp, EXERCICES_FORCE, signaler } from "./outils";
+import { charges, echauffement, enResultatMcp, EXERCICES_FORCE, logSeries, signaler } from "./outils";
 import { prescriptionBloquee } from "./sante";
 
 const exercice = z.string().describe(`Identifiant du moteur force, recopié de cette liste : ${EXERCICES_FORCE.join(", ")}. « couche » est accepté pour developpe_couche.`);
@@ -62,6 +62,28 @@ const outils = (m: Magasin) => [
     },
     async (args) => enResultatMcp(() => echauffement(args, m)),
     lecture,
+  ),
+  tool(
+    "log_series",
+    "Enregistre des séries faites (le réalisé) d'un exercice : charges en kilos seulement, RIR converti en RPE par le code, référence et séries suivantes mises à jour par le moteur. Renvoie statut, resultat, drapeaux, guidance, still_to_ask.",
+    {
+      exercice,
+      series: z
+        .array(
+          z.object({
+            charge: z.number().positive().describe("Charge recopiée du message, sans conversion"),
+            reps: z.number().int().min(0).describe("Reps faites, recopiées"),
+            rpe: z.number().optional().describe("RPE dit par l'utilisateur, recopié ; jamais déduit d'un mot comme « dur »"),
+            rir: z.number().int().min(0).optional().describe("Reps en réserve dites par l'utilisateur, recopiées ; le code les convertit en RPE"),
+            douleur: z.boolean().optional().describe("true si l'utilisateur dit avoir eu mal sur cette série"),
+          }),
+        )
+        .min(1),
+      unite_dite: z.enum(["kg", "lb"]).nullable().optional().describe("Unité dite par l'utilisateur ; null ou absente s'il ne l'a pas dite"),
+      confirme: z.boolean().optional().describe("true seulement si l'utilisateur vient de confirmer des chiffres signalés A_CONFIRMER"),
+    },
+    async (args) => enResultatMcp(() => logSeries(args, m)),
+    ecriture,
   ),
   tool(
     "signaler_sante",

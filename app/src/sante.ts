@@ -23,11 +23,11 @@ export function detecterSante(texte: string): DetectionSante {
 
 // Jour calendaire dans le fuseau de l'utilisateur ; Europe/Paris par défaut tant qu'il n'est pas connu (architecture 9).
 const JOUR = new Intl.DateTimeFormat("fr-CA", { timeZone: "Europe/Paris" });
-const jour = (d: Date) => JOUR.format(d);
+export const jourLocal = (d: Date) => JOUR.format(d);
 
 /** Drapeau rouge signalé aujourd'hui : plus aucune prescription jusqu'au lendemain (5.2.5). */
 export const prescriptionBloquee = (m: Magasin, maintenant = new Date()): boolean =>
-  m.drapeau_rouge !== null && jour(new Date(m.drapeau_rouge)) === jour(maintenant);
+  m.drapeau_rouge !== null && jourLocal(new Date(m.drapeau_rouge)) === jourLocal(maintenant);
 
 export type SignalementSante = { type: "douleur" | "drapeau_rouge"; exercice?: string; zone?: string };
 

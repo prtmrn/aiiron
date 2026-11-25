@@ -1,5 +1,6 @@
 // Magasin en mémoire (pas de base) : profil vivant, références e1RM, état de la conversation (docs/architecture.md 5.3 et 6).
 import type { Materiel } from "../../engine/src/force/arrondi";
+import type { SerieLoguee } from "../../engine/src/force/e1rm";
 import { normaliserCles, normaliserExercice } from "../../engine/src/force/variantes";
 
 export type Restriction = { exercice?: string; zone?: string; motif: string; depuis?: string };
@@ -17,6 +18,8 @@ export type TypeCrise = "suicide" | "automutilation" | "tca" | "autre";
 export type NiveauCrise = "doute" | "crise" | "danger";
 export type Crise = { type: TypeCrise; niveau: "crise" | "danger"; horodatage: string; message_id: string; tca_aussi: boolean };
 export type Signalement = { priorite: "danger" | "crise" | "tca" | "doute" | "drapeau_rouge" | "douleur"; bloquant: boolean; horodatage: string; message_id: string };
+/** Séries faites d'un exercice un jour donné ; ref_avant = référence au début de la séance (base du recalcul de log_series). */
+export type SeanceLoguee = { jour: string; exercice: string; ref_avant: number | null; series: SerieLoguee[]; confirme?: true };
 export type Tour = { role: "utilisateur" | "aiiron"; texte: string; horodatage?: string };
 
 export type Magasin = {
@@ -32,6 +35,7 @@ export type Magasin = {
   relances_coupees: boolean;
   signalements: Signalement[]; // journal local de revue humaine (pas d'alerte de garde dans le squelette)
   historique: Tour[];
+  journal: SeanceLoguee[]; // réalisé (log_series), en mémoire seulement
 };
 
 export type Contexte = {
@@ -56,6 +60,7 @@ export function creerMagasin(c: Contexte = {}, maintenant = new Date()): Magasin
     relances_coupees: enCrise,
     signalements: [],
     historique: [],
+    journal: [],
   };
 }
 
