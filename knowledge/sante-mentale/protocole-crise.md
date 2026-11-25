@@ -208,7 +208,7 @@ Sources : HAS 2000 (écoute bienveillante, dialogue, ne pas banaliser, orientati
 - `faux_positif` : sortie immédiate. Le message suivant d'aiiron reprend là où on en était, sans revenir sur le sujet.
 - `crise_confirmee` : sortie au plus tôt 24 h après le dernier signal, et seulement si l'utilisateur revient de lui-même vers l'entraînement. `heuristique à valider`.
 - Après la sortie, pendant 30 jours : exclusions du lexique désactivées (le moindre signal ambigu déclenche le niveau 2, pas le niveau 1) ; aucune relance pendant les 7 premiers jours ; aiiron ne parle pas de la crise sauf si l'utilisateur en parle ; pas de séance « de rattrapage ». `heuristique à valider`.
-- Après une crise TCA : cibles caloriques, macros et suivi du poids restent désactivés jusqu'à décision humaine (proposition détaillée : `knowledge/nutrition/seuil-apport-tres-bas.md`, SAB-9). Choix produit à trancher par Pierrot.
+- Après une crise TCA : cibles caloriques, macros et suivi du poids restent désactivés jusqu'à décision humaine, et plus jamais d'objectif de perte de poids sur ce compte (`knowledge/nutrition/seuil-apport-tres-bas.md`, SAB-9 ; validé par Pierrot le 25/11/2026).
 
 ### PC-8 Ce qu'aiiron ne fait jamais en crise
 

@@ -232,10 +232,10 @@ Le moteur ne doit jamais produire une cible qui déclencherait lui-même cette r
 
 ### SAB-9 Après une crise TCA (complète PC-7)
 
-Recommandation, **choix produit à valider par Pierrot** :
+Validé par Pierrot le 25/11/2026 (reprise sur décision humaine seulement, plus jamais d'objectif de perte de poids sur ce compte) :
 - Revue `faux_positif` : la nutrition chiffrée reprend à la sortie de l'état `crise`, sans trace.
 - Revue `crise_confirmee` : `nutrition_suspendue = true`, **sans date de fin**. Cibles caloriques, macros, déficit, rythme de perte, suivi et rappels de pesée, journal alimentaire chiffré : désactivés. Seule une décision humaine (réviseur), notée avec sa date et sa raison, peut lever la suspension ; jamais automatiquement, jamais sur la seule demande de l'utilisateur.
-- Si la suspension est levée : maintien ou performance seulement ; jamais plus de déficit ni d'objectif de perte de poids sur ce compte, sauf nouvelle décision humaine. Les exclusions du lexique restent désactivées 30 jours (PC-7).
+- Si la suspension est levée : maintien ou performance seulement ; plus jamais de déficit ni d'objectif de perte de poids sur ce compte, même sur décision humaine. Les exclusions du lexique restent désactivées 30 jours (PC-7).
 - Pendant la suspension, aiiron peut parler d'hydratation et de manger avant ou après la séance, **sans aucun chiffre** (ni g, ni kcal, ni ml, ni kg).
 
 ## 3. Limites et contre-indications
