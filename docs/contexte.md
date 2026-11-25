@@ -96,6 +96,14 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Coupes de poids et cibles prescrites par un médecin : refus de chiffrer et orientation vers un professionnel.
 - Choix techniques mineurs : machine puis machine du même schéma → départ à 60 % ; un nombre de kcal ambigu est lu à la fois comme apport et comme cible (le plus prudent des deux) ; perte rapide déclarée et IMC bas gardent `refus_chiffre` (ce ne sont pas des apports déclarés).
 
+### Choix techniques mineurs : squelette d'agent local (`app/`, 25/11/2026)
+- Agent SDK `@anthropic-ai/claude-agent-sdk` 0.3.332, `zod` 4.3.6 épinglés. Une requête `query()` par message (pas de session SDK) : l'historique brut des 20 derniers tours est mis dans le message, comme une donnée, en attendant le résumé glissant (§6.2 de l'architecture). Le mode restreint de crise change ainsi de prompt et d'outils d'un message à l'autre.
+- Aucune transcription sur disque (`persistSession: false`). Le processus Claude Code reçoit un environnement propre : `PATH`, `TMPDIR`, `LANG`, `ANTHROPIC_API_KEY` (et `ANTHROPIC_BASE_URL` si défini) ; `HOME`, `CLAUDE_CONFIG_DIR` et `cwd` pointent vers un dossier temporaire vide, supprimé à la sortie. `settingSources: []`, `strictMcpConfig: true` (le `.mcp.json` Hevy du repo n'est pas chargé), `tools: []`, `permissionMode: "dontAsk"`.
+- Le SDK ajoute de lui-même la ligne « You are a Claude agent, built on Anthropic's Claude Agent SDK. » avant notre prompt système (vu sur un faux serveur local).
+- Les e1RM ne sont pas donnés au LLM : le résumé du profil liste seulement les exercices qui ont une référence.
+- Outils : matériel absent du profil et de l'entrée → `incomplet` et question (pas de matériel par défaut) ; identifiant hors moteur force → `isError` avec la liste des identifiants acceptés ; une série déclarée (`donnee_initiale`) devient une référence en mémoire seulement (perdue à la fin de la conversation), `readOnlyHint` gardé ; `duree_paliers_min` = durée des paliers arrondie à la minute supérieure ; `repos_affiche` en secondes, ou en minutes pour un multiple de 60 ; barre vide en roumain pour `souleve_de_terre`, `sdt_deficit_5cm`, `sdt_pause_genou`, `sdt_tempo`, `souleve_de_terre_autre_style` (pas `sdt_blocs` ni `sdt_roumain`).
+- Guidances des tableaux 4.2 et 4.3 reformulées sans chiffre ni outil absent (« dans les 10 minutes » → « juste après le dernier palier », `signaler_sante` → « arrête de prescrire cet exercice et oriente vers un pro si ça persiste ») ; la ligne « I indéterminable » de 4.3 ne peut pas arriver (la charge de travail exige un e1RM).
+
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
 - Données de santé = RGPD art. 9 : consentement explicite, AIPD, hébergement UE.

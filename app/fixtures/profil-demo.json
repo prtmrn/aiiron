@@ -1,0 +1,13 @@
+{
+  "_note": "Profil fictif pour la conversation locale. Aucune donnée réelle.",
+  "profil": {
+    "objectif": "force_generale",
+    "niveau": "intermediaire",
+    "lieu": "salle",
+    "materiel": { "type": "barre", "barre_kg": 20, "increment_kg": 2.5 },
+    "equipements": ["rameur", "elastique"],
+    "consentement_sante": true
+  },
+  "references_e1rm": { "squat": 140, "developpe_couche": 95, "souleve_de_terre": 170 },
+  "etat_conversation": "normal"
+}
