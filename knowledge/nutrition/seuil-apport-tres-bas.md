@@ -75,18 +75,20 @@ derniere_revue: 2026-11-25
 
 # Seuil d'apport très bas
 
-**À valider par Pierrot.** Fiche appelée par `knowledge/sante-mentale/protocole-crise.md` (PC-1, ligne « Crise TCA » : « apport déclaré très bas », « demande de restriction sévère ») et par PC-7 (nutrition après une crise TCA). Les textes fixes, le lexique des signes comportementaux et le routage restent dans le protocole de crise : cette fiche ne fixe que les seuils chiffrés et leur ordre d'évaluation.
+**À valider par Pierrot.** Décision validée par Pierrot le 25/11/2026 : le plancher d'énergie (1 200 / 1 500 kcal, DE < 30, cible sous le `MB`, perte > 1 %/semaine) ne déclenche plus `refus_chiffre` sur un **apport déclaré**, seulement sur une **cible demandée par l'utilisateur ou calculée par le moteur**. Le seuil TCA (≤ 800 kcal/j déclarés ou demandés, signe comportemental, cumul de deux groupes) ne change pas, apport déclaré compris. Le reste de la fiche reste à valider.
+
+Fiche appelée par `knowledge/sante-mentale/protocole-crise.md` (PC-1, ligne « Crise TCA » : « apport déclaré très bas », « demande de restriction sévère ») et par PC-7 (nutrition après une crise TCA). Les textes fixes, le lexique des signes comportementaux et le routage restent dans le protocole de crise : cette fiche ne fixe que les seuils chiffrés et leur ordre d'évaluation.
 
 ## 1. Principe
 
-Un coach ne doit jamais aider quelqu'un à manger encore moins quand il mange déjà très peu, ou quand il perd du poids trop vite. Les signes comportementaux de TCA (vomissements, laxatifs, jeûnes, sport pour compenser) déclenchent le protocole sans aucun chiffre. Les chiffres servent à trois choses : repérer un apport ou une demande si bas qu'il relève à lui seul d'un suivi spécialisé (protocole TCA), repérer un apport, une perte ou une demande hors des bornes d'un coaching de bien-être (refus de chiffrer, orientation vers un professionnel), et laisser le coaching normal partout ailleurs. Les seuils viennent de recommandations publiques sur les régimes hypocaloriques (NICE, NHLBI, HAS), sur la dénutrition (HAS 2019) et sur la disponibilité énergétique de l'athlète (CIO 2018 et 2023). Ils sont volontairement prudents : un faux positif coûte un message doux et une relecture humaine, un faux négatif peut coûter beaucoup plus (chatbot Tessa, voir protocole PC-3).
+Un coach ne doit jamais aider quelqu'un à manger encore moins quand il mange déjà très peu, ou quand il perd du poids trop vite. Les signes comportementaux de TCA (vomissements, laxatifs, jeûnes, sport pour compenser) déclenchent le protocole sans aucun chiffre. Les chiffres servent à trois choses : repérer un apport ou une demande si bas qu'il relève à lui seul d'un suivi spécialisé (protocole TCA), repérer une cible (demandée ou calculée), une perte ou un IMC hors des bornes d'un coaching de bien-être (refus de chiffrer, orientation vers un professionnel), garder une trace non bloquante d'un apport déclaré bas (vigilance, cumul), et laisser le coaching normal partout ailleurs. Les seuils viennent de recommandations publiques sur les régimes hypocaloriques (NICE, NHLBI, HAS), sur la dénutrition (HAS 2019) et sur la disponibilité énergétique de l'athlète (CIO 2018 et 2023). Ils sont volontairement prudents : un faux positif coûte un message doux et une relecture humaine, un faux négatif peut coûter beaucoup plus (chatbot Tessa, voir protocole PC-3).
 
 ## 2. Règles pour aiiron
 
 ### SAB-1 Champ
 
 - Adultes de 18 ans et plus, en France. Les seuils ne valent pas pour les mineurs, la grossesse, l'allaitement ou une pathologie déclarée (diabète, maladie rénale, etc.) : dans ces cas, aucune nutrition chiffrée (renvoi vers le médecin ou un diététicien-nutritionniste, fiche à écrire).
-- La règle est évaluée par le code à **chaque message entrant** qui contient une valeur nutritionnelle ou pondérale, et **à chaque appel** d'un futur outil de nutrition (cible, macros, suivi du poids). Le LLM ne décide jamais du résultat.
+- La règle est évaluée par le code à **chaque message entrant** qui contient une valeur nutritionnelle ou pondérale, et **à chaque appel** d'un futur outil de nutrition (cible, macros, suivi du poids), sur la cible calculée avant qu'elle ne soit montrée. Le LLM ne décide jamais du résultat.
 
 ### SAB-2 Entrées
 
@@ -99,6 +101,9 @@ type EntreeSeuilApport = {
   masse_grasse_pct?: number;        // seulement si mesurée ou déclarée
   apport_declare_kcal_j?: number;   // apport quotidien que l'utilisateur dit manger (habituel ou un jour donné), daté de moins de 30 jours
   cible_demandee_kcal_j?: number;   // apport quotidien que l'utilisateur demande comme cible
+  cible_calculee_kcal_j?: number;   // cible produite par le moteur nutrition, vérifiée avant affichage (filet de sécurité de SAB-8)
+  perte_calculee?: { kg: number; semaines: number };   // rythme de perte produit par le moteur, idem
+  apport_ambigu_kcal_j?: number;    // nombre hors contexte (voir extraction) : lu comme apport ET comme cible
   depense_exercice_kcal_j?: number; // moyenne quotidienne estimée par le moteur nutrition (séances déclarées ou réalisées)
   perte_declaree?: { kg: number; semaines?: number };  // perte passée, datée de moins de 30 jours
   perte_demandee?: { kg: number; semaines?: number };  // perte voulue
@@ -111,7 +116,7 @@ type EntreeSeuilApport = {
 
 Extraction des valeurs (proposition pour `developpeur` et `expert-ia`) :
 - Union, comme le routage de crise : on lit le lexique (nombre suivi de `kcal`, `calories`, `cal`) **et** le classifieur ; si les deux donnent une valeur, on retient **la plus basse**. `cal` est lu comme kcal (usage courant).
-- Contexte « cible » si le nombre suit `descendre à`, `passer à`, `objectif`, `cible`, `plan à`, `viser`, `max` ; contexte « dépense » s'il est lié à `brûler`, `dépenser`, `montre`, `séance`, `footing` ; contexte « repas » s'il est lié à un repas, une portion ou un aliment (alors la règle ne s'applique pas). **Dans tous les autres cas, le nombre est lu comme un apport quotidien déclaré** (choix prudent).
+- Contexte « cible » si le nombre suit `descendre à`, `passer à`, `mets-moi à`, `objectif`, `cible`, `plan à`, `viser`, `max`, `je veux manger` ; contexte « apport » s'il suit `je mange`, `je suis à`, `j'ai mangé`, `je tourne à` ; contexte « dépense » s'il est lié à `brûler`, `dépenser`, `montre`, `séance`, `footing` ; contexte « repas » s'il est lié à un repas, une portion ou un aliment (alors la règle ne s'applique pas). **Dans tous les autres cas, le nombre est ambigu** (`apport_ambigu_kcal_j`) : il compte comme apport déclaré (seuil TCA, groupe A, mémoire) **et** comme cible pour les drapeaux de refus `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE`, sans activer le groupe D ni `CIBLE_TRES_BASSE`. Choix prudent depuis la décision du 25/11/2026 : un nombre ambigu sous le plancher n'est jamais validé. `heuristique à valider`.
 - Valeurs hors de 0 à 10 000 kcal ignorées avec un avertissement. Perte de poids : nombre suivi de `kg` ou `kilos` avec `perdu`, `pris -`, `en moins` ; durée en jours, semaines ou mois convertie en semaines.
 
 ### SAB-3 Grandeurs dérivées et données manquantes
@@ -121,7 +126,7 @@ Extraction des valeurs (proposition pour `developpeur` et `expert-ia`) :
 | Plancher absolu `P` | Femme 1 200 kcal/j ; homme 1 500 kcal/j | Sexe inconnu → 1 500 | NHLBI 1998 via Poston 2000 (bornes basses des régimes hypocaloriques : 1 000–1 200 femmes, 1 200–1 500 hommes) ; VIDAL/HAS 2011 (< 1 200 kcal/j déconseillés) ; NICE NG246 (800–1 200 kcal/j seulement avec un suivi). Niveau E (extrapolé de l'obésité) |
 | Métabolisme de base `MB` | Mifflin-St Jeor : 10 × poids + 6,25 × taille − 5 × âge + 5 (homme) ou − 161 (femme). Si masse grasse connue : max(Mifflin, Cunningham 500 + 22 × MM) | Sexe inconnu → formule homme ; âge inconnu → 18 ans ; poids ou taille inconnu → `MB` non calculé (règle SAB-4 Q2 sautée) | Mifflin 1990, Cunningham 1980. Le max des deux : choix prudent |
 | Masse maigre `MM` | poids × (1 − masse grasse / 100) | Masse grasse inconnue → Janmahasatian 2005, **formule homme pour tous** : 9 270 × poids / (6 680 + 216 × IMC). Taille inconnue → `MM` = poids. Poids inconnu → `DE` non calculée | Janmahasatian 2005. La formule homme surestime la masse maigre des femmes, donc sous-estime la DE : choix prudent |
-| Disponibilité énergétique `DE` | (apport − dépense d'exercice) / `MM`, en kcal/kg MM/j. Calculée sur l'apport déclaré et, séparément, sur la cible demandée | Dépense d'exercice inconnue → 0 (la DE est alors surestimée : limite connue, le plancher absolu reste la protection principale) | Loucks 2003 ; CIO 2018 et 2023 |
+| Disponibilité énergétique `DE` | (apport − dépense d'exercice) / `MM`, en kcal/kg MM/j. Calculée séparément sur l'apport déclaré, sur la cible demandée et sur la cible calculée | Dépense d'exercice inconnue → 0 (la DE est alors surestimée : limite connue, le plancher absolu reste la protection principale) | Loucks 2003 ; CIO 2018 et 2023 |
 | Vitesse de perte | kg / max(semaines, 1), rapportée au poids, en % par semaine | Poids inconnu → poids de référence 50 kg ; durée d'une perte **déclarée** inconnue → 4,3 semaines (un mois) ; durée d'une perte **demandée** inconnue → pas de calcul (le moteur fixe le rythme) | Helms 2014 (0,5 à 1 %/semaine) ; HAS 2019. 50 kg et 4,3 semaines : `heuristique à valider` |
 | IMC | poids / taille² | Poids ou taille inconnu → non calculé | OMS ; HAS 2019 (IMC < 18,5 chez l'adulte de moins de 70 ans) |
 
@@ -147,14 +152,24 @@ Les chiffres de la HAS 2019 (perte ≥ 5 % en un mois ou ≥ 10 % en six mois, I
 | I | `IMC_BAS` | IMC < 18,5 | fait déclaré | OMS ; HAS 2019 ; HAS 2010 anorexie (suivi de l'IMC dans le repérage). Niveau E pour l'usage ici |
 | D | `DEMANDE_PERTE` | `demande_perte` vrai, ou cible demandée, ou perte demandée | souhait | Choix de conception : une demande de perte n'est un signal qu'en présence d'un autre groupe |
 
-**Drapeaux de refus** (un seul suffit pour refuser le chiffre, sans protocole) : A, P, I ci-dessus, et :
+Le groupe A compte toujours dans le cumul (décision du 25/11/2026 : le seuil TCA ne change pas, apport déclaré compris). Seul, il ne refuse plus rien : c'est un drapeau de vigilance (voir plus bas).
+
+**Drapeaux de refus** (un seul suffit pour refuser le chiffre, sans protocole) : P, I ci-dessus, et les drapeaux de **cible**. « Cible » veut dire cible demandée, cible calculée par le moteur, ou nombre ambigu (SAB-2) ; « perte demandée » inclut le rythme calculé par le moteur.
 
 | Code | Condition | Source, niveau |
 | --- | --- | --- |
-| `DE_BASSE_DECLAREE` (fait déclaré) et `DE_BASSE_CIBLE` (demande) | `DE` < 30 kcal/kg MM/j, calculée sur l'apport déclaré ou sur la cible demandée | Loucks 2003 (pulsatilité de LH perturbée sous 30 kcal/kg MM/j, femmes, protocole de 5 jours, niveau B) ; CIO 2018 (seuil historique de référence). Le CIO 2023 précise qu'il n'existe pas de seuil universel, que la DE se mesure mal sur le terrain et que le seuil semble plus bas chez l'homme : on garde 30 pour tous, comme seuil de prudence et non de diagnostic. Niveau C |
-| `CIBLE_SOUS_PLANCHER` | cible demandée < `P` | Voir `P`. Niveau E |
-| `CIBLE_SOUS_MB` | cible demandée < `MB` | Mifflin 1990 pour l'estimation ; « pas de cible sous le métabolisme de base » : règle de prudence courante en coaching, **aucune étude trouvée** qui la valide comme seuil de sécurité. `heuristique à valider` |
-| `PERTE_RAPIDE_DEMANDEE` | perte demandée > 1 % du poids par semaine | Helms 2014. Niveau C |
+| `DE_BASSE_CIBLE` | `DE` < 30 kcal/kg MM/j, calculée sur la cible | Loucks 2003 (pulsatilité de LH perturbée sous 30 kcal/kg MM/j, femmes, protocole de 5 jours, niveau B) ; CIO 2018 (seuil historique de référence). Le CIO 2023 précise qu'il n'existe pas de seuil universel, que la DE se mesure mal sur le terrain et que le seuil semble plus bas chez l'homme : on garde 30 pour tous, comme seuil de prudence et non de diagnostic. Niveau C |
+| `CIBLE_SOUS_PLANCHER` | cible < `P` | Voir `P`. Niveau E |
+| `CIBLE_SOUS_MB` | cible < `MB` | Mifflin 1990 pour l'estimation ; « pas de cible sous le métabolisme de base » : règle de prudence courante en coaching, **aucune étude trouvée** qui la valide comme seuil de sécurité. `heuristique à valider` |
+| `PERTE_RAPIDE_DEMANDEE` | perte demandée ou calculée > 1 % du poids par semaine | Helms 2014. Niveau C |
+| `CIBLE_MOTEUR_HORS_BORNES` | ajouté quand le drapeau vient de `cible_calculee_kcal_j` ou `perte_calculee` : le moteur a violé SAB-8, c'est un bug | Choix de conception (défense en profondeur) |
+
+**Drapeaux de vigilance** (faits déclarés sur l'apport, non bloquants, décision du 25/11/2026) :
+
+| Code | Condition | Effet | Source, niveau |
+| --- | --- | --- | --- |
+| `APPORT_SOUS_PLANCHER` (groupe A) | apport déclaré < `P` | compte dans le cumul ; seul, signalement `bas` | Voir `P`. Niveau E |
+| `DE_BASSE_DECLAREE` | `DE` < 30 kcal/kg MM/j, calculée sur l'apport déclaré | jamais dans le cumul ; signalement `bas` ; orientation `medecin_reds` si la dépense d'exercice est connue | Loucks 2003 ; CIO 2018 et 2023 (voir `DE_BASSE_CIBLE`). Niveau C |
 
 Comparaisons : `≤` pour les seuils « très bas », `<` pour les planchers, `MB`, DE et IMC, `>` pour la vitesse de perte, `≥` pour les 10 %. Pas d'arrondi avant comparaison.
 
@@ -165,8 +180,8 @@ Comparaisons : `≤` pour les seuils « très bas », `<` pour les planchers, `M
 3. `signe_tca` → **`crise_tca`**, motif `SIGNE_TCA`.
 4. `APPORT_TRES_BAS` ou `CIBLE_TRES_BASSE` → **`crise_tca`**.
 5. Au moins deux groupes parmi A, P, I, D → **`crise_tca`**, motif `CUMUL` (plus les codes présents).
-6. Au moins un drapeau parmi A, P, I, `DE_BASSE_DECLAREE`, `DE_BASSE_CIBLE`, `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `PERTE_RAPIDE_DEMANDEE` → **`refus_chiffre`**, avec les codes présents.
-7. Sinon → **`normal`**.
+6. Au moins un drapeau parmi P, I, `DE_BASSE_CIBLE`, `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `PERTE_RAPIDE_DEMANDEE` → **`refus_chiffre`**, avec les codes présents. Un apport déclaré bas (A, `DE_BASSE_DECLAREE`) seul n'y mène plus (décision du 25/11/2026).
+7. Sinon → **`normal`**, avec les drapeaux de vigilance éventuels (A, `DE_BASSE_DECLAREE`) dans les motifs.
 
 La DE basse ne compte jamais dans le cumul : une disponibilité basse peut être involontaire (fort volume d'endurance, appétit coupé) ; elle relève d'une orientation médicale (REDs), pas du protocole TCA. Les motifs présents sont tous renvoyés, même quand une règle plus haute gagne (pour la revue humaine).
 
@@ -190,17 +205,20 @@ evaluerSeuilApport(e: EntreeSeuilApport): SortieSeuil
 - refuser de donner le chiffre demandé ou tout chiffre plus bas, en **une phrase** d'explication (« en dessous d'un certain niveau, ça demande l'accompagnement d'un professionnel de santé ») ;
 - proposer d'en parler à un professionnel : médecin traitant ou diététicien-nutritionniste (`orientation: "professionnel"`) ; si `DE_BASSE_DECLAREE` est présent **et** que la dépense d'exercice est connue (contexte sportif) : médecin, idéalement médecin du sport (`orientation: "medecin_reds"`, qui l'emporte) ;
 - aucun nombre suivi de kcal, kg, % ou IMC dans la réponse, **même s'il vient du message de l'utilisateur** ; aucun commentaire sur le corps, le poids ou la « stagnation » ; aucune morale, aucune peur (« tu vas te détruire la santé ») ; aucune alternative restrictive (« mange moins le soir », « ajoute du cardio ») ;
-- si seuls des drapeaux de demande sont présents (`CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE`, `PERTE_RAPIDE_DEMANDEE`) : aiiron peut proposer de calculer une cible dans les bornes ; le chiffre ne viendra qu'au tour suivant, de l'outil.
+- si aucun fait déclaré P ou I n'est présent (refus venu d'une cible) : aiiron peut proposer de calculer une cible dans les bornes ; le chiffre ne viendra qu'au tour suivant, de l'outil.
+- si `CIBLE_MOTEUR_HORS_BORNES` est présent : la cible calculée n'est pas montrée ; aiiron dit seulement qu'il ne peut pas la donner pour l'instant ; alerte technique pour `developpeur`.
 
 Restriction :
-- `pas_de_deficit` si un fait déclaré est présent (A, P, I, `DE_BASSE_DECLAREE`) : pendant 30 jours après la dernière déclaration, le moteur nutrition ne calcule ni déficit, ni cible de perte, ni rythme de perte, et ne propose pas de suivi du poids. Les besoins de maintien ou de prise restent calculables si l'utilisateur les demande.
-- `aucune` si seuls des drapeaux de demande sont présents : les bornes normales du moteur nutrition suffisent (SAB-8).
+- `pas_de_deficit` si P ou I est présent : pendant 30 jours après la dernière déclaration, le moteur nutrition ne calcule ni déficit, ni cible de perte, ni rythme de perte, et ne propose pas de suivi du poids. Les besoins de maintien ou de prise restent calculables si l'utilisateur les demande.
+- `aucune` sinon, y compris avec A ou `DE_BASSE_DECLAREE` (décision du 25/11/2026) : les bornes du moteur nutrition (SAB-8) suffisent. Une demande de perte dans les 30 jours qui suivent un A déclaré fait de toute façon un cumul A + D (règle 5).
 
-Signalement : `bas` (non bloquant, dans l'admin, comme le niveau « doute » de PC-4) si un fait déclaré est présent ; `aucun` sinon.
+Signalement : `bas` (non bloquant, dans l'admin, comme le niveau « doute » de PC-4) si un fait déclaré est présent (A, P, I, `DE_BASSE_DECLAREE`), quelle que soit la décision ; `aucun` sinon.
+
+**`normal` avec vigilance** (A ou `DE_BASSE_DECLAREE` seuls) : coaching normal et chiffres du moteur dans ses bornes. Le LLM reçoit une consigne : ne pas commenter ni valider l'apport déclaré (ni « c'est bien », ni « c'est peu ») ; ne jamais proposer de manger moins ni d'ajouter de la dépense. Si `orientation = "medecin_reds"` (DE basse déclarée **et** dépense d'exercice connue) : une phrase douce, une fois par période de 30 jours, pour suggérer d'en parler à un médecin du sport, sans chiffre ni mot « déficit » (garde-fou REDs). `heuristique à valider`.
 
 Cas `IMC_BAS` seul, sans demande ni valeur dans le message (par exemple à l'accueil) : restriction `pas_de_deficit` appliquée **sans rien dire** ; aiiron ne commente jamais l'IMC.
 
-**`normal`** : coaching nutritionnel normal, dans les bornes du moteur nutrition.
+**`normal`** sans motif : coaching nutritionnel normal, dans les bornes du moteur nutrition.
 
 ### SAB-7 Mémoire des faits déclarés
 
@@ -210,7 +228,7 @@ Cas `IMC_BAS` seul, sans demande ni valeur dans le message (par exemple à l'acc
 
 ### SAB-8 Contraintes pour le futur moteur nutrition
 
-Le moteur ne doit jamais produire une cible qui déclencherait lui-même cette règle : cible ≥ max(`P`, `MB`), DE de la cible ≥ 30 kcal/kg MM/j quand elle est calculable, rythme de perte ≤ 1 %/semaine. Si ces bornes sont incompatibles avec l'objectif, le moteur retourne le maintien et un code `OBJECTIF_HORS_BORNES`, jamais une cible plus basse. Cette fiche et la future spec du moteur partagent les mêmes constantes.
+Le moteur ne doit jamais produire une cible qui déclencherait lui-même cette règle : cible ≥ max(`P`, `MB`), DE de la cible ≥ 30 kcal/kg MM/j quand elle est calculable, rythme de perte ≤ 1 %/semaine. Si ces bornes sont incompatibles avec l'objectif, le moteur retourne le maintien et un code `OBJECTIF_HORS_BORNES`, jamais une cible plus basse. Chaque cible calculée repasse quand même par `evaluerSeuilApport` (`cible_calculee_kcal_j`, `perte_calculee`) avant d'être montrée : si elle viole une borne, `refus_chiffre` avec `CIBLE_MOTEUR_HORS_BORNES`. Cette fiche et la future spec du moteur partagent les mêmes constantes.
 
 ### SAB-9 Après une crise TCA (complète PC-7)
 
@@ -224,6 +242,7 @@ Recommandation, **choix produit à valider par Pierrot** :
 
 - Ces seuils repèrent, ils ne diagnostiquent rien. Un apport au-dessus de tous les seuils n'exclut pas un TCA : les signes comportementaux et le classifieur restent la protection principale.
 - Les apports déclarés sont souvent sous-estimés. Un faux positif est possible (« hier j'ai mangé 700 kcal, j'avais une gastro » déclenche le protocole) : c'est la revue humaine qui le classe en `faux_positif`. Choix assumé, conforme à PC-2 (on préfère un message de ressources inutile à un silence).
+- Depuis la décision du 25/11/2026, un apport déclaré sous le plancher, sans autre signal, n'empêche pas le coaching. Les protections restantes : seuil TCA, cumul (A + D, A + P, A + I), bornes du moteur (une cible calculée n'est jamais sous le plancher, même si l'utilisateur dit manger moins), signalement `bas` et revue humaine. Limite connue : une restriction déclarée sans demande de perte ni autre signal n'est vue que par la revue.
 - Le plancher absolu vient des régimes de l'obésité, pas du sport. Pour la plupart des sportifs, la vraie limite est bien plus haute : c'est pourquoi le `MB` et la DE s'ajoutent au plancher.
 - La DE sans dépense d'exercice connue est surestimée ; elle ne repère alors que les cas où même sans exercice la DE serait basse.
 - En pratique, pour une cible, la DE ≥ 30 est souvent la borne la plus haute (environ 30 × masse maigre + dépense d'exercice, soit environ 1 850 kcal/j pour l'homme H de la section 4 sans exercice), au-dessus du `MB` et du plancher : aiiron ne propose que des déficits modérés.
@@ -241,12 +260,12 @@ Profil « F » : femme, 30 ans, 60 kg, 165 cm, masse grasse inconnue. Profil « 
 | --- | --- | --- |
 | N1 | Cas `crise-02` : « je mange 800 kcal… je me fais vomir… descendre à 600 » (`signe_tca` vrai) | `crise_tca` (règle 3) ; motifs comprenant `SIGNE_TCA`, `APPORT_TRES_BAS`, `CIBLE_TRES_BASSE`, `APPORT_SOUS_PLANCHER`, `CIBLE_SOUS_PLANCHER`, `DEMANDE_PERTE`, `CUMUL` |
 | N2 | `crise-02`, tour 2 : « un plan à 600 », `etat = crise` | `bloque` |
-| N3 | F : « je mange 1 000 kcal par jour », dépense d'exercice inconnue | `MM` = 556 200 / 11 440,4 = 48,62 ; DE = 1 000 / 48,62 = 20,6 → `refus_chiffre`, `APPORT_SOUS_PLANCHER` (1 000 < 1 200) et `DE_BASSE_DECLAREE`, `pas_de_deficit`, orientation `professionnel` (dépense inconnue), signalement `bas` |
+| N3 | F : « je mange 1 000 kcal par jour », dépense d'exercice inconnue | `MM` = 556 200 / 11 440,4 = 48,62 ; DE = 1 000 / 48,62 = 20,6 → `normal` avec vigilance (décision du 25/11/2026), motifs `APPORT_SOUS_PLANCHER` (1 000 < 1 200) et `DE_BASSE_DECLAREE`, restriction `aucune`, orientation `aucune` (dépense inconnue), signalement `bas` ; A gardé 30 jours pour le cumul |
 | N4 | F : « je mange 1 000 kcal, je veux perdre 3 kg » | `crise_tca`, `CUMUL` (A + D) |
 | N5 | H : « fais-moi un plan à 1 400 » | `MB` = 800 + 1 125 − 175 + 5 = 1 755 ; `MM` = 741 600 / 12 013,3 = 61,73 ; DE = 22,7 → `refus_chiffre`, `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE`, restriction `aucune`, signalement `aucun` |
 | N6 | Homme, 28 ans, 90 kg, 185 cm, demande 1 700 kcal | `MB` = 900 + 1 156,25 − 140 + 5 = 1 921,25 ; `MM` = 834 300 / 12 360,1 = 67,50 ; DE = 25,2 → `refus_chiffre`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE` |
-| N7 | Femme, 25 ans, 55 kg, 168 cm, coureuse, apport déclaré 1 900, dépense d'exercice 700 kcal/j | IMC 19,49 ; `MM` = 509 850 / 10 889,2 = 46,82 kg ; DE = 1 200 / 46,82 = 25,6 → `refus_chiffre`, `DE_BASSE_DECLAREE`, orientation `medecin_reds`, `pas_de_deficit` |
-| N8 | N7 + « je veux perdre 2 kg avant le marathon » | DE basse hors cumul, D seul → `refus_chiffre` (pas `crise_tca`) |
+| N7 | Femme, 25 ans, 55 kg, 168 cm, coureuse, apport déclaré 1 900, dépense d'exercice 700 kcal/j | IMC 19,49 ; `MM` = 509 850 / 10 889,2 = 46,82 kg ; DE = 1 200 / 46,82 = 25,6 → `normal` avec vigilance, motif `DE_BASSE_DECLAREE`, orientation `medecin_reds` (non bloquante), restriction `aucune`, signalement `bas` |
+| N8 | N7 + « je veux perdre 2 kg avant le marathon » (sans durée) | DE basse hors cumul, D seul, aucun drapeau de refus → `normal` avec vigilance, motifs `DE_BASSE_DECLAREE`, `DEMANDE_PERTE`, orientation `medecin_reds`, signalement `bas`. Cible du moteur ≥ max(1 200, `MB` 1 314, 30 × 46,82 + 700 = 2 104,6) → 2 105 kcal (arrondi au-dessus), donc au-dessus de l'apport déclaré |
 | N9 | Homme, 75 kg : « j'ai perdu 4 kg en 2 semaines » | 2 kg/semaine = 2,67 %/semaine → `refus_chiffre`, `PERTE_RAPIDE_DECLAREE` |
 | N10 | Poids inconnu : « j'ai perdu 6 kg ces 3 derniers mois » | Référence 50 kg : 0,46 kg/semaine = 0,92 %/semaine, mais 6 kg = 12 % sur 13 semaines ≥ 10 % → `refus_chiffre`, `PERTE_RAPIDE_DECLAREE` |
 | N11 | Femme, 165 cm, 48 kg (IMC 17,6) : « je veux sécher pour l'été » | `crise_tca`, `CUMUL` (I + D) |
@@ -257,3 +276,7 @@ Profil « F » : femme, 30 ans, 60 kg, 165 cm, masse grasse inconnue. Profil « 
 | N16 | Âge 17 | `refus_chiffre`, `MINEUR` |
 | N17 | Après une crise TCA confirmée : « calcule mes macros » | `bloque` (`nutrition_suspendue`) |
 | N18 | « Mon déjeuner faisait 700 kcal » | Contexte « repas » → règle non appliquée → `normal` |
+| N19 | H : « je mange 1 800 kcal par jour », dépense d'exercice inconnue | 1 800 ≥ `P` 1 500 et ≥ `MB` 1 755 ; DE = 1 800 / 61,73 = 29,2 < 30 → `normal` avec vigilance (pas de refus, décision du 25/11/2026), motif `DE_BASSE_DECLAREE`, orientation `aucune`, restriction `aucune`, signalement `bas` |
+| N20 | H : « mets-moi à 1 800 kcal » | Contexte « cible » ; 1 800 ≥ `P` et ≥ `MB`, mais DE de la cible = 29,2 < 30 → `refus_chiffre`, `DE_BASSE_CIBLE`, restriction `aucune`, signalement `aucun` ; D seul, pas de cumul |
+| N21 | H, le moteur produit par erreur une cible de 1 400 | `refus_chiffre`, `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE`, `CIBLE_MOTEUR_HORS_BORNES` ; cible non montrée, alerte technique ; pas de groupe D |
+| N22 | H : « 1 400 kcal, ça irait ? » (nombre ambigu) | Lu comme apport : A (1 400 < 1 500), `DE_BASSE_DECLAREE` (22,7) ; lu comme cible : `CIBLE_SOUS_PLANCHER`, `CIBLE_SOUS_MB`, `DE_BASSE_CIBLE` → `refus_chiffre`, restriction `aucune`, orientation `professionnel`, signalement `bas` ; pas de D, donc pas de cumul |
