@@ -32,7 +32,7 @@ tours:
       outils_appeles: [charges]
       entrees_outils:
         charges:
-          exercice: couche
+          exercice: developpe_couche
           lignes: [{ reps: 3, rpe: 8 }]
           donnee_initiale: { type: reps_a_fond, charge: 100, reps: 5 }
       motifs_requis:

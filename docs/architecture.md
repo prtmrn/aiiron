@@ -89,7 +89,7 @@ Règles d'usage écrites dans le prompt système :
 
 Le contrôle de sortie (section 5.1, dernière ligne) vérifie la règle 1 dans le code.
 
-**Identifiants d'exercices.** Le moteur force utilise des identifiants comme `squat`, `couche`, `souleve_de_terre`, `squat_pause_2s` (`engine/src/force/variantes.ts`). Les fiches d'échauffement, de mobilité et de retour au calme utilisent `developpe_couche` pour le même mouvement. Le catalogue `data/exercises/` utilise des ids numériques (`0043`) et `mq-…`. Il faut un référentiel unique (section 4.6, prérequis P1). En attendant, les outils n'acceptent que les identifiants du moteur force et traduisent `couche` ↔ `developpe_couche` dans une table explicite.
+**Identifiants d'exercices.** Le moteur force utilise des identifiants comme `squat`, `developpe_couche`, `souleve_de_terre`, `squat_pause_2s` (`engine/src/force/variantes.ts`), les mêmes que les fiches d'échauffement, de mobilité et de retour au calme ; `couche` reste accepté en entrée et normalisé par `normaliserExercice`. Le catalogue `data/exercises/` utilise des ids numériques (`0043`) et `mq-…` ; le schéma R5 vient de la surcouche `data/exercises/schemas.json` (`schemaExercice`). Il faut toujours un référentiel unique (section 4.6, prérequis P1).
 
 ### 4.2 `charges`
 
@@ -240,7 +240,7 @@ Indispensables à la section 6, au-delà des trois outils de calcul.
 
 | # | Manque | Pour qui |
 | --- | --- | --- |
-| P1 | **Référentiel d'exercices unique** reliant l'identifiant du moteur force (`couche`), celui des fiches d'échauffement et de mobilité (`developpe_couche`) et l'id du catalogue (`0025`, `mq-…`), avec le champ `schema` (squat, charnière, poussée horizontale, poussée verticale, tirage) exigé par R5 et absent du catalogue aujourd'hui, `mouvement` (filtre `si.mouvement`), `depuis_sol`, et le type de matériel par défaut | `developpeur`, avec `expert-force` |
+| P1 | **Référentiel d'exercices unique** reliant l'identifiant du moteur force et des fiches (`developpe_couche`, alias `couche`) et l'id du catalogue (`0025`, `mq-…`), avec le champ `schema` exigé par R5 (aujourd'hui en surcouche partielle dans `data/exercises/schemas.json`), `mouvement` (filtre `si.mouvement`), `depuis_sol`, et le type de matériel par défaut | `developpeur`, avec `expert-force` |
 | P2 | **`knowledge/modeles/`** n'existe pas : aucun modèle de semaine force | `expert-force` (et `expert-hypertrophie` pour l'assistance) |
 | P3 | **Format d'un modèle** : métadonnées de sélection (objectif, niveau, jours par semaine, durée par séance, matériel requis), slots (exercice, rôle principal ou assistance, lignes reps × RPE, remise de contexte), progression d'une semaine à l'autre, semaine de deload, `raison_choix` | `expert-force` + `expert-ia` (pour ce qui est expliqué à l'utilisateur) |
 | P4 | **Sélection du modèle le plus proche** : critères, poids, ce qui est éliminatoire (matériel absent) et ce qui se négocie (un jour de moins). Aucune règle écrite, c'est un choix produit | `expert-force` propose, Pierrot valide |
