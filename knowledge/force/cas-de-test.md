@@ -158,7 +158,7 @@ Assertions : mélanger l'ordre des lignes ne change aucun total ; un exercice sa
 | barre 20 / 2,5 | 15 | 20, `CIBLE_SOUS_MINIMUM` |
 | barre 20 / 1 | 101,5 | 101 |
 | barre 20 / 0,5 | 101,3 | 101,5 |
-| haltères 10 à 30 pas 2 | 23,2 | 22 |
+| haltères 10 à 30 pas 2 | 23,2 | 22, `ECART_ARRONDI_IMPORTANT` (−5,17 %) |
 | kettlebells 8 à 32 pas 4 | 19 | 16, `ECART_ARRONDI_IMPORTANT` |
 | barre 20 / 2,5, max 100 | 110 | 100, `CIBLE_AU_DESSUS_MAX` |
 

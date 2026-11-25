@@ -106,7 +106,7 @@ Barre 20 kg, incrément 2,5 :
 
 Micro-disques : incrément 1 → 101,3 → 101 ; 101,5 → 101 (égalité) ; 101,6 → 102. Incrément 0,5 → 101,3 → 101,5.
 
-Haltères [10, 12, 14, …, 30] : 23,2 → 22 (24 serait +3,45 %) ; 23,6 → 24 (+1,69 %).
+Haltères [10, 12, 14, …, 30] : 23,2 → 22 (24 serait +3,45 %), `ECART_ARRONDI_IMPORTANT` (−5,17 %, R3 ; drapeau oublié dans la première version, trouvé par le moteur) ; 23,6 → 24 (+1,69 %).
 Kettlebells [8, 12, 16, 20, 24, 28, 32] : 19 → 16 (20 serait +5,3 %), `ECART_ARRONDI_IMPORTANT` (−15,8 %).
 Pile 5 à 100 pas 5 : 47 → 45 (50 serait +6,4 %), pas de drapeau (−4,3 %).
 Lest : poids du corps 80, e1RM système traction 120, 5 @ 8 → 120 × 0,819444 = 98,333 − 80 = 18,333 → lest 18,75 kg (incrément 1,25 : 18,75 est le plus proche, +2,27 % ≤ 2,5 %).

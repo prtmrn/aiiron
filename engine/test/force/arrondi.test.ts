@@ -32,11 +32,6 @@ describe("T6 — arrondi", () => {
   it("haltères 10 à 30 pas 2 : 23,2 → 22, ECART_ARRONDI_IMPORTANT (R3 : −5,17 % > 5 %)", () => {
     expect(arrondirCharge(23.2, haltères10a30)).toEqual({ charge: 22, drapeaux: ["ECART_ARRONDI_IMPORTANT"] });
   });
-  // ÉCART: T6 (cas-de-test.md) et l'exemple d'arrondi-charges.md donnent « 23,2 → 22 » sans drapeau,
-  // alors que R3 impose ECART_ARRONDI_IMPORTANT (|22 − 23,2| / 23,2 = 5,17 % > 5 %).
-  it.fails("T6 tel qu'écrit : haltères 23,2 → 22 sans drapeau", () => {
-    expect(arrondirCharge(23.2, haltères10a30).drapeaux).toEqual([]);
-  });
 
   it("propriété (barre) : résultat disponible, ≤ +2,5 %, à moins d'un incrément", () => {
     const m: Materiel = { type: "barre", barre_kg: 20, increment_kg: 2.5, max_kg: 300 };
