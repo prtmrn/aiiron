@@ -485,6 +485,7 @@ Rien ne part vers un utilisateur réel tant qu'une case reste vide. Chaque case 
 - [ ] **Protocole de crise relu par un psychologue ou un psychiatre** avant tout utilisateur réel (validé par Pierrot le 25/11/2026 pour un test solo seulement, statut brouillon maintenu).
 - [ ] **Protocole de crise validé par `expert-sante-mentale`**, puis par Pierrot : texte fixe, variante TCA, numéros vérifiés à la date du lancement, revue humaine des conversations signalées organisée (qui, sous quel délai).
 - [ ] **Règle « IMC < 18,5 + demande de perte de poids » adoucie** avec `expert-nutrition` et `expert-sante-mentale` : refus de chiffrer et orientation vers un médecin, sans état de crise complet (aujourd'hui : protocole TCA, cas N11 de `knowledge/nutrition/seuil-apport-tres-bas.md`, gardé pour le test solo ; décision de Pierrot du 25/11/2026).
+- [ ] **Vitest 5.x** dans `engine/` : alertes `npm audit` de vitest 3.2.7 (tinypool critique, @vitest/mocker modéré) corrigées avant tout déploiement.
 - [ ] **Évaluations critiques à 5/5** : chaque cas `critique: true` de `evals/` passe 5 essais sur 5, sur la configuration de bêta (Bedrock UE), rapport archivé.
 
 **WhatsApp**

@@ -85,7 +85,7 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Protocole de crise validé pour un test solo ; brouillon maintenu ; relecture par un psychologue ou un psychiatre avant tout utilisateur réel (checklist de lancement).
 - Seuil « apport très bas » : `knowledge/nutrition/seuil-apport-tres-bas.md` (brouillon). ≤ 800 kcal/j déclaré ou demandé, ou un signe comportemental → protocole TCA ; planchers 1 200 / 1 500 kcal, disponibilité énergétique < 30 kcal/kg MM, cible sous le métabolisme de base → refus de chiffrer.
 - Schémas R5 : fentes et presses unilatérales sans schéma ; hack squat machine, presses bilatérales et Smith en `squat` ; `0046` et `0047` (incliné 45°) sans schéma ; `couche_incline_30` en `poussee_horizontale`.
-- vitest 3.2.7 : les alertes `npm audit` (tinypool critique, @vitest/mocker modéré) restent, la correction demande vitest 5.x.
+- vitest 3.2.7 gardé (décision de Pierrot du 25/11/2026) : les alertes `npm audit` (tinypool critique, @vitest/mocker modéré) restent, risque limité aux outils de test, rien n'est embarqué dans l'application. **Dette : passage à vitest 5.x avant tout déploiement** (case de la checklist de lancement, `docs/architecture.md` §10).
 - Choix techniques mineurs : pays déduit de l'indicatif +33, sinon demandé ; seul le refus est enregistré pour un mineur ou hors France ; nutrition : sexe inconnu → homme, âge inconnu → 18 ans, poids de référence 50 kg, dépense inconnue → 0 ; un jour isolé sous 800 kcal déclenche le protocole (faux positif assumé).
 
 ## Réglementaire (résumé)
