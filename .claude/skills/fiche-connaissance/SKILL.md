@@ -37,6 +37,8 @@ derniere_revue: 2026-11-24
 
 - Paraphraser : aucune phrase copiée d'un livre, d'un programme payant ou d'un article. Une citation très courte est acceptable seulement si la formulation exacte compte.
 - Privilégier les sources primaires (méta-analyses, position stands, recommandations officielles) aux blogs.
+- Avant de marquer une règle `heuristique à valider`, chercher (WebSearch, WebFetch) une source fiable : étude ou revue de chercheurs, ou à défaut un coach reconnu qui publie ses justifications (article, livre, podcast daté). Citer ce qui a été trouvé, même partiel ; si rien n'est trouvé, l'écrire dans la fiche.
+- Toute règle reprise ailleurs (docs/contexte.md, spec de moteur) pointe vers sa fiche : la source vit dans la fiche, pas dans le résumé.
 - Si les sources se contredisent, le dire et proposer un choix par défaut prudent.
 - Aucune donnée réelle d'utilisateur.
 - Français, phrases courtes.
