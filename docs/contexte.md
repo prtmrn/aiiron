@@ -56,6 +56,7 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 ### Décisions du 25/11/2026, quatrième passe
 - Statique avant séance : toléré jusqu'à 30 s cumulées par groupe, le dynamique reste la règle par défaut ; MOB-1b et ETI-1 disent la même chose.
 - Activation : « par défaut, supprimable » en force et en Hyrox/CrossFit (ECH-F3, ECH-H3), comme Jeffreys 2017 ; champ `supprimable: true` sur les étapes d'activation (musculation comprise, déjà facultative). Les paliers restent obligatoires.
+- Paliers : échelles de 5 à 6 paliers conservées ; la fiche dit que c'est de la prudence et de la technique, pas un gain démontré (Wolf 2024/2026).
 
 ### Choix techniques mineurs (règle : option la plus prudente, notée ici)
 - Mobilité (23 exercices), gammes de course (8) et cardio : hors volume hypertrophie, comme les étirements (sinon `mq-respiration` comptait en abdominaux, `mq-chat-vache` en lombaires).
