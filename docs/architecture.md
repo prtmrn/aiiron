@@ -274,32 +274,25 @@ Si le classifieur échoue (erreur, délai dépassé), le lexique seul décide et
 4. **Levée de la restriction** : par l'utilisateur (« plus mal depuis une semaine »), confirmée en une question. La règle exacte de reprise (délai, reprise allégée) est à écrire par `expert-sante-physique`.
 5. Drapeau rouge (douleur thoracique, malaise, essoufflement anormal, palpitations, engourdissement, douleur après une chute…) : texte fixe, sans LLM : « Arrête la séance maintenant. Si ça ne passe pas très vite ou si tu te sens mal, appelle le 15 ou le 112. » Plus de prescription ce jour-là, conversation signalée.
 
-### 5.3 Crise : interface et protocole minimal sûr
+### 5.3 Crise : interface
 
-Le protocole détaillé appartient à `expert-sante-mentale` (`knowledge/sante-mentale/protocole-crise.md`, pas encore écrit). Ce qui suit est le **minimum sûr, à valider par `expert-sante-mentale` puis par Pierrot avant toute mise en ligne**.
+**Le protocole de référence est `knowledge/sante-mentale/protocole-crise.md`** (`expert-sante-mentale`, brouillon) : déclencheurs et niveaux (PC-1), routage (PC-2), textes fixes mot pour mot (PC-3), ce que fait le code (PC-4), mode restreint (PC-5), revue humaine (PC-6), sortie de l'état (PC-7), interdits (PC-8), faux positifs (PC-9), ressources vérifiées (PC-10), données (PC-11). Rien ne part en ligne avant sa validation par `expert-sante-mentale` puis par Pierrot (checklist §10). Les textes et numéros ne sont écrits que dans la fiche, pas ici.
 
-Interface (code) :
+Interface (code), alignée sur la fiche :
 ```ts
 type EtatConversation = "normal" | "crise";
-declencherCrise(utilisateur: Id, type: "suicide" | "tca" | "autre", messageId: string): void
-// → état "crise", relances proactives coupées, conversation signalée pour revue humaine (admin), envoi du texte fixe
+type NiveauCrise = "doute" | "crise" | "danger"; // "doute" : texte fixe crise_doute_v1, sans passer en état crise
+type TypeCrise = "suicide" | "automutilation" | "tca" | "autre";
+declencherCrise(utilisateur: Id, niveau: NiveauCrise, type: TypeCrise, messageId: string): void
+// crise / danger → état "crise", relances coupées, conversation signalée et alerte immédiate à la personne de garde, texte fixe envoyé par le code
 ```
 
-Texte fixe (envoyé par le code, jamais généré) :
-> Je suis désolé que tu traverses ça. Je suis une IA et je ne peux pas t'aider comme une personne le ferait, mais tu n'as pas à rester seul avec ça.
-> Tu peux appeler le **3114**, gratuit, 24 h/24 : des professionnels t'écoutent.
-> Si tu es en danger maintenant, appelle le **15** ou le **112**.
-> Si tu peux, parle aussi à quelqu'un de confiance autour de toi.
-
-Variante TCA : même structure, avec « parles-en à ton médecin traitant » et une ligne d'écoute spécialisée. Le numéro « Anorexie Boulimie Info Écoute » (0 810 037 037, FFAB) a été trouvé, mais ses horaires et son tarif ne sont pas confirmés en 2026 : **à vérifier par `expert-sante-mentale` avant usage**. Le 3114 reste mentionné si une détresse est exprimée.
-
-En état « crise » :
-- aucun outil de prescription (entraînement, nutrition) ;
-- les messages suivants passent par le LLM en mode restreint, sans outils : écouter, refléter ce que dit l'utilisateur, sans interprétation, sans questions intrusives ; le code ajoute les ressources si elles n'ont pas été redonnées dans les dernières 24 h ;
-- si l'utilisateur demande sa séance, aiiron dit qu'on la reprendra plus tard, sans culpabiliser ;
-- sortie de l'état « crise » : **seulement après revue humaine** dans l'admin (choix prudent ; délai et critères à fixer par `expert-sante-mentale` et Pierrot).
-
-Jamais : diagnostiquer, minimiser, promettre la confidentialité, continuer à prescrire de l'entraînement ou une restriction alimentaire.
+Points de la fiche qui changent l'architecture :
+- routage : union lexique **ou** classifieur ; le classifieur ajoute l'étiquette « danger immédiat » ; nouvelle sortie `doute` (cas `crise-03`) ; priorité danger > drapeau rouge physique > crise > TCA > doute, un seul texte fixe par message entrant ;
+- en état « crise », le code ajoute un rappel fixe des ressources à **chaque** réponse générée ; le LLM n'écrit jamais de numéro ;
+- outils bloqués en crise : prescription, `log_series` et `profil_maj` (rien n'entre dans le profil depuis un message de crise) ;
+- le protocole s'applique même sans consentement santé (base légale à traiter dans l'AIPD) ;
+- un texte fixe part en un seul message, même au-delà des 60 mots du persona.
 
 ### 5.4 Hors sujet
 
