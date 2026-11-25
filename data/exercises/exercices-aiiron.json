@@ -290,6 +290,24 @@
    "attribution_media": null
   },
   {
+   "id": "mq-squat-descentes-lentes",
+   "nom_en": "slow deep squat descents",
+   "nom_fr": "Descentes lentes en squat profond",
+   "partie_du_corps": "upper legs",
+   "materiel": "body weight",
+   "muscle_cible": "adductors",
+   "groupe_musculaire": "glutes",
+   "muscles_secondaires": ["glutes", "calves", "ankles"],
+   "etapes_fr": [
+    "Pieds un peu plus larges que les hanches, pointes légèrement ouvertes.",
+    "Descends lentement, en 3 secondes environ, aussi bas que tu peux sans douleur, talons au sol si possible.",
+    "Remonte tout de suite, sans rester en bas.",
+    "Fais 5 à 8 descentes. Tiens-toi à un support si tu en as besoin."
+   ],
+   "media_id": null,
+   "attribution_media": null
+  },
+  {
    "id": "mq-charniere-baton",
    "nom_en": "hip hinge with dowel",
    "nom_fr": "Charnière de hanche au bâton",

@@ -24,6 +24,18 @@ sources:
     auteurs: "Jeffreys I."
     annee: 2007
     url: "non disponible en libre accès (Professional Strength and Conditioning, UKSCA, n° 6)"
+  - titre: "RAMP warm-ups: more than simply short-term preparation"
+    auteurs: "Jeffreys I."
+    annee: 2017
+    url: "https://cdn.uksca.org.uk/assets/pdfs/UkscaIqPdfs/ramp-warmups-more-than-simply-shortterm-preparation-636825390373342631.pdf"
+  - titre: "Low load exercises targeting the gluteal muscle group acutely enhance explosive power output in elite athletes"
+    auteurs: "Crow JF, Buttifant D, Kearny SG, Hrysomallis C."
+    annee: 2012
+    url: "https://doi.org/10.1519/JSC.0b013e318220dfab"
+  - titre: "Effect of a gluteal activation warm-up on explosive exercise performance"
+    auteurs: "Parr M, Price PD, Cleather DJ."
+    annee: 2017
+    url: "https://doi.org/10.1136/bmjsem-2017-000245"
 statut: brouillon
 auteur_agent: expert-sante-physique
 derniere_revue: 2026-11-25
@@ -38,9 +50,9 @@ Avant des séries lourdes, on monte la température avec un peu de cardio, on mo
 | Id | Règle | Source / statut |
 | --- | --- | --- |
 | ECH-F1 | Cardio facile 5 min (RPE 3–4), 3 min en version courte. Rameur, vélo, vélo à air, corde ou marche inclinée. | Bishop 2003 (5–10 min à intensité modérée) ; 3 min validé par Pierrot le 25/11/2026 |
-| ECH-F2 | Mobilité dynamique ciblée sur le premier mouvement principal : **4 exercices**, liste `mobilite-force#avant` (environ 3 min). Version courte : **2 exercices**, liste `mobilite-force#avant-courte`. | 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 |
-| ECH-F3 | Activation : 2 exercices légers (1 en version courte), choisis selon le mouvement, loin de la fatigue (RPE ≤ 5). | Heuristique de coach, validée par Pierrot le 25/11/2026 |
-| ECH-F4 | Montée en charge obligatoire avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelle choisie par l'intensité I (règle ECH-6) : I ≥ 0,80 → paliers complets ; I < 0,80 → échelles « Léger » / « Modéré » ; I indéterminable → échelle « Lourd ». Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance : départ réduit selon la règle « même schéma » de la fiche force ; sinon paliers complets. Paliers, % et reps : `knowledge/force/paliers-montee-en-charge.md`. Jamais supprimée ni raccourcie en version courte. | Skill `seance-complete` ; règle ECH-6 ; règle « même schéma » : décision de Pierrot du 25/11/2026, détaillée par expert-force |
+| ECH-F2 | Mobilité dynamique ciblée sur le premier mouvement principal : **4 exercices**, liste `mobilite-force#avant` (environ 3 min). Version courte : **2 exercices**, liste `mobilite-force#avant-courte`. | 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 ; sources et statut du nombre d'exercices : MOB-1 de `mobilite-modules` (heuristique de coach) |
+| ECH-F3 | Activation : 2 exercices légers (1 en version courte), choisis selon le mouvement, loin de la fatigue (RPE ≤ 5). | Heuristique de coach, validée par Pierrot le 25/11/2026. Sources partielles : activation légère intégrée à la mobilisation (Jeffreys 2017, qui réserve les exercices d'activation ciblés à des besoins précis) ; pont fessier : effet discordant des exercices fessiers à faible charge (gain de puissance : Crow 2012 ; pas de gain de force : Parr 2017) ; rester loin de la fatigue (Bishop 2003). Élastique pour l'épaule avant les développés, dead bug, nombre d'exercices et RPE ≤ 5 : aucune source trouvée |
+| ECH-F4 | Montée en charge obligatoire avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelle choisie par l'intensité I (règle ECH-6) : I ≥ 0,80 → paliers complets ; I < 0,80 → échelles « Léger » / « Modéré » ; I indéterminable → échelle « Lourd ». Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance : départ réduit selon R5, « Mouvement déjà chauffé », de la fiche force ; sinon paliers complets. Paliers, % et reps : `knowledge/force/paliers-montee-en-charge.md`. Jamais supprimée ni raccourcie en version courte. | Skill `seance-complete` ; règle ECH-6 ; règle « Mouvement déjà chauffé » : décision de Pierrot du 25/11/2026, détaillée par expert-force |
 | ECH-F5 | Deuxième mouvement principal de la séance : on saute le cardio et on refait seulement la liste `avant-courte` de ce mouvement (2 exercices), puis ses paliers (ECH-F4). | Heuristique de coach, validée par Pierrot le 25/11/2026 |
 | ECH-F6 | Premier palier de travail dans les 10 min qui suivent la fin des paliers (règle ECH-4). | McGowan 2015 ; validé par Pierrot le 25/11/2026 |
 

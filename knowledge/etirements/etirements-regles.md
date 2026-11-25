@@ -64,7 +64,7 @@ Un étirement statique long juste avant un effort de force ou de puissance rédu
 
 ### Catalogue des étirements statiques par groupe
 
-Alternative `adducteurs` : `mq-squat-profond` en tenue de 30 s (appui autorisé). Avant la séance, le squat profond ne se fait qu'en descentes lentes (règle MOB-1b de `mobilite-modules`).
+Alternative `adducteurs` : `mq-squat-profond` en tenue de 30 s (appui autorisé). Avant la séance, le squat profond ne se fait qu'en descentes lentes (`mq-squat-descentes-lentes`, règle MOB-1b de `mobilite-modules`, où sont ses sources ; tenue de 30 s : Garber 2011). MOB-1b est plus prudente qu'ETI-1 et que la littérature (Kay et Blazevich 2012 : pas d'effet notable sous 30 s) : choix de Pierrot du 25/11/2026.
 
 ```json
 {

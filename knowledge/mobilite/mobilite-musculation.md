@@ -25,8 +25,8 @@ En musculation, la mobilité d'avant séance dépend de la région travaillée, 
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-M1 | Avant : **4 exercices** selon la région, liste `avant` (JSON), chacun avec le dosage de son module, environ 3 min. | Opplert et Babault 2018 ; association région → modules validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026 ; choix des 4 exercices = heuristique à valider |
-| MOB-M2 | Version courte : **2 exercices** par région, liste `avant-courte` (JSON), incluse dans la liste `avant`, chacun avec le dosage de son module. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 |
+| MOB-M1 | Avant : **4 exercices** selon la région, liste `avant` (JSON), chacun avec le dosage de son module, environ 3 min. | Opplert et Babault 2018 ; association région → modules validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026, sources et statut dans MOB-1 de `mobilite-modules` (heuristique de coach) ; choix des 4 exercices validé par Pierrot le 25/11/2026 |
+| MOB-M2 | Version courte : **2 exercices** par région, liste `avant-courte` (JSON), incluse dans la liste `avant`, chacun avec le dosage de son module. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 ; nombre d'exercices : sources et statut dans MOB-1 de `mobilite-modules` (heuristique de coach) |
 | MOB-M3 | Après : facultatif, 1 module `-autonome` de la zone raide déclarée, après les étirements. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
@@ -35,7 +35,7 @@ En musculation, la mobilité d'avant séance dépend de la région travaillée, 
   "type_seance": "musculation",
   "avant": {
     "haut": [ { "module": "thoracique-dynamique", "ex": "mq-open-book" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" }, { "module": "epaule-dynamique", "ex": "mq-cercles-bras" }, { "module": "epaule-dynamique", "ex": "mq-wall-slide" } ],
-    "bas": [ { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "cheville-dynamique", "ex": "mq-genou-mur" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "hanche-dynamique", "ex": "mq-squat-profond" } ],
+    "bas": [ { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "cheville-dynamique", "ex": "mq-genou-mur" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "hanche-dynamique", "ex": "mq-squat-descentes-lentes" } ],
     "full": [ { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "epaule-dynamique", "ex": "mq-cercles-bras" } ]
   },
   "avant-courte": {

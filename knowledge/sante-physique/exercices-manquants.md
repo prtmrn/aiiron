@@ -15,7 +15,7 @@ derniere_revue: 2026-11-25
 
 ## Principe
 
-Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge/etirements/` référencent les exercices par identifiant. Un identifiant à 4 chiffres pointe vers `data/exercises/exercises.json` (données d'origine, jamais modifiées) ; un identifiant `mq-…` désigne un exercice absent du dataset, ou présent seulement sous un nom ou une description qui ne correspond pas. Ces 39 exercices sont créés par aiiron dans **`data/exercises/exercices-aiiron.json`**, au même schéma que `exercises.json` (plus `nom_fr`), sans média ; les consignes `etapes_fr` sont rédigées par expert-sante-physique. Les entrées trompeuses du dataset sont listées, avec la correction proposée, dans `data/exercises/corrections.json`. Recherche faite par mots-clés sur `nom_en` (stretch, roll, mobility, circle, swing, skip, row, bike, sled, plank, bridge, etc.) le 25/11/2026.
+Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge/etirements/` référencent les exercices par identifiant. Un identifiant à 4 chiffres pointe vers `data/exercises/exercises.json` (données d'origine, jamais modifiées) ; un identifiant `mq-…` désigne un exercice absent du dataset, ou présent seulement sous un nom ou une description qui ne correspond pas. Ces 40 exercices sont créés par aiiron dans **`data/exercises/exercices-aiiron.json`**, au même schéma que `exercises.json` (plus `nom_fr`), sans média ; les consignes `etapes_fr` sont rédigées par expert-sante-physique. Les entrées trompeuses du dataset sont listées, avec la correction proposée, dans `data/exercises/corrections.json`. Recherche faite par mots-clés sur `nom_en` (stretch, roll, mobility, circle, swing, skip, row, bike, sled, plank, bridge, etc.) le 25/11/2026.
 
 ## Règles pour aiiron
 
@@ -25,7 +25,7 @@ Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge
 | EXM-2 | « Plus proche dans le dataset » est une suggestion de remplacement provisoire, pas un équivalent. Le moteur ne l'utilise que si `mq-…` est indisponible et que l'exercice proche ne figure pas dans la colonne « à éviter ». | Validé par Pierrot le 25/11/2026 |
 | EXM-3 | Les identifiants `mq-…` sont stables : ce sont les clés de `exercices-aiiron.json`, uniques et sans collision avec les identifiants de `exercises.json`. | Validé par Pierrot le 25/11/2026 |
 
-## Liste : 39 exercices manquants (créés dans `data/exercises/exercices-aiiron.json`)
+## Liste : 40 exercices manquants (créés dans `data/exercises/exercices-aiiron.json`)
 
 ### Cardio d'échauffement et de retour au calme (5)
 
@@ -50,13 +50,14 @@ Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge
 | mq-foulees-bondissantes | Foulées bondissantes | Bounding | gammes de course | fessiers, quadriceps, mollets | aucun | 1472 forward jump | échauffement course |
 | mq-pogo | Rebonds de cheville (pogos) | Pogo hops / ankle hops | gammes, pliométrie légère | mollets, tendon d'Achille | aucun | 2612 jump rope | mobilité course |
 
-### Mobilité (17)
+### Mobilité (18)
 
 | Id | Nom français | Nom anglais probable | Catégorie | Muscles ciblés | Matériel | Plus proche dans le dataset | Utilisé dans |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | mq-genou-mur | Genou au mur (cheville) | Knee-to-wall ankle mobilization | mobilité cheville | mollets, soléaire | mur | 1377 calf stretch with hands against wall | modules cheville |
 | mq-90-90 | Bascules de hanche 90/90 | 90/90 hip switch | mobilité hanche | rotateurs de hanche, fessiers | aucun | 2567 seated piriformis stretch | modules hanche |
-| mq-squat-profond | Tenue de squat profond | Deep squat hold | mobilité hanche, cheville | adducteurs, fessiers, mollets | aucun (appui possible) | 1760 dumbbell goblet squat, 1685 squat to overhead reach | modules hanche |
+| mq-squat-profond | Tenue de squat profond | Deep squat hold | mobilité hanche, cheville | adducteurs, fessiers, mollets | aucun (appui possible) | 1760 dumbbell goblet squat, 1685 squat to overhead reach | module hanche autonome, retour au calme (alternative adducteurs) |
+| mq-squat-descentes-lentes | Descentes lentes en squat profond | Slow deep squat descents | mobilité dynamique hanche, cheville | adducteurs, fessiers, mollets | aucun (appui possible) | 1685 squat to overhead reach. **À éviter avant séance : `mq-squat-profond` (tenue de 30 s, règle MOB-1b)** | module hanche dynamique (mobilité force squat, musculation bas) |
 | mq-charniere-baton | Charnière de hanche au bâton | Hip hinge drill with dowel | mobilité, apprentissage du geste | ischio-jambiers, fessiers, érecteurs | bâton | 0044 barbell good morning (chargé, à éviter en échauffement) | module charnière |
 | mq-chat-vache | Chat-vache | Cat-cow | mobilité colonne | érecteurs, abdominaux | aucun | aucun | module thoracique |
 | mq-open-book | Rotation thoracique allongé (open book) | Open book / side-lying thoracic rotation | mobilité thoracique | obliques, pectoraux | aucun | 1358 side lying floor stretch | modules thoraciques |
@@ -96,7 +97,7 @@ Les protocoles de `knowledge/echauffement/`, `knowledge/mobilite/` et `knowledge
 | mq-burpee-saut-longueur | Burpee saut en longueur | Burpee broad jump | station Hyrox | corps entier | aucun | 1160 burpee | échauffement hyrox |
 | mq-fentes-sac | Fentes marchées avec sac | Sandbag walking lunges | station Hyrox | quadriceps, fessiers | sac lesté | 1460 walking lunge | échauffement hyrox |
 
-Total : 5 + 8 + 17 + 2 + 2 + 5 = **39**.
+Total : 5 + 8 + 18 + 2 + 2 + 5 = **40**.
 
 ## Exercices présents mais à corriger dans le dataset (pas de modification ici)
 

@@ -20,7 +20,7 @@ Une séance aiiron a toujours quatre blocs. Un modèle ou une séance qui en oub
 
 **Mobilité dynamique** — 4 exercices avant la séance (2 en version courte), choisis par type de séance dans `knowledge/mobilite/`.
 
-**Force (séries lourdes)** — montée en charge par paliers avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelles, % et reps : `knowledge/force/paliers-montee-en-charge.md` (expert-force), jamais recopiés ici. Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance, départ réduit selon cette fiche ; sinon paliers complets. Même règle en musculation pour un exercice à I ≥ 0,80. Les paliers sont calculés par le moteur force, arrondis comme les séries de travail.
+**Force (séries lourdes)** — montée en charge par paliers avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelles, % et reps : `knowledge/force/paliers-montee-en-charge.md` (expert-force), jamais recopiés ici (retrait du tableau de paliers validé par Pierrot le 25/11/2026). Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance, départ réduit selon cette fiche (R5, « Mouvement déjà chauffé ») ; sinon paliers complets. Même règle en musculation et en Hyrox/CrossFit pour un exercice à I ≥ 0,80. Les paliers sont calculés par le moteur force, arrondis comme les séries de travail.
 
 **Musculation** — 1 à 2 séries d'approche légères sur le premier exercice de chaque groupe musculaire ; les exercices suivants du même groupe n'en demandent pas forcément.
 

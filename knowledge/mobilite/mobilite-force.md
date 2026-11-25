@@ -12,6 +12,10 @@ sources:
     auteurs: "Garber CE, Blissmer B, Deschenes MR, et al."
     annee: 2011
     url: "https://doi.org/10.1249/MSS.0b013e318213fefb"
+  - titre: "Lower extremity strength and the range of motion in relation to squat depth"
+    auteurs: "Kim SH, Kwon OY, Park KN, Jeon IC, Weon JH."
+    annee: 2015
+    url: "https://doi.org/10.1515/hukin-2015-0007"
 statut: brouillon
 auteur_agent: expert-sante-physique
 derniere_revue: 2026-11-25
@@ -25,8 +29,8 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-F1 | Avant : **4 exercices** selon le mouvement principal, liste `avant` (JSON), chacun avec le dosage de son module, environ 3 min. Si la séance a deux mouvements principaux, on fait la liste `avant` du premier ; pour le second, on fait sa liste `avant-courte` (2 exercices) juste avant ses paliers (ECH-F5). | Opplert et Babault 2018 ; association mouvement → modules validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026 ; choix des 4 exercices = heuristique à valider |
-| MOB-F2 | Version courte : **2 exercices** par mouvement, liste `avant-courte` (JSON), incluse dans la liste `avant`, chacun avec le dosage de son module. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 |
+| MOB-F1 | Avant : **4 exercices** selon le mouvement principal, liste `avant` (JSON), chacun avec le dosage de son module, environ 3 min. Si la séance a deux mouvements principaux, on fait la liste `avant` du premier ; pour le second, on fait sa liste `avant-courte` (2 exercices) juste avant ses paliers (ECH-F5). | Opplert et Babault 2018 ; association mouvement → modules validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026, sources et statut dans MOB-1 de `mobilite-modules` ; choix des 4 exercices validé par Pierrot le 25/11/2026 |
+| MOB-F2 | Version courte : **2 exercices** par mouvement, liste `avant-courte` (JSON), incluse dans la liste `avant`, chacun avec le dosage de son module. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 ; nombre d'exercices : sources et statut dans MOB-1 de `mobilite-modules` (heuristique de coach). Squat, genou au mur : Kim 2015 (la flexion dorsale de cheville est associée à la profondeur du squat ; étude transversale, pas d'essai sur l'exercice lui-même). Squat, bascules 90/90 : aucune source trouvée, heuristique de coach (Kim 2015 relie la flexion de hanche à la profondeur chez les hommes, pas la rotation travaillée par le 90/90) |
 | MOB-F3 | Après : facultatif. Module `-autonome` de la zone raide déclarée, 1 module, 3 à 5 min, placé après les étirements du retour au calme. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
@@ -34,7 +38,7 @@ Avant une séance de force, on mobilise seulement les articulations du premier m
   "id": "mobilite-force",
   "type_seance": "force",
   "avant": {
-    "squat": [ { "module": "cheville-dynamique", "ex": "mq-genou-mur" }, { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "hanche-dynamique", "ex": "mq-squat-profond" } ],
+    "squat": [ { "module": "cheville-dynamique", "ex": "mq-genou-mur" }, { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "hanche-dynamique", "ex": "mq-squat-descentes-lentes" } ],
     "souleve_de_terre": [ { "module": "charniere-dynamique", "ex": "mq-charniere-baton" }, { "module": "hanche-dynamique", "ex": "1604" }, { "module": "hanche-dynamique", "ex": "mq-90-90" }, { "module": "charniere-dynamique", "ex": "1471" } ],
     "developpe_couche": [ { "module": "thoracique-dynamique", "ex": "mq-open-book" }, { "module": "epaule-dynamique", "ex": "mq-passage-epaules" }, { "module": "thoracique-dynamique", "ex": "mq-chat-vache" }, { "module": "epaule-dynamique", "ex": "mq-cercles-bras" } ],
     "developpe_militaire": [ { "module": "epaule-dynamique", "ex": "mq-passage-epaules" }, { "module": "epaule-dynamique", "ex": "mq-wall-slide" }, { "module": "thoracique-dynamique", "ex": "mq-chat-vache" }, { "module": "poignet-dynamique", "ex": "1428" } ]

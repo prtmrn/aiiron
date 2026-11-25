@@ -24,6 +24,22 @@ sources:
     auteurs: "Jeffreys I."
     annee: 2007
     url: "non disponible en libre accès (Professional Strength and Conditioning, UKSCA, n° 6)"
+  - titre: "RAMP warm-ups: more than simply short-term preparation"
+    auteurs: "Jeffreys I."
+    annee: 2017
+    url: "https://cdn.uksca.org.uk/assets/pdfs/UkscaIqPdfs/ramp-warmups-more-than-simply-shortterm-preparation-636825390373342631.pdf"
+  - titre: "The effect of warm-up in resistance training and strength performance: a systematic review"
+    auteurs: "Ribeiro B, Pereira A, Neves PP, Marinho D, Marques M, Neiva HP."
+    annee: 2021
+    url: "https://doi.org/10.6063/motricidade.21143"
+  - titre: "Low load exercises targeting the gluteal muscle group acutely enhance explosive power output in elite athletes"
+    auteurs: "Crow JF, Buttifant D, Kearny SG, Hrysomallis C."
+    annee: 2012
+    url: "https://doi.org/10.1519/JSC.0b013e318220dfab"
+  - titre: "Effect of a gluteal activation warm-up on explosive exercise performance"
+    auteurs: "Parr M, Price PD, Cleather DJ."
+    annee: 2017
+    url: "https://doi.org/10.1136/bmjsem-2017-000245"
 statut: brouillon
 auteur_agent: expert-sante-physique
 derniere_revue: 2026-11-25
@@ -38,10 +54,10 @@ Une séance Hyrox ou CrossFit enchaîne des mouvements variés (course, ergomèt
 | Id | Règle | Source / statut |
 | --- | --- | --- |
 | ECH-H1 | Cardio facile 6 min (RPE 3–4, dernière minute à RPE 5), 3 min en version courte. Machine du jour de préférence (rameur, ski erg, vélo à air) ou course. | Bishop 2003 ; durées validées par Pierrot le 25/11/2026 |
-| ECH-H2 | Mobilité dynamique globale : **4 exercices**, liste `mobilite-hyrox-crossfit#avant` (environ 3 min), avec un exercice par ajout applicable : poignet (appui, front rack, overhead), épaule (overhead, gymnastique), cheville (course, sauts, corde). Version courte : **2 exercices**, liste `mobilite-hyrox-crossfit#avant-courte`. | Dosage validé par Pierrot le 25/11/2026 ; 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 (remplace le plafond de 6 min) |
-| ECH-H3 | Activation 2 min : dead bug + pont fessier ; + tirage scapulaire si gymnastique de tirage ; + pompe scapulaire si appuis (pompes, burpees, handstand). | Heuristique de coach, validée par Pierrot le 25/11/2026 |
-| ECH-H4 | Répétition des mouvements du premier bloc chronométré : 2 passages. Passage 1 : environ 30 % du volume d'un tour, RPE 4–5. Passage 2 : même volume, RPE 6–7. Charges : plus légères ou égales à celles du bloc. Version courte : un seul passage, à RPE 6 ; jamais supprimée. | Skill `seance-complete` ; 30 % et RPE : heuristique de coach, validée par Pierrot le 25/11/2026 |
-| ECH-H5 | Tout mouvement chargé de la séance avec I ≥ 0,80 (règle ECH-6), quel que soit le nombre de reps : paliers complets de `knowledge/force/paliers-montee-en-charge.md` à la place de l'étape ECH-H4 pour ce mouvement, jamais supprimés ni raccourcis en version courte. I < 0,80 ou indéterminable (charges fixées par le format) : ECH-H4. | Règle ECH-6 (décision de Pierrot du 25/11/2026) ; cas « I indéterminable → ECH-H4 » validé par Pierrot le 25/11/2026 |
+| ECH-H2 | Mobilité dynamique globale : **4 exercices**, liste `mobilite-hyrox-crossfit#avant` (environ 3 min), avec un exercice par ajout applicable : poignet (appui, front rack, overhead), épaule (overhead, gymnastique), cheville (course, sauts, corde). Version courte : **2 exercices**, liste `mobilite-hyrox-crossfit#avant-courte`. | Dosage validé par Pierrot le 25/11/2026 ; 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 (remplace le plafond de 6 min) ; sources et statut du nombre d'exercices : MOB-1 de `mobilite-modules` (heuristique de coach) |
+| ECH-H3 | Activation 2 min : dead bug + pont fessier ; + tirage scapulaire si gymnastique de tirage ; + pompe scapulaire si appuis (pompes, burpees, handstand). | Heuristique de coach, validée par Pierrot le 25/11/2026. Sources partielles : activation légère intégrée à la mobilisation (Jeffreys 2017, qui réserve les exercices d'activation ciblés à des besoins précis) ; effet sur la performance discordant pour les exercices fessiers à faible charge (gain de puissance : Crow 2012 ; pas de gain de force : Parr 2017) ; rester loin de la fatigue (Bishop 2003). Dead bug, tirage et pompe scapulaires : aucune source trouvée |
+| ECH-H4 | Répétition des mouvements du premier bloc chronométré : 2 passages. Passage 1 : environ 30 % du volume d'un tour, RPE 4–5. Passage 2 : même volume, RPE 6–7. Charges : plus légères ou égales à celles du bloc. Version courte : un seul passage, à RPE 6 ; jamais supprimée. | Skill `seance-complete`. Principe : un bref effort propre à la tâche améliore la performance, un échauffement trop intense la dégrade (Bishop 2003) ; la phase de potentialisation monte en intensité et en spécificité jusqu'au corps de séance (Jeffreys 2017). Aucune étude d'échauffement propre au Hyrox ou au CrossFit trouvée (recherche du 25/11/2026). 2 passages, 30 % et RPE : aucune source trouvée, heuristique de coach, validée par Pierrot le 25/11/2026 |
+| ECH-H5 | Tout mouvement chargé de la séance avec I ≥ 0,80 (règle ECH-6), quel que soit le nombre de reps : paliers de `knowledge/force/paliers-montee-en-charge.md` à la place de l'étape ECH-H4 pour ce mouvement, jamais supprimés ni raccourcis en version courte. Même règle qu'en force et en musculation (R5, « Mouvement déjà chauffé », de la fiche force) : paliers complets la première fois que le schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) est chauffé dans la séance, départ à 60 % ensuite (définition de « chauffé » : même section de la fiche force). I < 0,80 ou indéterminable (charges fixées par le format) : ECH-H4. | Règle ECH-6 (décision de Pierrot du 25/11/2026) ; cas « I indéterminable → ECH-H4 » validé par Pierrot le 25/11/2026, aucune source trouvée, heuristique de coach (Ribeiro 2021 : l'échauffement spécifique à charge proche du maximum aide surtout les efforts maximaux, résultats discordants pour les efforts sous-maximaux ; ne traite pas les charges fixées par un format) ; règle « Mouvement déjà chauffé » étendue au Hyrox/CrossFit : validée par Pierrot le 25/11/2026 |
 | ECH-H6 | Potentialisation facultative (standard, objectif performance) : 1 à 2 efforts de 10 à 15 s à l'intensité du bloc, 2 à 5 min avant le départ. | Blazevich et Babault 2019 ; dosage : heuristique de coach, validée par Pierrot le 25/11/2026 |
 | ECH-H7 | Départ du premier bloc chronométré dans les 10 min qui suivent la fin de l'échauffement (règle ECH-4). | McGowan 2015 ; validé par Pierrot le 25/11/2026 |
 
@@ -118,7 +134,7 @@ Substitutions : `2142` ski erg, `2612` corde à sauter.
 
 - Douleur pendant la répétition des mouvements : le mouvement concerné est remplacé par une variante indolore ou retiré du bloc ; orientation vers un professionnel si ça persiste (règle ECH-5).
 - Compétition Hyrox : l'échauffement réel dépend de l'organisation (zone d'échauffement, horaires de vague). À adapter avec expert-course.
-- Le seuil d'ECH-H5 est la règle commune ECH-6, appliquée à l'identique par expert-force. Une charge fixée par le format (wall ball, sac, kettlebell) sans e1RM ni RPE prescrit donne un I indéterminable : ECH-H4 s'applique.
+- Le seuil d'ECH-H5 est la règle commune ECH-6, appliquée à l'identique par expert-force ; le départ d'un schéma déjà chauffé suit R5, « Mouvement déjà chauffé », de `knowledge/force/paliers-montee-en-charge.md`. Une charge fixée par le format (wall ball, sac, kettlebell) sans e1RM ni RPE prescrit donne un I indéterminable : ECH-H4 s'applique (heuristique de coach, aucune source trouvée ; voir ECH-H5).
 
 ## Exemple
 

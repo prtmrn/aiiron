@@ -20,6 +20,26 @@ sources:
     auteurs: "Wiewelhove T, Döweling A, Schneider C, et al."
     annee: 2019
     url: "https://doi.org/10.3389/fphys.2019.00376"
+  - titre: "A review of the acute effects of static and dynamic stretching on performance"
+    auteurs: "Behm DG, Chaouachi A."
+    annee: 2011
+    url: "https://doi.org/10.1007/s00421-011-1879-2"
+  - titre: "The effect of warm-ups incorporating different volumes of dynamic stretching on 10- and 20-m sprint performance in highly trained male athletes"
+    auteurs: "Turki O, Chaouachi A, Behm DG, et al."
+    annee: 2012
+    url: "https://doi.org/10.1519/JSC.0b013e31821ef846"
+  - titre: "Acute effects of different volumes of dynamic stretching on vertical jump performance, flexibility and muscular endurance"
+    auteurs: "Ryan ED, Everett KL, Smith DB, et al."
+    annee: 2014
+    url: "https://doi.org/10.1111/cpf.12122"
+  - titre: "RAMP warm-ups: more than simply short-term preparation"
+    auteurs: "Jeffreys I."
+    annee: 2017
+    url: "https://cdn.uksca.org.uk/assets/pdfs/UkscaIqPdfs/ramp-warmups-more-than-simply-shortterm-preparation-636825390373342631.pdf"
+  - titre: "Effect of acute static stretch on maximal muscle performance: a systematic review"
+    auteurs: "Kay AD, Blazevich AJ."
+    annee: 2012
+    url: "https://doi.org/10.1249/MSS.0b013e318225cb27"
 statut: brouillon
 auteur_agent: expert-sante-physique
 derniere_revue: 2026-11-25
@@ -33,8 +53,8 @@ La mobilité est découpée en modules par articulation, réutilisés par toutes
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-1 | Avant séance : seulement des exercices de modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. Version standard : **4 exercices** (liste `avant` de chaque fiche) ; version courte : **2 exercices** (liste `avant-courte`, toujours incluse dans la liste `avant`). Chaque exercice garde le dosage de son module. Environ 3 min en standard, 2 min en courte. | Opplert et Babault 2018 ; dosage validé par Pierrot le 25/11/2026 ; 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 |
-| MOB-1b | Le squat profond se fait en **descentes lentes** (5 à 8) avant la séance ; la **tenue de 30 s** est réservée au module `hanche-autonome` (après la séance ou jour de repos) et au retour au calme (alternative `adducteurs` de `etirements-regles`). | Règle MOB-1 (pas de maintien > 5 s avant l'effort) ; décision de Pierrot du 25/11/2026 |
+| MOB-1 | Avant séance : seulement des exercices de modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. Version standard : **4 exercices** (liste `avant` de chaque fiche) ; version courte : **2 exercices** (liste `avant-courte`, toujours incluse dans la liste `avant`). Chaque exercice garde le dosage de son module. Environ 3 min en standard, 2 min en courte. | Étirements dynamiques avant l'effort : Opplert et Babault 2018 ; Behm et Chaouachi 2011. Petit volume suffisant : Turki 2012 (1 à 2 séries d'environ 14 reps par exercice améliorent le sprint sur 20 m, 3 séries le dégradent). Un exercice par grand schéma de mouvement (squat, fente, appui sur une jambe, gainage, atteinte) : Jeffreys 2017, coach-chercheur. **Nombre de 4 et de 2 exercices : aucune source ne fixe ce nombre, heuristique de coach** (décision de Pierrot du 25/11/2026). Les protocoles étudiés durent plus longtemps (≈ 7 à 12 min : Ryan 2014) : l'effet propre de ces 3 min n'est pas démontré. Dosage validé par Pierrot le 25/11/2026 |
+| MOB-1b | Le squat profond se fait en **descentes lentes** (5 à 8, exercice `mq-squat-descentes-lentes`) avant la séance ; la **tenue de 30 s** (exercice `mq-squat-profond`) est réservée au module `hanche-autonome` (après la séance ou jour de repos) et au retour au calme (alternative `adducteurs` de `etirements-regles`). | Mouvement dynamique plutôt que maintien statique dans la phase de mobilisation : Jeffreys 2017 ; descentes lentes et contrôlées plutôt que rebonds : Opplert et Babault 2018. 5 à 8 descentes : aucune source trouvée, heuristique de coach. Tenue de 30 s après la séance et les jours de repos : Garber 2011 (maintien de 10 à 30 s). Règle **plus prudente que la littérature** : un maintien de 30 s avant l'effort n'a pas d'effet notable sur la performance (Kay et Blazevich 2012 ; Behm 2016). Décision de Pierrot du 25/11/2026 |
 | MOB-2 | Maintiens statiques des modules `-autonome` : 2 × 30 s par côté, tension nette mais jamais douloureuse. | Garber 2011 (10–30 s par maintien, 60 s cumulées par exercice) |
 | MOB-3 | Routine de mobilité autonome (jour de repos ou séance dédiée) : 5 à 15 min, 10 min par défaut. On prend les modules `-autonome` des zones raides déclarées par l'utilisateur, 3 modules au plus ; sans zone déclarée : hanche + thoracique + cheville. | Skill `seance-complete` ; choix des modules validé par Pierrot le 25/11/2026 |
 | MOB-4 | Fréquence conseillée des routines autonomes : au moins 2 à 3 jours par semaine pour un objectif de souplesse. | Garber 2011 |
@@ -56,7 +76,7 @@ La mobilité est découpée en modules par articulation, réutilisés par toutes
     "hanche-dynamique": { "duree_min": 2, "items": [
       { "ex": "mq-90-90", "nom_fr": "Bascules de hanche 90/90", "series": 1, "reps": 6, "par_cote": true, "intensite": "contrôlé" },
       { "ex": "1604", "nom_fr": "World's greatest stretch", "series": 1, "reps": 3, "par_cote": true, "intensite": "2 s en fin d'amplitude" },
-      { "ex": "mq-squat-profond", "nom_fr": "Descentes lentes en squat profond", "series": 1, "reps": 6, "intensite": "5 à 8 descentes, 3 s en descente, remontée sans pause en bas ; talons au sol si possible, appui autorisé" }
+      { "ex": "mq-squat-descentes-lentes", "nom_fr": "Descentes lentes en squat profond", "series": 1, "reps": 6, "intensite": "5 à 8 descentes, 3 s en descente, remontée sans pause en bas ; talons au sol si possible, appui autorisé" }
     ] },
     "hanche-autonome": { "duree_min": 5, "items": [
       { "ex": "mq-90-90", "nom_fr": "Bascules de hanche 90/90", "series": 2, "reps": 6, "par_cote": true, "intensite": "contrôlé" },

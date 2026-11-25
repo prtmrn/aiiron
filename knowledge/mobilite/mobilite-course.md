@@ -29,9 +29,9 @@ Avant une séance de course intense, la mobilité se place entre le footing et l
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-C1 | Séance intense : **4 exercices**, liste `avant` (JSON) : balanciers avant-arrière, balanciers latéraux, rebonds de cheville (`jambes-course-dynamique`), world's greatest stretch (`hanche-dynamique`), environ 3 min. | Opplert et Babault 2018 ; composition jambes + hanche validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026 ; choix des 4 exercices = heuristique à valider |
-| MOB-C2 | Version courte : **2 exercices**, balanciers avant-arrière et latéraux (liste `avant-courte`), avec le dosage de `jambes-course-dynamique`. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 |
-| MOB-C3 | Trail, terrain accidenté, côtes : le genou au mur (`cheville-dynamique`) remplace le world's greatest stretch, pour rester à 4 exercices. | Ajout de la cheville validé par Pierrot le 25/11/2026 ; remplacement du world's greatest stretch = heuristique à valider |
+| MOB-C1 | Séance intense : **4 exercices**, liste `avant` (JSON) : balanciers avant-arrière, balanciers latéraux, rebonds de cheville (`jambes-course-dynamique`), world's greatest stretch (`hanche-dynamique`), environ 3 min. | Opplert et Babault 2018 ; composition jambes + hanche validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026, sources et statut dans MOB-1 de `mobilite-modules` (heuristique de coach) ; choix des 4 exercices validé par Pierrot le 25/11/2026 |
+| MOB-C2 | Version courte : **2 exercices**, balanciers avant-arrière et latéraux (liste `avant-courte`), avec le dosage de `jambes-course-dynamique`. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 ; nombre d'exercices : sources et statut dans MOB-1 de `mobilite-modules` (heuristique de coach) |
+| MOB-C3 | Trail, terrain accidenté, côtes : le genou au mur (`cheville-dynamique`) remplace le world's greatest stretch, pour rester à 4 exercices. | Ajout de la cheville validé par Pierrot le 25/11/2026 ; remplacement du world's greatest stretch validé par Pierrot le 25/11/2026 |
 | MOB-C4 | Sortie facile : mobilité facultative, `jambes-course-dynamique` si l'utilisateur le souhaite. | Validé par Pierrot le 25/11/2026 |
 | MOB-C5 | Routine autonome conseillée aux coureurs les jours de repos : `hanche-autonome` + `cheville-autonome` (10 min), 2 à 3 fois par semaine. | Garber 2011 ; choix des modules validé par Pierrot le 25/11/2026 |
 
