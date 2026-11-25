@@ -34,8 +34,7 @@ describe("cohérence du mapping", () => {
     expect(exercices.size).toBe(dataset.exercises.length + aiiron.exercises.length);
   });
 
-  // ÉCART: mapping-muscles.md:156 annonce 39 exercices mq-… ; le fichier en a 40 (mq-squat-descentes-lentes ajouté ensuite)
-  it.fails("fiche : 39 exercices dans exercices-aiiron.json", () => {
-    expect(aiiron.exercises).toHaveLength(39);
+  it("fiche : 40 exercices dans exercices-aiiron.json", () => {
+    expect(aiiron.exercises).toHaveLength(40);
   });
 });

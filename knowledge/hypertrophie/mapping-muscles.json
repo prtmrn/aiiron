@@ -266,7 +266,7 @@
       "critere": "mobilité articulaire ou échauffement sans charge : cercles articulaires, toe touches debout au poids du corps, inchworm, genoux à la poitrine ; dans exercices-aiiron.json, les exercices de mobilité et de respiration",
       "validation": "choix prudent de l'expert (zéro volume), liste brouillon",
       "ids": ["1368", "1428", "3212", "3214", "3215", "3218", "3231", "1418", "1471",
-              "mq-genou-mur", "mq-90-90", "mq-squat-profond", "mq-charniere-baton", "mq-chat-vache",
+              "mq-genou-mur", "mq-90-90", "mq-squat-profond", "mq-squat-descentes-lentes", "mq-charniere-baton", "mq-chat-vache",
               "mq-open-book", "mq-rouleau-thoracique", "mq-cercles-bras", "mq-passage-epaules",
               "mq-wall-slide", "mq-prep-poignets", "mq-balancier-avant", "mq-balancier-lateral", "mq-respiration"]
     },

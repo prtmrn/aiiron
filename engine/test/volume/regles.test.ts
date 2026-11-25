@@ -142,9 +142,7 @@ describe("MAP-11 : exercices hors volume, rien nulle part", () => {
     expect(compterVolume([{ exercice: id, series: 3 }], d, { poids: "un" })).toEqual(rien);
   });
 
-  // ÉCART: mq-squat-descentes-lentes est de la mobilité dynamique (sante-physique/exercices-manquants.md:60, MOB-1b)
-  // mais absent de exercices_hors_volume.mobilite (mapping-muscles.json) : il compte adducteurs 1, fessiers 0,5, mollets 0,5
-  it.fails("mobilite mq-squat-descentes-lentes : hors volume (MAP-11)", () => {
+  it("mobilite mq-squat-descentes-lentes : hors volume (MAP-11)", () => {
     expect(resoudreExercice("mq-squat-descentes-lentes", d).hors_volume).toBe("mobilite");
     expect(compterVolume([{ exercice: "mq-squat-descentes-lentes", series: 1 }], d)).toEqual(rien);
   });
