@@ -170,6 +170,18 @@ describe("T17 — séries d'approche en musculation", () => {
       expect(repos(r.items)).toEqual([30, 60, 60, 90, 180]);
     });
 
+    it("sens unique : presse lourde (machine) puis squat barre libre → paliers complets", () => {
+      const [p, s] = echauffementSeance("musculation", [presseLourde, squat]);
+      expect(p.echelle).toBe("lourd");
+      expect(resume(s.items)).toEqual([[20, 10], [40, 5], [60, 3], [75, 2], [85, 1]]);
+    });
+
+    it("machine puis machine du même schéma (presse puis hack squat 0743) → départ à 60 %", () => {
+      const [, h] = echauffementSeance("musculation", [presseLourde, { ...presseLourde, exercice: "0743" }]);
+      expect(h.items.every((i) => i.pct_travail! >= 0.6)).toBe(true);
+      expect(h.items.length).toBeGreaterThan(0);
+    });
+
     it("un exercice qui n'a eu que M2 ne compte pas comme chauffé", () => {
       const [p, s] = echauffementSeance("musculation", [presse, squat]);
       expect(p.regle).toBe("M2");

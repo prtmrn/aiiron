@@ -3,7 +3,7 @@
 import { describe, expect, it } from "vitest";
 import dataset from "../../../data/exercises/exercises.json";
 import aiiron from "../../../data/exercises/exercices-aiiron.json";
-import { SCHEMAS, SCHEMAS_R5, schemaExercice } from "../../src/force/schemas";
+import { SCHEMAS, SCHEMAS_R5, estGuide, schemaExercice } from "../../src/force/schemas";
 import { ALIAS_EXERCICES, COEFS_VARIANTES } from "../../src/force/variantes";
 
 const idsMoteur = new Set(Object.entries(COEFS_VARIANTES).flatMap(([id, { base }]) => [id, base]));
@@ -39,6 +39,11 @@ describe("schemas.json", () => {
     ["couche", "poussee_horizontale"], // alias
   ])("%s → %s", (id, schema) => {
     expect(schemaExercice(id)).toBe(schema);
+  });
+
+  it("machines guidées (sens unique de R5) : presse, hack squat, Smith ; barre libre et variantes moteur non", () => {
+    for (const id of ["0739", "0743", "0760", "0770"]) expect(estGuide(id), id).toBe(true);
+    for (const id of ["0043", "0042", "squat", "couche", "souleve_de_terre"]) expect(estGuide(id), id).toBe(false);
   });
 
   it("exercice sans schéma : undefined (R5, le mouvement est l'exercice lui-même)", () => {

@@ -2,7 +2,7 @@
 // (règle commune avec knowledge/echauffement/echauffement-force.md, ECH-F4)
 import { arrondirCharge, type Materiel } from "./arrondi";
 import { pct } from "./rpe";
-import { schemaExercice } from "./schemas";
+import { estGuide, schemaExercice } from "./schemas";
 import { normaliserExercice } from "./variantes";
 
 export type TypeSeance = "force" | "musculation" | "hyrox_crossfit";
@@ -112,17 +112,19 @@ export type ExerciceSeance = Omit<PaliersEntree, "typeSeance" | "premierDuSchema
 
 /** Séance entière, dans l'ordre : R5 « Mouvement déjà chauffé » (schéma lu dans data/exercises/schemas.json) et M1 « premier exercice du groupe ». */
 export function echauffementSeance(type: TypeSeance, exercices: ExerciceSeance[]): PaliersSortie[] {
-  const chauffes = new Set<string>();
+  const chauffesLibre = new Set<string>();
+  const chauffesGuide = new Set<string>();
   const groupes = new Set<string>();
   return exercices.map((ex) => {
     const cle = schemaExercice(ex.exercice) ?? normaliserExercice(ex.exercice); // sans schéma : le mouvement est l'exercice lui-même
+    const guide = estGuide(ex.exercice);
     const sortie = paliers({
       ...ex,
       typeSeance: type,
-      premierDuSchema: !chauffes.has(cle),
+      premierDuSchema: !chauffesLibre.has(cle) && !(guide && chauffesGuide.has(cle)), // machine puis barre libre : paliers complets
       premierDuGroupe: ex.groupe === undefined || !groupes.has(ex.groupe),
     });
-    if (sortie.regle === "R2") chauffes.add(cle); // M2 et ECH-H4 ne comptent pas comme paliers
+    if (sortie.regle === "R2") (guide ? chauffesGuide : chauffesLibre).add(cle); // M2 et ECH-H4 ne comptent pas comme paliers
     if (ex.groupe !== undefined) groupes.add(ex.groupe);
     return sortie;
   });
