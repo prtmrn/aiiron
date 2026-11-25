@@ -83,10 +83,18 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 ### Décisions du 25/11/2026 : public, crise, nutrition, schémas
 - Public : 18 ans et plus (âge demandé au premier message), France seulement au lancement.
 - Protocole de crise validé pour un test solo ; brouillon maintenu ; relecture par un psychologue ou un psychiatre avant tout utilisateur réel (checklist de lancement).
-- Seuil « apport très bas » : `knowledge/nutrition/seuil-apport-tres-bas.md` (brouillon). ≤ 800 kcal/j déclaré ou demandé, ou un signe comportemental → protocole TCA ; planchers 1 200 / 1 500 kcal, disponibilité énergétique < 30 kcal/kg MM, cible sous le métabolisme de base → refus de chiffrer.
+- Seuil « apport très bas » : `knowledge/nutrition/seuil-apport-tres-bas.md` (brouillon). ≤ 800 kcal/j déclaré ou demandé, ou un signe comportemental → protocole TCA ; planchers 1 200 / 1 500 kcal, disponibilité énergétique < 30 kcal/kg MM, cible sous le métabolisme de base → refus de chiffrer (une cible seulement, voir ci-dessous).
 - Schémas R5 : fentes et presses unilatérales sans schéma ; hack squat machine, presses bilatérales et Smith en `squat` ; `0046` et `0047` (incliné 45°) sans schéma ; `couche_incline_30` en `poussee_horizontale`.
 - vitest 3.2.7 gardé (décision de Pierrot du 25/11/2026) : les alertes `npm audit` (tinypool critique, @vitest/mocker modéré) restent, risque limité aux outils de test, rien n'est embarqué dans l'application. **Dette : passage à vitest 5.x avant tout déploiement** (case de la checklist de lancement, `docs/architecture.md` §10).
 - Choix techniques mineurs : pays déduit de l'indicatif +33, sinon demandé ; seul le refus est enregistré pour un mineur ou hors France ; nutrition : sexe inconnu → homme, âge inconnu → 18 ans, poids de référence 50 kg, dépense inconnue → 0 ; un jour isolé sous 800 kcal déclenche le protocole (faux positif assumé).
+
+### Décisions du 25/11/2026 : machines, nutrition
+- R5 à sens unique : barre libre puis machine guidée du même schéma → départ à 60 % ; machine guidée (`sled`, `smith`, `leverage machine` du catalogue) puis barre libre → paliers complets.
+- IMC < 18,5 + demande de perte : protocole TCA pour le test solo ; à adoucir avant la bêta (refus de chiffrer + orientation médecin, sans état crise), avec `expert-nutrition` et `expert-sante-mentale` (checklist de lancement).
+- Plancher d'énergie : le refus de chiffrer porte sur une cible demandée ou calculée, plus sur un apport déclaré. Un apport déclaré sous le plancher reste un signal du cumul TCA et lève une vigilance non bloquante (signalement `bas`). Seuil TCA (≤ 800 kcal/j) inchangé.
+- Après une crise TCA : reprise de la nutrition chiffrée sur décision humaine seulement, plus jamais d'objectif de perte de poids sur ce compte.
+- Coupes de poids et cibles prescrites par un médecin : refus de chiffrer et orientation vers un professionnel.
+- Choix techniques mineurs : machine puis machine du même schéma → départ à 60 % ; un nombre de kcal ambigu est lu à la fois comme apport et comme cible (le plus prudent des deux) ; perte rapide déclarée et IMC bas gardent `refus_chiffre` (ce ne sont pas des apports déclarés).
 
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
