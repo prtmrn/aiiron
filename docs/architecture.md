@@ -336,6 +336,7 @@ Le couple prescrit / réalisé est la donnée de résultat d'aiiron : il sert à
 
 ### 6.3 Données de santé (RGPD art. 9)
 
+- **Âge et pays, avant tout le reste** (décisions de Pierrot du 25/11/2026) : l'onboarding demande d'abord si l'utilisateur a 18 ans ou plus ; sinon, refus fixe, aucun profil, aucune relance, seul le refus est enregistré (`majeur: false`, horodaté). Lancement en France seulement : le pays vient de l'indicatif +33 quand le numéro est connu, sinon il est demandé ; hors France, refus fixe de la même façon. Les garde-fous crise s'appliquent dans tous les cas.
 - **Consentement explicite** avant d'enregistrer la moindre donnée de santé (douleur, sommeil, métriques, alimentation, poids) : message dédié avec boutons, séparé des conditions générales, horodaté avec la version du texte. Sans consentement : conseils généraux possibles, rien de sensible enregistré.
 - **Minimisation** : on garde la zone et la restriction, jamais une étiquette de diagnostic, même si l'utilisateur la donne. Le LLM ne reçoit jamais le numéro de téléphone : identifiant interne seulement.
 - **Droits** : « supprime mes données » déclenche un parcours déterministe (confirmation, suppression, accusé). Export sur demande.
@@ -477,6 +478,8 @@ Rien ne part vers un utilisateur réel tant qu'une case reste vide. Chaque case 
 - [ ] **AIPD** faite et signée, registre des traitements à jour, durées de conservation fixées, sous-traitants (AWS, Meta, hébergeur) listés avec leurs contrats, régions de destination du profil UE et stockage pour détection d'abus mentionnés.
 - [ ] **Consentement explicite santé** : message dédié avec boutons, séparé des conditions générales, horodaté et versionné ; il dit que les conversations sont stockées et peuvent parfois être relues ; testé : sans consentement, rien de sensible n'est enregistré.
 - [ ] Mention IA dès le premier message et phrase de transparence en place (`persona/identite-et-voix.md`).
+- [ ] **Âge minimum 18 ans** demandé au premier message, avant toute autre question ; refus sans profil ni relance sinon (`persona/identite-et-voix.md`).
+- [ ] **France seulement** : numéros français uniquement, ressources de crise vérifiées à la date du lancement ; inscription refusée hors France tant que d'autres pays ne sont pas couverts.
 
 **Sécurité**
 - [ ] **Protocole de crise relu par un psychologue ou un psychiatre** avant tout utilisateur réel (validé par Pierrot le 25/11/2026 pour un test solo seulement, statut brouillon maintenu).
