@@ -31,7 +31,7 @@ Après une séance de force, le cœur redescend vite : quelques minutes de march
 | --- | --- | --- |
 | RAC-F1 | Cardio de retour au calme facultatif : 3 min de marche ou vélo à RPE 2–3 en standard, supprimé en version courte. | Van Hooren et Peake 2018 (ETI-6) |
 | RAC-F2 | Étirements : 5 groupes en standard, 3 en version courte, pris dans l'ordre de la liste du mouvement principal (JSON). Dosage ETI-2 : 1 × 30 s par côté, 2 × 30 s si objectif souplesse. | Garber 2011 ; listes validées par Pierrot le 25/11/2026 |
-| RAC-F3 | Séance avec deux mouvements principaux : on fusionne les listes en alternant (1er du mouvement A, 1er du mouvement B, etc.), sans doublon. | Heuristique à valider |
+| RAC-F3 | Séance avec deux mouvements principaux : on fusionne les listes en alternant (1er du mouvement A, 1er du mouvement B, etc.), sans doublon. | Heuristique de coach, validée par Pierrot le 25/11/2026 |
 | RAC-F4 | Respiration lente 1 min en fin de bloc : facultative (ETI-8). | Validé par Pierrot le 25/11/2026 |
 
 Durée indicative : 8 min standard (3 + 5), 3 min courte.

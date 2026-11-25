@@ -14,21 +14,13 @@ Une séance aiiron a toujours quatre blocs. Un modèle ou une séance qui en oub
 | 3. Corps de séance | selon le plan | Ce que prescrivent les moteurs |
 | 4. Retour au calme + mobilité | 5–10 min | Retour progressif au calme, étirements statiques ou routine de mobilité ciblée |
 
-**Version courte** (l'utilisateur manque de temps). Peuvent être réduits : le cardio d'échauffement, la mobilité dynamique (2 exercices au lieu de 4 ou plus), l'activation, et les gammes, accélérations ou passages de répétition selon la dose courte de chaque protocole (`knowledge/echauffement/`). Ne sont jamais supprimés ni raccourcis : les paliers de montée en charge et les séries d'approche. Si ça ne suffit pas, on raccourcit le corps de séance.
+**Version courte** (l'utilisateur manque de temps). Peuvent être réduits : le cardio d'échauffement, la mobilité dynamique (2 exercices au lieu de 4), l'activation, et les gammes, accélérations ou passages de répétition selon la dose courte de chaque protocole (`knowledge/echauffement/`). Ne sont jamais supprimés ni raccourcis : les paliers de montée en charge et les séries d'approche. Si ça ne suffit pas, on raccourcit le corps de séance.
 
 ## Préparation spécifique par type de séance
 
-**Force (séries lourdes)** — montée en charge par paliers avant la première série de travail. Défaut à valider par `expert-force` :
+**Mobilité dynamique** — 4 exercices avant la séance (2 en version courte), choisis par type de séance dans `knowledge/mobilite/`.
 
-| Palier | % de la charge de travail | Reps |
-| --- | --- | --- |
-| Barre à vide | — | 8–10 |
-| 1 | ~40 % | 5 |
-| 2 | ~60 % | 3 |
-| 3 | ~75 % | 2 |
-| 4 | ~85–90 % | 1 |
-
-Moins de paliers si la charge de travail est légère, un palier de plus au-delà de ~90 % du 1RM. Les paliers sont calculés par le moteur force, arrondis comme les séries de travail.
+**Force (séries lourdes)** — montée en charge par paliers avant chaque mouvement principal, y compris le deuxième mouvement lourd de la séance. Échelles, % et reps : `knowledge/force/paliers-montee-en-charge.md` (expert-force), jamais recopiés ici. Si le même schéma (squat, charnière, poussée horizontale, poussée verticale, tirage) a déjà eu ses paliers dans la séance, départ réduit selon cette fiche ; sinon paliers complets. Même règle en musculation pour un exercice à I ≥ 0,80. Les paliers sont calculés par le moteur force, arrondis comme les séries de travail.
 
 **Musculation** — 1 à 2 séries d'approche légères sur le premier exercice de chaque groupe musculaire ; les exercices suivants du même groupe n'en demandent pas forcément.
 
@@ -38,7 +30,7 @@ Moins de paliers si la charge de travail est légère, un palier de plus au-del�
 
 ## Étirements
 
-- Avant l'effort : étirements dynamiques et mobilité, pas d'étirements statiques longs juste avant un effort de force ou de puissance (seuil de durée à sourcer par `expert-sante-physique`).
+- Avant l'effort : étirements dynamiques et mobilité, pas d'étirements statiques longs juste avant un effort de force ou de puissance (30 s cumulées par groupe au plus si l'utilisateur y tient, règle ETI-1 de `knowledge/etirements/etirements-regles.md`).
 - Après l'effort ou en séance dédiée : étirements statiques de 20 à 60 s par groupe, sans douleur, si l'objectif est la souplesse ou le confort.
 - Routines de mobilité de 5 à 15 min proposées les jours de repos selon les zones raides déclarées par l'utilisateur.
 

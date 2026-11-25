@@ -30,7 +30,7 @@ Après une séance de musculation, on étire les groupes qui ont reçu le plus d
 | Id | Règle | Source / statut |
 | --- | --- | --- |
 | RAC-M1 | Cardio facultatif : 3 min à RPE 2–3 en standard, supprimé en version courte. | Van Hooren et Peake 2018 (ETI-6) |
-| RAC-M2 | Groupes étirés : les groupes du corps de séance classés par nombre de séries réalisées (le moteur hypertrophie fournit le compte), 5 en standard, 3 en courte. Correspondance muscle → groupe d'étirement dans le JSON. | Garber 2011 ; nombre de groupes et correspondance validés par Pierrot le 25/11/2026 ; classement par séries = heuristique à valider |
+| RAC-M2 | Groupes étirés : les groupes du corps de séance classés par nombre de séries réalisées (le moteur hypertrophie fournit le compte), 5 en standard, 3 en courte. Correspondance muscle → groupe d'étirement dans le JSON. | Garber 2011 ; nombre de groupes et correspondance validés par Pierrot le 25/11/2026 ; classement par séries : heuristique de coach, validée par Pierrot le 25/11/2026 |
 | RAC-M3 | Dosage ETI-2 : 1 × 30 s par côté ; 2 × 30 s si objectif souplesse. | Garber 2011 |
 
 Durée indicative : 8 min standard, 3 min courte.

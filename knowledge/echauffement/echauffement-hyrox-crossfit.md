@@ -38,14 +38,14 @@ Une séance Hyrox ou CrossFit enchaîne des mouvements variés (course, ergomèt
 | Id | Règle | Source / statut |
 | --- | --- | --- |
 | ECH-H1 | Cardio facile 6 min (RPE 3–4, dernière minute à RPE 5), 3 min en version courte. Machine du jour de préférence (rameur, ski erg, vélo à air) ou course. | Bishop 2003 ; durées validées par Pierrot le 25/11/2026 |
-| ECH-H2 | Mobilité dynamique globale : items de `mobilite-hyrox-crossfit#avant`, 3 min de base, 6 min au plus avec les ajouts. Ajout automatique des modules poignet (appui, front rack, overhead), épaule (overhead, gymnastique) et cheville (course, sauts, corde). Version courte : **2 exercices**, liste `mobilite-hyrox-crossfit#avant-courte`. | Dosage et plafond de 6 min validés par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
-| ECH-H3 | Activation 2 min : dead bug + pont fessier ; + tirage scapulaire si gymnastique de tirage ; + pompe scapulaire si appuis (pompes, burpees, handstand). | Heuristique à valider |
-| ECH-H4 | Répétition des mouvements du premier bloc chronométré : 2 passages. Passage 1 : environ 30 % du volume d'un tour, RPE 4–5. Passage 2 : même volume, RPE 6–7. Charges : plus légères ou égales à celles du bloc. Version courte : un seul passage, à RPE 6 ; jamais supprimée. | Skill `seance-complete` ; 30 % et RPE = heuristique à valider |
-| ECH-H5 | Tout mouvement chargé de la séance avec I ≥ 0,80 (règle ECH-6), quel que soit le nombre de reps : paliers complets de `knowledge/force/paliers-montee-en-charge.md` à la place de l'étape ECH-H4 pour ce mouvement, jamais supprimés ni raccourcis en version courte. I < 0,80 ou indéterminable : ECH-H4. | Règle ECH-6 (décision de Pierrot du 25/11/2026) ; cas « I indéterminable → ECH-H4 » à valider |
-| ECH-H6 | Potentialisation facultative (standard, objectif performance) : 1 à 2 efforts de 10 à 15 s à l'intensité du bloc, 2 à 5 min avant le départ. | Blazevich et Babault 2019 ; dosage = heuristique à valider |
+| ECH-H2 | Mobilité dynamique globale : **4 exercices**, liste `mobilite-hyrox-crossfit#avant` (environ 3 min), avec un exercice par ajout applicable : poignet (appui, front rack, overhead), épaule (overhead, gymnastique), cheville (course, sauts, corde). Version courte : **2 exercices**, liste `mobilite-hyrox-crossfit#avant-courte`. | Dosage validé par Pierrot le 25/11/2026 ; 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 (remplace le plafond de 6 min) |
+| ECH-H3 | Activation 2 min : dead bug + pont fessier ; + tirage scapulaire si gymnastique de tirage ; + pompe scapulaire si appuis (pompes, burpees, handstand). | Heuristique de coach, validée par Pierrot le 25/11/2026 |
+| ECH-H4 | Répétition des mouvements du premier bloc chronométré : 2 passages. Passage 1 : environ 30 % du volume d'un tour, RPE 4–5. Passage 2 : même volume, RPE 6–7. Charges : plus légères ou égales à celles du bloc. Version courte : un seul passage, à RPE 6 ; jamais supprimée. | Skill `seance-complete` ; 30 % et RPE : heuristique de coach, validée par Pierrot le 25/11/2026 |
+| ECH-H5 | Tout mouvement chargé de la séance avec I ≥ 0,80 (règle ECH-6), quel que soit le nombre de reps : paliers complets de `knowledge/force/paliers-montee-en-charge.md` à la place de l'étape ECH-H4 pour ce mouvement, jamais supprimés ni raccourcis en version courte. I < 0,80 ou indéterminable (charges fixées par le format) : ECH-H4. | Règle ECH-6 (décision de Pierrot du 25/11/2026) ; cas « I indéterminable → ECH-H4 » validé par Pierrot le 25/11/2026 |
+| ECH-H6 | Potentialisation facultative (standard, objectif performance) : 1 à 2 efforts de 10 à 15 s à l'intensité du bloc, 2 à 5 min avant le départ. | Blazevich et Babault 2019 ; dosage : heuristique de coach, validée par Pierrot le 25/11/2026 |
 | ECH-H7 | Départ du premier bloc chronométré dans les 10 min qui suivent la fin de l'échauffement (règle ECH-4). | McGowan 2015 ; validé par Pierrot le 25/11/2026 |
 
-Durée totale indicative : 18 min standard (6 + 4 + 2 + 6 de répétition des mouvements), 10 min courte (3 + 2 + 1 + 4).
+Durée totale indicative : 17 min standard (6 + 3 + 2 + 6 de répétition des mouvements), 10 min courte (3 + 2 + 1 + 4).
 
 ```json
 {
@@ -53,11 +53,11 @@ Durée totale indicative : 18 min standard (6 + 4 + 2 + 6 de répétition des mo
   "type_seance": "hyrox_crossfit",
   "versions": {
     "standard": {
-      "duree_min": 18,
+      "duree_min": 17,
       "etapes": [
         { "bloc": "echauffement_general", "nature": "cardio", "duree_min": 6,
           "items": [ { "ex": "mq-rameur", "nom_fr": "Rameur ou machine du jour", "duree_s": 360, "intensite": "RPE 3-4, dernière minute RPE 5" } ] },
-        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 4,
+        { "bloc": "preparation_specifique", "nature": "mobilite_dynamique", "duree_min": 3, "nb_exercices": 4,
           "ref": "mobilite-hyrox-crossfit#avant" },
         { "bloc": "preparation_specifique", "nature": "activation", "duree_min": 2,
           "items": [
@@ -123,4 +123,4 @@ Substitutions : `2142` ski erg, `2612` corde à sauter.
 ## Exemple
 
 Séance CrossFit : EMOM 12 min (5 power cleans à 60 kg, 10 burpees), athlète à l'e1RM de power clean de 90 kg, standard.
-Résultat attendu : rameur 6 min → mobilité hyrox-crossfit avec modules poignet et épaule → dead bug, pont fessier, pompe scapulaire (appuis pour les burpees) → I = 60 / 90 = 0,67 < 0,80, donc pas de règle ECH-H5 : répétition des mouvements (passage 1 : 2 power cleans à la barre vide + 3 burpees à RPE 4–5 ; passage 2 : 2 power cleans à 60 kg + 3 burpees à RPE 6–7) → départ de l'EMOM dans les 10 min.
+Résultat attendu : rameur 6 min → mobilité hyrox-crossfit, 4 exercices (world's greatest stretch, bascules des poignets pour le front rack et les appuis, passages d'épaules, complété par les bascules 90/90) → dead bug, pont fessier, pompe scapulaire (appuis pour les burpees) → I = 60 / 90 = 0,67 < 0,80, donc pas de règle ECH-H5 : répétition des mouvements (passage 1 : 2 power cleans à la barre vide + 3 burpees à RPE 4–5 ; passage 2 : 2 power cleans à 60 kg + 3 burpees à RPE 6–7) → départ de l'EMOM dans les 10 min.

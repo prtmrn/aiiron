@@ -25,9 +25,9 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-H1 | Base avant séance : `hanche-dynamique` + `thoracique-dynamique` (3 min). | Opplert et Babault 2018 ; composition validée par Pierrot le 25/11/2026 |
-| MOB-H2 | Ajouts selon les mouvements du jour : `poignet-dynamique` si appui, front rack ou overhead ; `epaule-dynamique` si overhead ou gymnastique ; `cheville-dynamique` si course, sauts, corde. Plafond : 6 min au total. | Plafond de 6 min validé par Pierrot le 25/11/2026 |
-| MOB-H3 | Version courte : **2 exercices**. Le world's greatest stretch (hanche et thoracique), plus un exercice du premier ajout applicable dans l'ordre poignet > épaule > cheville (bascules des poignets, passages d'épaules, genou au mur). Sans ajout : bascules de hanche 90/90. Dosage de leur module. | 2 exercices : décision de Pierrot du 25/11/2026 ; choix des 2 exercices = heuristique à valider |
+| MOB-H1 | Avant séance : **4 exercices**, environ 3 min. On construit la liste dans cet ordre et on garde les 4 premiers : world's greatest stretch (hanche et thoracique) ; un exercice par ajout applicable (MOB-H2), dans l'ordre poignet > épaule > cheville ; puis, pour compléter, bascules de hanche 90/90, chat-vache, open book. | Opplert et Babault 2018 ; base hanche + thoracique validée par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026 ; ordre de remplissage = heuristique à valider |
+| MOB-H2 | Ajouts selon les mouvements du jour, un exercice chacun : bascules des poignets (`poignet-dynamique`) si appui, front rack ou overhead ; passages d'épaules (`epaule-dynamique`) si overhead ou gymnastique ; genou au mur (`cheville-dynamique`) si course, sauts, corde. Le plafond de 4 exercices remplace l'ancien plafond de 6 min. | Ajouts validés par Pierrot le 25/11/2026 ; 4 exercices : décision de Pierrot du 25/11/2026 |
+| MOB-H3 | Version courte : **2 exercices** = les 2 premiers de la liste MOB-H1. Le world's greatest stretch, plus un exercice du premier ajout applicable dans l'ordre poignet > épaule > cheville (bascules des poignets, passages d'épaules, genou au mur). Sans ajout : bascules de hanche 90/90. Dosage de leur module. | 2 exercices et choix des 2 exercices : validés par Pierrot le 25/11/2026 |
 | MOB-H4 | Après : facultatif, 1 module `-autonome` de la zone la plus sollicitée ou déclarée raide. | Garber 2011 ; validé par Pierrot le 25/11/2026 |
 
 ```json
@@ -35,13 +35,19 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
   "id": "mobilite-hyrox-crossfit",
   "type_seance": "hyrox_crossfit",
   "avant": {
-    "base": ["hanche-dynamique", "thoracique-dynamique"],
-    "ajouts": [
-      { "si": { "mouvements_inclus": ["appui", "front_rack", "overhead"] }, "module": "poignet-dynamique" },
-      { "si": { "mouvements_inclus": ["overhead", "gymnastique_tirage", "gymnastique_appui"] }, "module": "epaule-dynamique" },
-      { "si": { "mouvements_inclus": ["course", "sauts", "corde"] }, "module": "cheville-dynamique" }
+    "nb_exercices": 4,
+    "base": [ { "module": "hanche-dynamique", "ex": "1604" } ],
+    "ajouts_selon_priorite": [
+      { "si": { "mouvements_inclus": ["appui", "front_rack", "overhead"] }, "module": "poignet-dynamique", "ex": "mq-prep-poignets" },
+      { "si": { "mouvements_inclus": ["overhead", "gymnastique_tirage", "gymnastique_appui"] }, "module": "epaule-dynamique", "ex": "mq-passage-epaules" },
+      { "si": { "mouvements_inclus": ["course", "sauts", "corde"] }, "module": "cheville-dynamique", "ex": "mq-genou-mur" }
     ],
-    "duree_max_min": 6
+    "completer_avec": [
+      { "module": "hanche-dynamique", "ex": "mq-90-90" },
+      { "module": "thoracique-dynamique", "ex": "mq-chat-vache" },
+      { "module": "thoracique-dynamique", "ex": "mq-open-book" }
+    ],
+    "duree_min": 3
   },
   "avant-courte": {
     "nb_exercices": 2,
@@ -71,4 +77,6 @@ Une séance Hyrox ou CrossFit sollicite tout le corps : la mobilité d'avant sé
 ## Exemple
 
 Séance Hyrox : course + wall balls + fentes avec sac, version standard.
-Résultat attendu : base (3 min) + `poignet-dynamique` (overhead des wall balls, 1 min) + `epaule-dynamique` (overhead, 2 min) + `cheville-dynamique` (course, 1 min) = 7 min → dépasse le plafond de 6 min : on retire le dernier ajout (cheville), total 6 min.
+Résultat attendu : world's greatest stretch 1 × 3 par côté → bascules des poignets 1 × 10 (overhead des wall balls) → passages d'épaules 1 × 10 (overhead) → genou au mur 1 × 10 par côté (course) : 4 exercices, ≈ 3 min, pas de complément. Version courte : world's greatest stretch + bascules des poignets.
+
+Variante : séance « rameur + traîneau + fentes » (aucun ajout applicable) → world's greatest stretch, 90/90, chat-vache, open book.

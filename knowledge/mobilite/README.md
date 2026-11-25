@@ -10,4 +10,4 @@ Propriétaire : `expert-sante-physique`. Statut de toutes les fiches : `brouillo
 | `mobilite-course.md` | Mobilité avant une séance de course intense et routine d'après |
 | `mobilite-hyrox-crossfit.md` | Mobilité globale avant et après une séance Hyrox ou CrossFit |
 
-Les fiches par type de séance n'inventent pas d'exercices : elles assemblent des modules de `mobilite-modules.md`. Pour changer un dosage, on modifie le module.
+Les fiches par type de séance n'inventent pas d'exercices : elles choisissent des exercices dans les modules de `mobilite-modules.md`, **4 en standard** (liste `avant`) et **2 en version courte** (liste `avant-courte`, toujours les 2 premiers de `avant`). Chaque exercice garde le dosage de son module : pour changer un dosage, on modifie le module.

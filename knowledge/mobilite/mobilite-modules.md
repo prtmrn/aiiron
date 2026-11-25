@@ -33,7 +33,8 @@ La mobilité est découpée en modules par articulation, réutilisés par toutes
 
 | Id | Règle | Source / statut |
 | --- | --- | --- |
-| MOB-1 | Avant séance : seulement des modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. Version courte d'une séance : 2 exercices pris dans ces modules (liste `avant-courte` de chaque fiche), avec le dosage de leur module. | Opplert et Babault 2018 ; dosage validé par Pierrot le 25/11/2026 ; 2 exercices en courte : décision de Pierrot du 25/11/2026 |
+| MOB-1 | Avant séance : seulement des exercices de modules `-dynamique`, mouvements contrôlés, 6 à 10 reps par côté, sans maintien de plus de 5 s. Version standard : **4 exercices** (liste `avant` de chaque fiche) ; version courte : **2 exercices** (liste `avant-courte`, toujours incluse dans la liste `avant`). Chaque exercice garde le dosage de son module. Environ 3 min en standard, 2 min en courte. | Opplert et Babault 2018 ; dosage validé par Pierrot le 25/11/2026 ; 4 exercices en standard et 2 en courte : décision de Pierrot du 25/11/2026 |
+| MOB-1b | Le squat profond se fait en **descentes lentes** (5 à 8) avant la séance ; la **tenue de 30 s** est réservée au module `hanche-autonome` (après la séance ou jour de repos) et au retour au calme (alternative `adducteurs` de `etirements-regles`). | Règle MOB-1 (pas de maintien > 5 s avant l'effort) ; décision de Pierrot du 25/11/2026 |
 | MOB-2 | Maintiens statiques des modules `-autonome` : 2 × 30 s par côté, tension nette mais jamais douloureuse. | Garber 2011 (10–30 s par maintien, 60 s cumulées par exercice) |
 | MOB-3 | Routine de mobilité autonome (jour de repos ou séance dédiée) : 5 à 15 min, 10 min par défaut. On prend les modules `-autonome` des zones raides déclarées par l'utilisateur, 3 modules au plus ; sans zone déclarée : hanche + thoracique + cheville. | Skill `seance-complete` ; choix des modules validé par Pierrot le 25/11/2026 |
 | MOB-4 | Fréquence conseillée des routines autonomes : au moins 2 à 3 jours par semaine pour un objectif de souplesse. | Garber 2011 |
@@ -55,7 +56,7 @@ La mobilité est découpée en modules par articulation, réutilisés par toutes
     "hanche-dynamique": { "duree_min": 2, "items": [
       { "ex": "mq-90-90", "nom_fr": "Bascules de hanche 90/90", "series": 1, "reps": 6, "par_cote": true, "intensite": "contrôlé" },
       { "ex": "1604", "nom_fr": "World's greatest stretch", "series": 1, "reps": 3, "par_cote": true, "intensite": "2 s en fin d'amplitude" },
-      { "ex": "mq-squat-profond", "nom_fr": "Tenue de squat profond", "series": 1, "duree_s": 30, "intensite": "talons au sol si possible, appui autorisé" }
+      { "ex": "mq-squat-profond", "nom_fr": "Descentes lentes en squat profond", "series": 1, "reps": 6, "intensite": "5 à 8 descentes, 3 s en descente, remontée sans pause en bas ; talons au sol si possible, appui autorisé" }
     ] },
     "hanche-autonome": { "duree_min": 5, "items": [
       { "ex": "mq-90-90", "nom_fr": "Bascules de hanche 90/90", "series": 2, "reps": 6, "par_cote": true, "intensite": "contrôlé" },
