@@ -72,3 +72,4 @@ docs/                     architecture et décisions techniques
 - Moteurs : tests d'abord, puis code. Pas de nombre magique sans source dans `knowledge/`.
 - Une fiche ou un modèle reste au statut `brouillon` tant que Pierrot ne l'a pas validé.
 - En cas de doute sur un choix produit, demander à Pierrot plutôt que décider.
+- Choix techniques mineurs : appliquer l'option la plus prudente et la noter dans `docs/contexte.md`. Ne remonter à Pierrot que les choix produit, les risques de sécurité et les contradictions entre experts.
