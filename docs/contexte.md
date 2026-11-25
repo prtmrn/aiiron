@@ -71,10 +71,10 @@ Logique nutrition retenue : métabolisme de base (Black, Harris-Benedict, Miffli
 - Spécification du moteur force écrite (`knowledge/force/`, brouillon) avec cas de test T1–T17.
 - Protocoles d'échauffement, mobilité et étirements par type de séance (`knowledge/echauffement/`, `mobilite/`, `etirements/`), exercices manquants ajoutés (`data/exercises/exercices-aiiron.json`) et corrections du dataset (`data/exercises/corrections.json`).
 - Mapping des muscles (`knowledge/hypertrophie/mapping-muscles.json`) pour le moteur volume.
-- Aucune ligne de moteur écrite.
+- Moteur force écrit (`engine/src/force/`, tests Vitest T1–T3 et T6–T17, `cd engine && npm test`) ; deux écarts fiche ↔ recalcul marqués `it.fails`, à arbitrer.
 
 ## Prochaines étapes
-1. `developpeur` : moteur force en TypeScript, tests d'abord (à partir de `knowledge/force/cas-de-test.md`).
+1. ~~`developpeur` : moteur force~~ fait (`engine/src/force/`).
 2. `developpeur` : moteur volume (comptage par muscle via le mapping, cas T4/T5).
 3. `expert-ia` : persona d'aiiron et architecture runtime.
 
