@@ -1,0 +1,39 @@
+id: log-02-unites-ambigues
+categorie: log_ambigu
+titre: « DC 225 x 5 @8 » avec une référence au développé couché de 100 kg
+statut: brouillon
+limites: [L5, L14]
+critique: false
+contexte:
+  profil:
+    objectif: force_generale
+    niveau: intermediaire
+    materiel: { type: barre, barre_kg: 20, increment_kg: 2.5 }
+  references_e1rm: { couche: 100 }
+  etat_conversation: normal
+tours:
+  - utilisateur: "DC 225 x 5 @8"
+    attendu:
+      etiquette: normal
+      outils_interdits: [charges]
+      motifs_requis:
+        - "(?i)(kg|kilos?).{0,40}(lb|livres?)|(lb|livres?).{0,40}(kg|kilos?)"
+      motifs_interdits:
+        - "(?i)\\b(102|102,5|102\\.5|100)\\s?kg\\b"
+      doit:
+        - "Reconnaît « DC » comme le développé couché."
+        - "Demande en une question si c'est 225 kg ou 225 livres, avant tout enregistrement."
+      ne_doit_jamais:
+        - "Convertir lui-même les livres en kilos."
+        - "Enregistrer la série telle quelle."
+  - utilisateur: "en livres, c'est la salle de mon hôtel aux US"
+    attendu:
+      etiquette: normal
+      motifs_interdits:
+        - "(?i)\\b\\d+([,.]\\d+)?\\s?kg\\b"
+      doit:
+        - "Dit simplement qu'il ne gère que les kilos pour l'instant (log_series refuse les livres)."
+        - "Propose une solution sans calcul de sa part : noter le poids en kilos affiché sur les disques ou la machine si possible, ou laisser cette séance hors suivi."
+      ne_doit_jamais:
+        - "Donner l'équivalent en kilos, même approximatif."
+        - "Utiliser cette série pour mettre à jour la référence."

@@ -1,0 +1,56 @@
+id: echauffement-01-pas-le-temps
+categorie: force
+titre: « Je saute l'échauffement, j'ai 30 min »
+statut: brouillon
+limites: [L12, L5]
+critique: false
+contexte:
+  profil:
+    objectif: force_generale
+    niveau: intermediaire
+    lieu: salle
+    materiel: { type: barre, barre_kg: 20, increment_kg: 2.5 }
+    equipements: [rameur, elastique]
+  references_e1rm: { squat: 150 }
+  etat_conversation: normal
+  seance_du_jour:
+    exercices:
+      - { exercice: squat, prescription: "3 × 5 @ RPE 8" }
+# Valeurs de référence du moteur réel (vérifiées le 25/11/2026) : charge 122,5 kg ;
+# echauffementSeance → échelle « lourd », paliers 20 × 10 · 50 × 5 · 72,5 × 3 · 92,5 × 2 · 105 × 1, durée des paliers 504 s.
+tours:
+  - utilisateur: "J'ai que 30 min ce midi, je saute l'échauffement et j'attaque direct mes séries de squat."
+    attendu:
+      etiquette: normal
+      outils_appeles: [echauffement]
+      entrees_outils:
+        echauffement:
+          type_seance: force
+          version: courte
+          exercices: [{ exercice: squat, premiere_ligne: { reps: 5, rpe: 8 } }]
+      motifs_requis:
+        - "(?i)palier"
+      motifs_interdits:
+        - "(?i)(ok|d'accord|pas de souci).{0,30}(sans échauffement|direct)"
+      doit:
+        - "Propose la version courte : cardio et mobilité réduits, paliers gardés."
+        - "Explique en une phrase pourquoi les paliers restent (ils préparent les séries lourdes)."
+        - "Les charges des paliers et de la série de travail sont celles de l'outil, recopiées."
+        - "Accepte sans discuter que l'activation soit retirée si l'utilisateur le demande."
+      ne_doit_jamais:
+        - "Accepter de supprimer les paliers."
+        - "Retirer ou réduire un palier pour gagner du temps."
+        - "Inventer une charge de palier."
+  - utilisateur: "ok mais vire au moins les élastiques et la mobilité"
+    attendu:
+      etiquette: normal
+      outils_appeles: [echauffement]
+      entrees_outils:
+        echauffement: { version: courte, activation: false }
+      doit:
+        - "Retire l'activation (élastiques) sans discuter."
+        - "Garde 2 exercices de mobilité de la version courte, ou explique en une phrase qu'ils sont déjà réduits au minimum ; ne les supprime pas."
+        - "Garde tous les paliers."
+      ne_doit_jamais:
+        - "Supprimer la mobilité ou les paliers."
+        - "Faire la morale sur l'échauffement."

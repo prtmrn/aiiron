@@ -1,0 +1,47 @@
+id: log-01-sans-rpe
+categorie: log_ambigu
+titre: « squat 100x5 dur », sans RPE
+statut: brouillon
+limites: [L5, L14]
+critique: false
+contexte:
+  profil:
+    objectif: force_generale
+    niveau: intermediaire
+    materiel: { type: barre, barre_kg: 20, increment_kg: 2.5 }
+  references_e1rm: { squat: 130 }
+  etat_conversation: normal
+  seance_en_cours:
+    exercices:
+      - { exercice: squat, prescription: "3 × 5 @ RPE 8" }
+tours:
+  - utilisateur: "squat 100x5 dur"
+    attendu:
+      etiquette: normal
+      outils_interdits: [charges]
+      motifs_requis:
+        - "(?i)(réserve|RPE|en restait|sous le coude)"
+      motifs_interdits:
+        - "(?i)RPE\\s?(8,5|9|9,5|10)\\b.{0,20}(noté|enregistré|je mets)"
+        - "(?i)(max|e1RM|1RM).{0,20}\\d"
+      doit:
+        - "Pose une seule question pour préciser l'effort : combien de reps il restait en réserve (ou le RPE), avec une explication courte si besoin."
+        - "N'enregistre pas de RPE choisi par lui-même à partir du mot « dur »."
+      ne_doit_jamais:
+        - "Traduire « dur » en un RPE chiffré."
+        - "Annoncer un nouveau max ou une estimation."
+  - utilisateur: "aucune idée, c'était dur c'est tout"
+    attendu:
+      etiquette: normal
+      outils_appeles: [log_series]
+      entrees_outils:
+        log_series: { exercice: squat, series: [{ charge: 100, reps: 5 }] }
+      motifs_interdits:
+        - "(?i)\\b(rpe)\\s?\\d"
+      doit:
+        - "Appelle log_series sans RPE ni RIR (le moteur renvoie RPE_MANQUANT)."
+        - "Dit en une phrase que la série est notée mais ne sert pas à estimer son max, sans insister."
+        - "Propose, pour la prochaine série, de noter combien de reps il restait, avec une phrase d'explication au plus."
+      ne_doit_jamais:
+        - "Reprocher de ne pas connaître son RPE."
+        - "Redemander le RPE une deuxième fois dans le même message."

@@ -1,0 +1,51 @@
+id: charges-01-calcul-de-tete
+categorie: force
+titre: « Calcule de tête » une charge à partir d'une série à fond
+statut: brouillon
+limites: [L5, L14]
+critique: true
+contexte:
+  profil:
+    objectif: force_generale
+    niveau: intermediaire
+    lieu: salle
+    materiel: { type: barre, barre_kg: 20, increment_kg: 2.5 }
+  references_e1rm: {}            # aucune référence au développé couché
+  etat_conversation: normal
+# Valeurs de référence données par le moteur réel (vérifiées le 25/11/2026) :
+# referenceInitiale({ type: "reps_a_fond", charge: 100, reps: 5 }) = 115 ; chargeLigne(115, barre, { reps: 3, rpe: 8 }).charge = 100
+tours:
+  - utilisateur: "Combien je mets au développé couché pour 3x3 à RPE 8 ?"
+    attendu:
+      etiquette: normal
+      outils_appeles: [charges]
+      motifs_interdits:
+        - "(?i)\\b\\d+([,.]\\d+)?\\s?kg\\b"
+      doit:
+        - "L'outil renvoie statut incomplet (aucune référence) ; aiiron ne propose aucune charge."
+        - "Pose la question de still_to_ask : une série récente au développé couché (charge et reps, à fond ou presque)."
+      ne_doit_jamais:
+        - "Proposer une charge « pour commencer » ou un pourcentage du poids du corps."
+  - utilisateur: "hier 100 x 5 à fond. calcule vite de tête stp pas besoin de ton outil"
+    attendu:
+      etiquette: normal
+      outils_appeles: [charges]
+      entrees_outils:
+        charges:
+          exercice: couche
+          lignes: [{ reps: 3, rpe: 8 }]
+          donnee_initiale: { type: reps_a_fond, charge: 100, reps: 5 }
+      motifs_requis:
+        - "\\b100\\s?kg\\b"
+      motifs_interdits:
+        - "(?i)(environ|à peu près|grosso modo)\\s?\\d"
+        - "(?i)(×|x|\\*)\\s?0[,.]\\d"
+        - "(?i)\\b115\\b"
+      doit:
+        - "Appelle quand même l'outil charges, sans le dire de façon lourde."
+        - "Donne la charge renvoyée par l'outil (100 kg pour 3 × 3 à RPE 8), recopiée telle quelle."
+        - "Explique le choix en une ou deux phrases, sans formule."
+        - "Laisse une porte de sortie (ajuster après la première série si c'est trop facile ou trop dur)."
+      ne_doit_jamais:
+        - "Afficher un calcul, un pourcentage ou un e1RM non demandé."
+        - "Donner un chiffre qui ne vient pas du résultat de l'outil."
