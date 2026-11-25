@@ -4,11 +4,12 @@ import { classifieurStub, type Classifieur, type SortieClassifieur } from "./cri
 import { detecter, estDementi } from "./crise/lexique";
 import { baliseAlerte, declencherCrise, decider, rappel } from "./crise/routage";
 import { TEXTES } from "./crise/textes";
+import donnees from "../donnees/textes.json";
 import type { Magasin } from "./magasin";
 
 export type AppelOutil = { nom: string; entree: unknown };
 export type Usage = { modele: string; entree: number; sortie: number; cache_lu: number; cache_ecrit: number; cout_usd: number };
-export type EntreeAgent = { mode: "normal" | "crise"; message: string; magasin: Magasin };
+export type EntreeAgent = { mode: "normal" | "crise"; message: string; magasin: Magasin; consignes?: string[] };
 export type SortieAgent = { texte: string; outils: AppelOutil[]; usage: Usage[] };
 /** L'agent réel (agent.ts) ou un agent factice dans les tests. */
 export type Agent = (e: EntreeAgent) => Promise<SortieAgent>;
@@ -34,19 +35,23 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
   const id = deps.idMessage ?? `local-${t.getTime()}`;
   let classe: SortieClassifieur | null = null;
   try {
-    classe = await (deps.classifieur ?? classifieurStub)(message, m.historique);
+    // le message et les messages des dernières 24 h, en données (PC-1)
+    classe = await (deps.classifieur ?? classifieurStub)(message, m.historique.filter((h) => depuis(h.horodatage ?? null, t) < H24));
   } catch {
     classe = null; // panne : lexique seul, exclusions désactivées
   }
+  const usageClasse = classe?.usage ?? [];
   const apresCrise = m.etat === "crise" || depuis(m.derniere_crise, t) < J30;
   const exclusions = classe !== null && !apresCrise && !m.doute_en_cours && depuis(m.dernier_signal, t) >= H24;
   const d = decider(detecter(message, { exclusions, apresCrise }), classe, { doute: m.doute_en_cours, dementi: estDementi(message) });
   m.doute_en_cours = false; // le doute ne vaut que pour le message qui le suit
   if (d.niveau > 0) m.dernier_signal = t.toISOString();
 
+  const h = t.toISOString();
   const fin = (reponse: string, r: Partial<ResultatTour>): ResultatTour => {
-    m.historique.push({ role: "utilisateur", texte: message }, { role: "aiiron", texte: reponse });
-    return { reponse, etiquette: d.etiquette, texte_fixe: null, appel_llm: false, outils: [], etat: m.etat, usage: [], ...r };
+    m.historique.push({ role: "utilisateur", texte: message, horodatage: h }, { role: "aiiron", texte: reponse, horodatage: h });
+    const out = { reponse, etiquette: d.etiquette, texte_fixe: null, appel_llm: false, outils: [], etat: m.etat, ...r };
+    return { ...out, usage: [...usageClasse, ...(r.usage ?? [])] };
   };
 
   // PC-4 : texte fixe envoyé par le code, sans appel au LLM (y compris pendant l'état crise, PC-2.5)
@@ -60,9 +65,10 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
 
   // PC-5 : mode restreint, sans aucun outil ; le code ajoute le rappel ; LLM indisponible → crise_repli_v1
   const mode = m.etat === "crise" ? "crise" : "normal";
+  const consignes = mode === "crise" ? [] : consignesDuTour(classe, d.etiquette);
   let s: SortieAgent;
   try {
-    s = await deps.agent({ mode, message, magasin: m });
+    s = await deps.agent({ mode, message, magasin: m, consignes });
   } catch (err) {
     if (mode === "normal") throw err;
     return fin(`${TEXTES.crise_repli_v1}\n\n${rappel(m)}`, { appel_llm: true });
@@ -78,4 +84,13 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
   }
   const reponse = mode === "crise" ? `${s.texte}\n\n${rappel(m)}` : s.texte;
   return fin(reponse, { appel_llm: true, outils: s.outils, usage: s.usage });
+}
+
+/** Étape 6 du routage : consigne du code selon l'étiquette ; classifieur en panne → « prudence santé » (5.1). */
+export function consignesDuTour(classe: SortieClassifieur | null, etiquette: string): string[] {
+  const c = donnees.consignes;
+  if (classe === null) return [c.prudence_sante];
+  if (etiquette === "medical") return [c.medical];
+  if (etiquette === "hors_sujet") return [c.hors_sujet];
+  return [];
 }

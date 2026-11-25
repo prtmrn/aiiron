@@ -17,7 +17,7 @@ export type TypeCrise = "suicide" | "automutilation" | "tca" | "autre";
 export type NiveauCrise = "doute" | "crise" | "danger";
 export type Crise = { type: TypeCrise; niveau: "crise" | "danger"; horodatage: string; message_id: string; tca_aussi: boolean };
 export type Signalement = { priorite: "danger" | "crise" | "tca" | "doute"; bloquant: boolean; horodatage: string; message_id: string };
-export type Tour = { role: "utilisateur" | "aiiron"; texte: string };
+export type Tour = { role: "utilisateur" | "aiiron"; texte: string; horodatage?: string };
 
 export type Magasin = {
   profil: Profil;

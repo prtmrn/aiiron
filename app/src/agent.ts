@@ -35,11 +35,15 @@ export function resumerProfil(m: Magasin): string {
   return lignes.join("\n");
 }
 
-/** Partie fixe (cache) puis, après la frontière, le profil à la place de {{PROFIL}}. */
-export function promptNormal(fixe: string, m: Magasin): string[] {
+/** Consignes du routage pour ce message (app/donnees/textes.json), écrites par le code. */
+export const blocConsignes = (consignes: string[] = []) =>
+  consignes.length ? `\n\n# Consignes du code pour ce message\n\n${consignes.map((c) => `- ${c}`).join("\n")}` : "";
+
+/** Partie fixe (cache) puis, après la frontière, le profil à la place de {{PROFIL}} et les consignes du tour. */
+export function promptNormal(fixe: string, m: Magasin, consignes: string[] = []): string[] {
   const i = fixe.indexOf("{{PROFIL}}");
   if (i < 0) throw new Error("persona/prompt-systeme.md : marqueur {{PROFIL}} absent.");
-  return [fixe.slice(0, i), SYSTEM_PROMPT_DYNAMIC_BOUNDARY, resumerProfil(m) + fixe.slice(i + "{{PROFIL}}".length)];
+  return [fixe.slice(0, i), SYSTEM_PROMPT_DYNAMIC_BOUNDARY, resumerProfil(m) + fixe.slice(i + "{{PROFIL}}".length) + blocConsignes(consignes)];
 }
 
 /** Message envoyé au modèle : historique récent (donnée) puis le message du tour. */
@@ -125,13 +129,13 @@ export function creerAgent(): Agent {
   verifierCle();
   const fixe = chargerPrompt(PROMPT_NORMAL);
   const crise = chargerPrompt(PROMPT_CRISE);
-  return async ({ mode, message, magasin }) => {
+  return async ({ mode, message, magasin, consignes }) => {
     const hooks: Options["hooks"] = { PreToolUse: [{ hooks: [refuserEnCrise(magasin)] }] };
     const options: Options =
       mode === "crise"
-        ? { ...optionsBase(MODELE_CONVERSATION, crise), hooks, maxTurns: 2 } // PC-5 : sans aucun outil
+        ? { ...optionsBase(MODELE_CONVERSATION, crise + blocConsignes(consignes)), hooks, maxTurns: 2 } // PC-5 : sans aucun outil
         : {
-            ...optionsBase(MODELE_CONVERSATION, promptNormal(fixe, magasin)),
+            ...optionsBase(MODELE_CONVERSATION, promptNormal(fixe, magasin, consignes)),
             mcpServers: { aiiron: creerServeur(magasin) },
             allowedTools: ["mcp__aiiron__*"],
             hooks,

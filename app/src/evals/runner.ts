@@ -1,6 +1,7 @@
 // npm run evals [-- --cas <id>] [-- --essais N] : rejoue evals/*.yaml dans la vraie chaîne (garde-fous + agent réel) et juge.
 import { parseArgs } from "node:util";
 import { creerAgent } from "../agent";
+import { creerClassifieur } from "../crise/classifieur";
 import type { Usage } from "../chaine";
 import { chargerCas, jouerCas, seuil } from "./cas";
 import { jugeOpus } from "./juge";
@@ -11,9 +12,10 @@ if (!Number.isInteger(essais) || essais < 1) {
   console.error("--essais : un entier ≥ 1 (le README prévoit 5 ; 1 par défaut pour limiter le coût).");
   process.exit(1);
 }
-let agent;
+let agent, classifieur;
 try {
   agent = creerAgent(); // vérifie la clé et charge les prompts avant tout appel
+  classifieur = creerClassifieur();
 } catch (err) {
   console.error((err as Error).message);
   process.exit(1);
@@ -30,7 +32,7 @@ let echecsCas = 0;
 for (const c of cas) {
   const resultats = [];
   for (let i = 0; i < essais; i++) {
-    const r = await jouerCas(c, { agent, juge: jugeOpus });
+    const r = await jouerCas(c, { agent, classifieur, juge: jugeOpus });
     usage.push(...r.usage);
     resultats.push(r);
   }

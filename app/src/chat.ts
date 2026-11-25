@@ -3,11 +3,13 @@ import { createInterface } from "node:readline/promises";
 import { readFileSync } from "node:fs";
 import { creerAgent } from "./agent";
 import { traiterMessage } from "./chaine";
+import { creerClassifieur } from "./crise/classifieur";
 import { creerMagasin } from "./magasin";
 
-let agent;
+let agent, classifieur;
 try {
   agent = creerAgent();
+  classifieur = creerClassifieur();
 } catch (err) {
   console.error((err as Error).message);
   process.exit(1);
@@ -21,7 +23,7 @@ for (;;) {
   if (message === "/quitter") break;
   if (!message) continue;
   try {
-    const r = await traiterMessage(magasin, message, { agent });
+    const r = await traiterMessage(magasin, message, { agent, classifieur });
     console.log(`\naiiron > ${r.reponse}\n`);
     const trace = [`étiquette ${r.etiquette}`, `état ${r.etat}`, r.texte_fixe && `texte fixe ${r.texte_fixe}`, r.outils.length && `outils ${r.outils.map((o) => o.nom).join(", ")}`];
     console.error(`  [${trace.filter(Boolean).join(" · ")}]\n`);

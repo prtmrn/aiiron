@@ -2,6 +2,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { load } from "js-yaml";
 import { traiterMessage, type Agent, type ResultatTour, type Usage } from "../chaine";
+import type { Classifieur } from "../crise/classifieur";
 import { creerMagasin, type Contexte, type Magasin, type Tour } from "../magasin";
 
 export type Attendu = {
@@ -72,7 +73,7 @@ export type Juge = (e: EntreeJuge) => Promise<{ echecs: string[]; usage: Usage[]
 export type Essai = { reussi: boolean; echecs: string[]; usage: Usage[] };
 
 /** Un essai d'un cas : tours joués un par un dans la vraie chaîne, vérifications déterministes, puis juge pour doit / ne_doit_jamais. */
-export async function jouerCas(c: Cas, deps: { agent: Agent; juge: Juge }): Promise<Essai> {
+export async function jouerCas(c: Cas, deps: { agent: Agent; juge: Juge; classifieur?: Classifieur }): Promise<Essai> {
   const m = magasinDuCas(c);
   const echecs: string[] = [];
   const usage: Usage[] = [];
@@ -81,7 +82,7 @@ export async function jouerCas(c: Cas, deps: { agent: Agent; juge: Juge }): Prom
     const signalements = m.signalements.length;
     let r: ResultatTour;
     try {
-      r = await traiterMessage(m, tour.utilisateur, { agent: deps.agent, idMessage: `${c.id}-${i + 1}` });
+      r = await traiterMessage(m, tour.utilisateur, { agent: deps.agent, classifieur: deps.classifieur, idMessage: `${c.id}-${i + 1}` });
     } catch (err) {
       echecs.push(`tour ${i + 1} : erreur de l'agent (${(err as Error).message})`);
       break;
