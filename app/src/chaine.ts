@@ -6,6 +6,7 @@ import { baliseAlerte, declencherCrise, decider, rappel } from "./crise/routage"
 import { TEXTES } from "./crise/textes";
 import donnees from "../donnees/textes.json";
 import type { Magasin } from "./magasin";
+import { detecterSante, prescriptionBloquee, signalerSante, TEXTES_SANTE, zoneSure, type SignalementSante } from "./sante";
 
 export type AppelOutil = { nom: string; entree: unknown };
 export type Usage = { modele: string; entree: number; sortie: number; cache_lu: number; cache_ecrit: number; cout_usd: number };
@@ -47,12 +48,34 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
   m.doute_en_cours = false; // le doute ne vaut que pour le message qui le suit
   if (d.niveau > 0) m.dernier_signal = t.toISOString();
 
+  // 5.2 : union lexique ou classifieur ; un drapeau rouge écarte la douleur simple
+  const sante = detecterSante(message);
+  const rouge = sante.drapeau_rouge.length > 0 || classe?.etiquette === "drapeau_rouge";
+  const douleur = !rouge && (sante.douleur || classe?.etiquette === "douleur");
+  const zone = zoneSure(classe?.zone) ?? sante.zone;
+  const etiquette = d.niveau > 0 ? d.etiquette : rouge ? "drapeau_rouge" : douleur ? "douleur" : d.etiquette;
+  const parCode: AppelOutil[] = []; // appels de signaler_sante faits par le routage, dans la trace du tour
+  const signaler = (e: SignalementSante) => {
+    signalerSante(m, e, id, t);
+    parCode.push({ nom: "signaler_sante", entree: e });
+  };
+
   const h = t.toISOString();
   const fin = (reponse: string, r: Partial<ResultatTour>): ResultatTour => {
     m.historique.push({ role: "utilisateur", texte: message, horodatage: h }, { role: "aiiron", texte: reponse, horodatage: h });
-    const out = { reponse, etiquette: d.etiquette, texte_fixe: null, appel_llm: false, outils: [], etat: m.etat, ...r };
-    return { ...out, usage: [...usageClasse, ...(r.usage ?? [])] };
+    const out = { reponse, etiquette, texte_fixe: null, appel_llm: false, etat: m.etat, ...r };
+    return { ...out, outils: [...parCode, ...(r.outils ?? [])], usage: [...usageClasse, ...(r.usage ?? [])] };
   };
+
+  // PC-2 : danger > drapeau rouge > crise > crise TCA > doute ; un seul texte fixe par message
+  if (rouge) signaler({ type: "drapeau_rouge", ...(zone && { zone }) });
+  if (rouge && d.niveau < 3) {
+    if (d.niveau === 2) {
+      declencherCrise(m, "crise", d.type!, id, t); // l'état crise vaut quand même ; seul le texte change
+      if (d.tca && d.type !== "tca") declencherCrise(m, "crise", "tca", id, t);
+    }
+    return fin(TEXTES_SANTE.drapeau_rouge_v1, { texte_fixe: "drapeau_rouge_v1" }); // un doute est écarté : sa question n'a pas été posée
+  }
 
   // PC-4 : texte fixe envoyé par le code, sans appel au LLM (y compris pendant l'état crise, PC-2.5)
   if (d.texte_fixe) {
@@ -65,7 +88,9 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
 
   // PC-5 : mode restreint, sans aucun outil ; le code ajoute le rappel ; LLM indisponible → crise_repli_v1
   const mode = m.etat === "crise" ? "crise" : "normal";
-  const consignes = mode === "crise" ? [] : consignesDuTour(classe, d.etiquette);
+  // 5.2 : douleur → signaler_sante par le code, puis le LLM avec la consigne (rien n'entre dans le profil en crise, PC-4.3)
+  if (douleur && mode === "normal") signaler({ type: "douleur", ...(classe?.exercice && { exercice: classe.exercice }), ...(zone && { zone }) });
+  const consignes = mode === "crise" ? [] : consignesDuTour(classe, etiquette, prescriptionBloquee(m, t));
   let s: SortieAgent;
   try {
     s = await deps.agent({ mode, message, magasin: m, consignes });
@@ -87,10 +112,13 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
 }
 
 /** Étape 6 du routage : consigne du code selon l'étiquette ; classifieur en panne → « prudence santé » (5.1). */
-export function consignesDuTour(classe: SortieClassifieur | null, etiquette: string): string[] {
+export function consignesDuTour(classe: SortieClassifieur | null, etiquette: string, drapeauRougeDuJour = false): string[] {
   const c = donnees.consignes;
-  if (classe === null) return [c.prudence_sante];
-  if (etiquette === "medical") return [c.medical];
-  if (etiquette === "hors_sujet") return [c.hors_sujet];
-  return [];
+  const out: string[] = [];
+  if (classe === null) out.push(c.prudence_sante);
+  if (drapeauRougeDuJour) out.push(c.drapeau_rouge_du_jour);
+  if (etiquette === "douleur") out.push(c.douleur);
+  if (etiquette === "medical" || classe?.etiquette === "medical") out.push(c.medical);
+  if (etiquette === "hors_sujet") out.push(c.hors_sujet);
+  return out;
 }

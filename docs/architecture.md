@@ -272,7 +272,7 @@ Si le classifieur échoue (erreur, délai dépassé), le lexique seul décide et
 2. Le LLM reçoit la consigne : arrêter la prescription sur ce point, ne rien diagnostiquer, proposer de continuer la séance avec ce qui ne fait pas mal, orienter vers un médecin ou un kiné si ça persiste.
 3. `charges` et `echauffement` refusent l'exercice tant que la restriction est active.
 4. **Levée de la restriction** : par l'utilisateur (« plus mal depuis une semaine »), confirmée en une question. La règle exacte de reprise (délai, reprise allégée) est à écrire par `expert-sante-physique`.
-5. Drapeau rouge (douleur thoracique, malaise, essoufflement anormal, palpitations, engourdissement, douleur après une chute…) : texte fixe, sans LLM : « Arrête la séance maintenant. Si ça ne passe pas très vite ou si tu te sens mal, appelle le 15 ou le 112. » Plus de prescription ce jour-là, conversation signalée.
+5. Drapeau rouge (douleur thoracique, malaise, essoufflement anormal, palpitations, engourdissement, douleur après une chute…) : texte fixe `drapeau_rouge_v1`, sans LLM, écrit une seule fois dans `knowledge/sante-physique/lexique-sante.json` (champ `textes`, avec le lexique du drapeau rouge et de la douleur). Plus de prescription ce jour-là, conversation signalée.
 
 ### 5.3 Crise : interface
 

@@ -8,6 +8,7 @@ import { echauffementSeance, type Echelle } from "../../engine/src/force/paliers
 import type { Drapeau, Phase } from "../../engine/src/force/types";
 import { COEFS_VARIANTES, e1rmEffectif, e1rmExercice, normaliserExercice } from "../../engine/src/force/variantes";
 import { restrictionDouleur, type Magasin } from "./magasin";
+import { prescriptionBloquee, signalerSante, zoneSure, type SignalementSante } from "./sante";
 
 export type Retour<T> = {
   statut: "ok" | "incomplet" | "refuse" | "indisponible";
@@ -90,6 +91,12 @@ const G = {
   douleur: "Pas de charge sur cet exercice : douleur signalée. Propose de continuer sans cet exercice et rappelle l'avis d'un pro si ça persiste.",
   a_confirmer: "La donnée s'écarte nettement de la référence enregistrée : demande confirmation avant de l'utiliser.",
   materiel: "Matériel inconnu : aucune charge. Demande le matériel avant de calculer.",
+  drapeau_rouge: "Signe d'alerte physique signalé aujourd'hui : aucune charge ni aucun palier jusqu'à demain. Ne prescris rien et conseille d'en parler à un médecin avant de reprendre.",
+};
+// Contrat 4.5, signaler_sante
+const GS = {
+  douleur: "Restriction posée : plus de charge ni de palier pour cet exercice ou cette zone. Aucun diagnostic ; propose de continuer avec ce qui ne fait pas mal, et un médecin ou un kiné si ça persiste.",
+  drapeau_rouge: "Signe d'alerte noté : plus aucune prescription aujourd'hui. Il arrête la séance ; s'il se sent mal ou si ça ne passe pas vite, les numéros d'urgence de tes consignes ; un médecin avant de reprendre.",
 };
 // Tableau 4.3
 const GE = {
@@ -134,10 +141,17 @@ type Prepa = { ex: string; e1rm: number; source: ChargesResultat["source_e1rm"];
  * Helper commun aux deux outils : exercice connu, restriction douleur, matériel, e1RM (référence, variante ou donnée
  * initiale déclarée, e1rm.md R8), puis e1RM effectif. Renvoie un Retour d'arrêt si le calcul est impossible.
  */
-function preparer(m: Magasin, exercice: string, o: { materiel?: Materiel; remise?: number; donnee?: DonneeInitiale }): Prepa | Retour<never> {
+/** Identifiant du moteur force ou d'une référence existante ; sinon erreur avec la liste des identifiants. */
+function exerciceConnu(m: Magasin, exercice: string): string {
   const ex = normaliserExercice(exercice);
   if (!EXERCICES_FORCE.includes(ex) && m.references[ex] === undefined)
     throw new ErreurOutil(`Exercice inconnu : « ${exercice} ». Identifiants acceptés : ${EXERCICES_FORCE.join(", ")}. Demande à l'utilisateur l'exercice exact si aucun ne correspond.`);
+  return ex;
+}
+
+function preparer(m: Magasin, exercice: string, o: { materiel?: Materiel; remise?: number; donnee?: DonneeInitiale }): Prepa | Retour<never> {
+  if (prescriptionBloquee(m)) return vide("refuse", { guidance: [G.drapeau_rouge] });
+  const ex = exerciceConnu(m, exercice);
   if (restrictionDouleur(m, ex)) return vide("refuse", { drapeaux: ["DOULEUR"], guidance: [G.douleur] });
   const materiel = o.materiel ?? m.profil.materiel;
   if (!materiel) return vide("incomplet", { guidance: [G.materiel], still_to_ask: [qMateriel(ex)] });
@@ -232,6 +246,24 @@ export function echauffement(e: EchauffementEntree, m: Magasin): Retour<Echauffe
     resultat: { version: e.version, duree_paliers_min: Math.ceil(dureeS / 60), blocs: [{ type: "preparation_specifique", items }] },
     drapeaux: unique(drapeaux),
     guidance: unique([...(e.version === "courte" ? [GE.courte] : []), ...(e.activation === false ? [GE.activation] : []), ...guidance, GE.toujours, GE.non_calcule]),
+    still_to_ask: [],
+  };
+}
+
+export type SignalerEntree = SignalementSante & { citation: string };
+export type SignalerResultat = { type: SignalementSante["type"]; restriction: { exercice?: string; zone?: string } | null; prescription_bloquee_aujourdhui: boolean };
+
+/** signaler_sante appelé par le LLM. La citation n'est pas stockée (PC-11, pas d'étiquette de diagnostic). */
+export function signaler(e: SignalerEntree, m: Magasin, messageId = "outil"): Retour<SignalerResultat> {
+  const exercice = e.exercice === undefined ? undefined : exerciceConnu(m, e.exercice);
+  if (e.zone !== undefined && !zoneSure(e.zone))
+    throw new ErreurOutil("zone : une partie du corps (« genou droit »), jamais un diagnostic. Rappelle l'outil avec la partie du corps seulement.");
+  const r = signalerSante(m, { type: e.type, exercice, zone: e.zone }, messageId);
+  return {
+    statut: "ok",
+    resultat: { type: e.type, restriction: r && { exercice: r.exercice, zone: r.zone }, prescription_bloquee_aujourdhui: prescriptionBloquee(m) },
+    drapeaux: e.type === "douleur" && exercice ? ["DOULEUR"] : [],
+    guidance: [GS[e.type]],
     still_to_ask: [],
   };
 }

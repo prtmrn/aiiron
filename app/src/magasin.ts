@@ -16,7 +16,7 @@ export type Profil = {
 export type TypeCrise = "suicide" | "automutilation" | "tca" | "autre";
 export type NiveauCrise = "doute" | "crise" | "danger";
 export type Crise = { type: TypeCrise; niveau: "crise" | "danger"; horodatage: string; message_id: string; tca_aussi: boolean };
-export type Signalement = { priorite: "danger" | "crise" | "tca" | "doute"; bloquant: boolean; horodatage: string; message_id: string };
+export type Signalement = { priorite: "danger" | "crise" | "tca" | "doute" | "drapeau_rouge" | "douleur"; bloquant: boolean; horodatage: string; message_id: string };
 export type Tour = { role: "utilisateur" | "aiiron"; texte: string; horodatage?: string };
 
 export type Magasin = {
@@ -28,6 +28,7 @@ export type Magasin = {
   derniere_crise: string | null; // fenêtre de 30 jours (PC-7, PC-9)
   dernier_signal: string | null; // signal de niveau 1 à 3, fenêtre de 24 h (PC-9)
   doute_en_cours: boolean; // PC-4, point 6 : vaut pour le message suivant
+  drapeau_rouge: string | null; // dernier drapeau rouge physique : plus de prescription ce jour-là (5.2.5)
   relances_coupees: boolean;
   signalements: Signalement[]; // journal local de revue humaine (pas d'alerte de garde dans le squelette)
   historique: Tour[];
@@ -51,6 +52,7 @@ export function creerMagasin(c: Contexte = {}, maintenant = new Date()): Magasin
     derniere_crise: enCrise ? maintenant.toISOString() : null,
     dernier_signal: null,
     doute_en_cours: false,
+    drapeau_rouge: null,
     relances_coupees: enCrise,
     signalements: [],
     historique: [],

@@ -1,0 +1,25 @@
+{
+  "id": "sante-physique-lexique-sante",
+  "titre": "Lexique déterministe du drapeau rouge physique et de la douleur (docs/architecture.md 5.2), texte fixe drapeau_rouge_v1",
+  "statut": "brouillon, à relire par expert-sante-physique",
+  "auteur_agent": "developpeur",
+  "source": "docs/architecture.md 5.2 : liste des signes d'alerte (douleur thoracique, malaise, essoufflement anormal, palpitations, engourdissement, douleur après une chute) et texte fixe. Formulations, fenêtres et exclusions : heuristique à valider.",
+  "regle": "Expressions régulières JavaScript appliquées au texte normalisé comme le lexique de crise (minuscules, sans accents, apostrophes droites, ponctuation remplacée par des espaces). Union avec le classifieur : l'un ou l'autre suffit. Priorité (PC-2) : danger > drapeau rouge > crise > crise TCA > doute, puis douleur. Douleur : ignorée si le message parle de courbatures. Une négation (« pas de douleur dans la poitrine ») déclenche quand même le drapeau rouge : faux positif assumé.",
+  "textes": {
+    "drapeau_rouge_v1": "Arrête la séance maintenant. Si ça ne passe pas très vite ou si tu te sens mal, appelle le 15 ou le 112."
+  },
+  "drapeau_rouge": [
+    { "id": "thoracique", "motif": "\\b(douleurs?|mal|serre|serrement|sert|oppression|oppresse|pression|brulures?|brule|pique|poids)\\b.{0,25}\\b(poitrine|thorax|thoracique|sternum)\\b|\\b(poitrine|thorax|sternum)\\b.{0,20}\\b(serre|sert|fait mal|douleurs?|oppress\\w*|brule|pique)\\b" },
+    { "id": "malaise", "motif": "\\bmalaises?\\b|\\b(evanoui\\w*|perdu connaissance|perte de connaissance|dans les pommes|voile noir|vertiges?|la tete (qui|me) tourne|etourdi\\w*)\\b" },
+    { "id": "essoufflement_anormal", "motif": "\\b(du mal|de la peine|des difficultes|difficulte|n'arrive (pas|plus)|j'arrive (pas|plus)|impossible) a respirer\\b|\\bje respire mal\\b|\\bj'etouffe\\b|\\b(essouffl\\w*|souffle) (anormal\\w*|inhabituel\\w*|bizarre\\w*)\\b" },
+    { "id": "palpitations", "motif": "\\bpalpitations?\\b|\\bcoeur (qui )?(s'emballe|bat n'importe comment|bat bizarrement|irregulier|rate des battements|fait des rates)\\b|\\b(arythmie|tachycardie)\\b" },
+    { "id": "engourdissement", "motif": "\\b(engourdi\\w*|fourmillements?|perte de sensibilite|paralys\\w*)\\b|\\bfourmis dans (le|la|les|mon|ma|mes) (bras|main|mains|jambe|jambes|visage|levre|levres)\\b|\\bje (ne )?sens plus (mon|ma|mes)\\b" },
+    { "id": "chute", "motif": "\\b(chute|je suis tombee?|tombee? (de|du|sur)|j'ai glisse|cogne la tete|choc a la tete)\\b.{0,60}\\b(douleurs?|mal)\\b|\\b(douleurs?|mal)\\b.{0,60}\\b(apres|depuis) (ma|la|une|cette) chute\\b" }
+  ],
+  "douleur": {
+    "motifs": "\\b(douleurs?|douloureu(x|se)|pincements?|elancements?)\\b|(?<!pas )(?<!plus )\\bj'ai mal\\b|\\bfait mal\\b|(?<!pas )(?<!plus )\\bmal (au|aux|a la|a l'|a mon|a ma|a mes|dans)\\b|\\bje me suis blesse\\w*",
+    "exclusions": "\\bcourbatu\\w*"
+  },
+  "zones": ["genou", "genoux", "epaule", "epaules", "dos", "lombaires", "bas du dos", "nuque", "cou", "hanche", "hanches", "cheville", "chevilles", "poignet", "poignets", "coude", "coudes", "cuisse", "ischio", "ischios", "adducteurs", "fessier", "mollet", "mollets", "tendon d'achille", "pied", "pieds", "main", "mains", "tete", "poitrine", "ventre", "abdos", "pec", "pecs", "biceps", "triceps", "trapeze"],
+  "diagnostics": "\\b(tendinites?|tendinopathies?|entorses?|menisques?|ligaments?|croises?|ruptures?|dechirures?|elongations?|claquages?|contractures?|hernies?|sciatiques?|lombalgies?|arthroses?|fractures?|luxations?|bursites?|syndromes?|rotulien\\w*|periostites?|fasciites?|capsulites?|lesions?|infarctus|angines? de poitrine|crises? cardiaques?|cardiaques?|asthmes?|crises? d'angoisse|attaques? de panique|depressions?|burn ?outs?|anorexi\\w*|boulimi\\w*|tca|troubles?)\\b"
+}
