@@ -63,7 +63,7 @@ describe("ajustement-rpe.md — exemple (série 1 loguée → séries 2-3)", () 
       ],
       ctx,
     );
-    expect(r.drapeaux).toEqual(["SERIE_DURE", "ARRET_EXERCICE"]);
+    expect(r.drapeaux).toEqual(["SERIE_DURE", "SERIE_DURE", "ARRET_EXERCICE"]);
     expect(r.series[2].annulee).toBe(true);
     expect(r.series[2].charge).toBeNull();
   });

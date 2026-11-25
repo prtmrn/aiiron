@@ -50,6 +50,13 @@ describe("T1 — semaine « DELOAD » avec singles à RPE 9–10", () => {
     const { semaine, changements } = corrigerDeload(S4, S3, e1rm, materiel);
     expect(semaine.exercices[0].lignes).toEqual([{ series: 3, reps: 3, rpe: 7, charge: 120 }]);
     expect(changements.length).toBeGreaterThan(0);
+  });
+
+  // ÉCART: deload.md R4 garde la ligne 3 × 3 @ 7 (charge plafonnée à 0,80 × e1RM = 120), mais R3 compte
+  // DELOAD_INTENSITE_TROP_HAUTE dès que pct(reps, RPE) > 0,80 : pct(3, 7) = 0,845. La semaine corrigée
+  // attendue par T1 est donc refusée par validerDeload tel qu'écrit.
+  it.fails("la semaine corrigée de T1 passe validerDeload", () => {
+    const { semaine } = corrigerDeload(S4, S3, e1rm, materiel);
     expect(validerDeload(semaine, S3, e1rm).violations).toEqual([]);
   });
 
