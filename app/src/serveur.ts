@@ -25,11 +25,12 @@ const ecriture = { alwaysLoad: true };
 const PRESCRIPTION = ["charges", "echauffement"];
 
 /** Drapeau rouge du jour : les outils de prescription ne sont même pas proposés (ils refusent aussi d'eux-mêmes). */
-export const outilsProposes = (m: Magasin) => outils(m).filter((t) => !(prescriptionBloquee(m) && PRESCRIPTION.includes(t.name)));
+export const outilsProposes = (m: Magasin, journal?: unknown[]) => outils(m, journal).filter((t) => !(prescriptionBloquee(m) && PRESCRIPTION.includes(t.name)));
 
-export const creerServeur = (m: Magasin) => createSdkMcpServer({ name: "aiiron", version: "0.1.0", alwaysLoad: true, tools: outilsProposes(m) });
+/** journal : reçoit le resultat de chaque appel du tour (sources du contrôle de sortie). */
+export const creerServeur = (m: Magasin, journal?: unknown[]) => createSdkMcpServer({ name: "aiiron", version: "0.1.0", alwaysLoad: true, tools: outilsProposes(m, journal) });
 
-const outils = (m: Magasin) => [
+const outils = (m: Magasin, journal?: unknown[]) => [
   tool(
     "charges",
     "Charge arrondie au matériel pour une ou plusieurs lignes (reps, RPE ou %) d'un exercice, à partir des références de l'utilisateur ou d'une série qu'il donne. Renvoie statut, resultat, drapeaux, guidance, still_to_ask.",
@@ -47,7 +48,7 @@ const outils = (m: Magasin) => [
         .optional()
         .describe("Seulement des chiffres dits par l'utilisateur, recopiés"),
     },
-    async (args) => enResultatMcp(() => charges(args, m)),
+    async (args) => enResultatMcp(() => charges(args, m), journal),
     lecture,
   ),
   tool(
@@ -60,7 +61,7 @@ const outils = (m: Magasin) => [
       equipements: z.array(z.string()).optional(),
       exercices: z.array(z.object({ exercice, premiere_ligne: ligne, materiel })).min(1).describe("Dans l'ordre de la séance"),
     },
-    async (args) => enResultatMcp(() => echauffement(args, m)),
+    async (args) => enResultatMcp(() => echauffement(args, m), journal),
     lecture,
   ),
   tool(
@@ -82,7 +83,7 @@ const outils = (m: Magasin) => [
       unite_dite: z.enum(["kg", "lb"]).nullable().optional().describe("Unité dite par l'utilisateur ; null ou absente s'il ne l'a pas dite"),
       confirme: z.boolean().optional().describe("true seulement si l'utilisateur vient de confirmer des chiffres signalés A_CONFIRMER"),
     },
-    async (args) => enResultatMcp(() => logSeries(args, m)),
+    async (args) => enResultatMcp(() => logSeries(args, m), journal),
     ecriture,
   ),
   tool(
@@ -94,7 +95,7 @@ const outils = (m: Magasin) => [
       zone: z.string().max(40).optional().describe("Partie du corps citée (« genou droit »), jamais un diagnostic"),
       citation: z.string().describe("Extrait du message de l'utilisateur ; il n'est pas enregistré"),
     },
-    async (args) => enResultatMcp(() => signaler(args, m)),
+    async (args) => enResultatMcp(() => signaler(args, m), journal),
     ecriture,
   ),
 ];

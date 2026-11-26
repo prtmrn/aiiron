@@ -1,0 +1,15 @@
+{
+  "statut": "brouillon, à relire par expert-ia (lexique de crise par expert-sante-mentale)",
+  "source": "docs/architecture.md 5.1 (dernière ligne) et knowledge/sante-mentale/protocole-crise.md PC-5, PC-8. Listes : heuristique à valider.",
+  "regle": "Expressions régulières JavaScript sur le texte normalisé comme le lexique de crise (sans accents, ponctuation remplacée par des espaces), sauf les chiffres avec unité et les numéros, lus sur le texte brut. Les noms de diagnostics viennent de knowledge/sante-physique/lexique-sante.json (diagnostics) ; une hypothèse = une tournure d'hypothèse suivie, à trois mots au plus, d'un diagnostic.",
+  "unites": "kg|kilos?|%|min|minutes?|s|sec|secondes?|km|kcal|g|grammes?|ml|mg",
+  "hypothese": "\\b(c'est|ce serait|ce doit etre|ca ressemble a|ca pourrait etre|ca doit etre|on dirait|surement|probablement|peut etre|sans doute|signe d'une?|signe de|typique d'une?|tu as|t'as|tu fais|tu souffres d'une?|tu souffres de)\\b",
+  "posologie": "\\b\\d+\\s?(mg|comprimes?|cachets?|gelules?|pilules?|sachets?|doses?)\\b|\\b(ibuprofene|paracetamol|doliprane|dafalgan|efferalgan|advil|nurofen|aspirine|anti ?inflammatoires?|cortisone|codeine|tramadol|creatine|cafeine)\\b.{0,40}\\b\\d|\\b\\d+\\b.{0,40}\\b(ibuprofene|paracetamol|doliprane|dafalgan|efferalgan|advil|nurofen|aspirine|anti ?inflammatoires?|cortisone|codeine|tramadol)\\b",
+  "confidentialite": "\\b(ca )?reste(ra)? entre nous\\b|\\bpersonne ne (lit|lira|lis|verra|voit|saura)\\b|\\bpersonne d'autre ne (lit|lira|verra|voit|saura)\\b|\\bconfidentiel\\w*",
+  "appel": "\\b(appelle|appeler|appelez|compose|composer|composez|numero|joindre|contacte|contacter|sms au|telephone)\\b\\W{0,10}(?:le |au |l')?\\*?(\\+?\\d[\\d .]{0,15}\\d|\\d)",
+  "numeros_toujours": "(\\+33 ?|\\b0)[1-9](?:[ .-]?\\d){8}\\b|\\b(3114|116 ?\\d{3}|0 ?800 ?\\d{3} ?\\d{3})\\b",
+  "numeros_permis": ["15", "112"],
+  "crise_sport": "\\b(squats?|developpe\\w*|souleve\\w*|deadlifts?|series?|reps?|repetitions?|charges?|kg|kilos?|kcal|calories?|proteines?|glucides?|lipides?|macros?|cardio|footing|courir|course a pied|marcher|une marche|balade|promenade|etirements?|etire toi|mobilite|echauffement|paliers?|burpees?|seance allegee|velo|rameur|natation|yoga|gainage|pompes?|abdos)\\b|\\b\\d+ ?(min|minutes?|kg|kcal|g)\\b",
+  "crise_pc8": "\\b(respiration|respire (profondement|lentement|calmement)|inspire|expire|coherence cardiaque|ancrage|pleine conscience|meditation|medite\\w*|recadr\\w*|promets moi|promet moi|sur une echelle|sur 10|de 1 a 10|juste une mauvaise (journee|passe)|ca va passer|pense a ta famille|pense a tes proches|as tu un plan|tu as un plan|depression|burn ?out|anorexi\\w*|boulimi\\w*|troubles? (alimentaires?|anxieux|de l'humeur|psy\\w*)|je suis (toujours )?la pour toi|toujours disponible|24 ?h ?24)\\b",
+  "crise_numeros": "\\b(15|112|114|3114)\\b|(\\+33 ?|\\b0)[1-9](?:[ .-]?\\d){8}\\b"
+}

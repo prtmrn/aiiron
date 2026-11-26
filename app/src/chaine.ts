@@ -6,12 +6,15 @@ import { baliseAlerte, declencherCrise, decider, rappel } from "./crise/routage"
 import { TEXTES } from "./crise/textes";
 import donnees from "../donnees/textes.json";
 import type { Magasin } from "./magasin";
+import { controlerSortie } from "./controle";
 import { detecterSante, prescriptionBloquee, signalerSante, TEXTES_SANTE, zoneSure, type SignalementSante } from "./sante";
 
 export type AppelOutil = { nom: string; entree: unknown };
 export type Usage = { modele: string; entree: number; sortie: number; cache_lu: number; cache_ecrit: number; cout_usd: number };
-export type EntreeAgent = { mode: "normal" | "crise"; message: string; magasin: Magasin; consignes?: string[] };
-export type SortieAgent = { texte: string; outils: AppelOutil[]; usage: Usage[] };
+export type Regeneration = { reponse: string; erreurs: string[]; resultats: unknown[] };
+export type EntreeAgent = { mode: "normal" | "crise"; message: string; magasin: Magasin; consignes?: string[]; regeneration?: Regeneration };
+/** resultats : le resultat de chaque appel d'outil du tour (sources du contrôle de sortie). */
+export type SortieAgent = { texte: string; outils: AppelOutil[]; usage: Usage[]; resultats?: unknown[] };
 /** L'agent réel (agent.ts) ou un agent factice dans les tests. */
 export type Agent = (e: EntreeAgent) => Promise<SortieAgent>;
 
@@ -23,6 +26,7 @@ export type ResultatTour = {
   outils: AppelOutil[];
   etat: Magasin["etat"];
   usage: Usage[];
+  controle?: string[]; // erreurs du contrôle de sortie (vide : réponse acceptée du premier coup)
 };
 // 5.4 : au troisième message hors sujet d'affilée, texte fixe sans LLM
 const HORS_SUJET_MAX = 3;
@@ -104,19 +108,47 @@ export async function traiterMessage(m: Magasin, message: string, deps: Dependan
     s = await deps.agent({ mode, message, magasin: m, consignes });
   } catch (err) {
     if (mode === "normal") throw err;
-    return fin(`${TEXTES.crise_repli_v1}\n\n${rappel(m)}`, { appel_llm: true });
+    return fin(`${TEXTES.crise_repli_v1}\n\n${rappel(m)}`, { texte_fixe: "crise_repli_v1", appel_llm: true });
   }
+  let usage = s.usage;
 
   // Filet de sécurité : balise d'alerte du modèle, jamais transmise à l'utilisateur
-  const b = baliseAlerte(s.texte);
-  if (b) {
+  const alerte = (x: SortieAgent): ResultatTour | null => {
+    const b = baliseAlerte(x.texte);
+    if (!b) return null;
     declencherCrise(m, b.niveau, b.type, id, t);
     m.dernier_signal = t.toISOString();
     const etiquette = b.niveau === "danger" ? "danger" : b.type === "tca" ? "crise_tca" : "crise_suicide";
-    return fin(TEXTES[b.texte_fixe], { etiquette, texte_fixe: b.texte_fixe, appel_llm: true, outils: s.outils, usage: s.usage });
+    return fin(TEXTES[b.texte_fixe], { etiquette, texte_fixe: b.texte_fixe, appel_llm: true, outils: s.outils, usage });
+  };
+  const a1 = alerte(s);
+  if (a1) return a1;
+
+  // 5.1 et PC-5 : contrôle de sortie ; échec → une régénération avec l'erreur, puis repli fixe
+  const sources = { resultats: s.resultats ?? [], profil: m.profil, messages: [message, ...m.historique.filter((x) => x.role === "utilisateur").map((x) => x.texte)] };
+  let texte = s.texte;
+  const erreurs = controlerSortie(texte, mode, sources);
+  let controle = erreurs;
+  if (erreurs.length) {
+    let s2: SortieAgent | null = null;
+    try {
+      s2 = await deps.agent({ mode, message, magasin: m, consignes, regeneration: { reponse: s.texte, erreurs, resultats: sources.resultats } });
+      usage = [...usage, ...s2.usage];
+    } catch {
+      s2 = null;
+    }
+    const a2 = s2 && alerte(s2);
+    if (a2) return a2;
+    const erreurs2 = s2 ? controlerSortie(s2.texte, mode, sources) : ["régénération indisponible"];
+    controle = [...erreurs, ...erreurs2];
+    if (erreurs2.length) {
+      const repli = mode === "crise" ? `${TEXTES.crise_repli_v1}\n\n${rappel(m)}` : donnees.textes.repli_v1;
+      return fin(repli, { texte_fixe: mode === "crise" ? "crise_repli_v1" : "repli_v1", appel_llm: true, outils: s.outils, usage, controle });
+    }
+    texte = s2!.texte;
   }
-  const reponse = mode === "crise" ? `${s.texte}\n\n${rappel(m)}` : s.texte;
-  return fin(reponse, { appel_llm: true, outils: s.outils, usage: s.usage });
+  const reponse = mode === "crise" ? `${texte}\n\n${rappel(m)}` : texte;
+  return fin(reponse, { appel_llm: true, outils: s.outils, usage, controle });
 }
 
 /** Étape 6 du routage : consigne du code selon l'étiquette ; classifieur en panne → « prudence santé » (5.1). */

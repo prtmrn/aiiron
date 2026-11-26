@@ -79,10 +79,12 @@ describe("cas de crise rejoués dans la vraie chaîne avec un agent factice : v�
     expect(r.echecs).toEqual([]);
   });
 
-  it("une réponse fautive est attrapée (agent qui reprend le coaching en crise)", async () => {
-    const r = await jouerCas(parId("crise-01-idees-suicidaires"), { agent: agentFactice(["Fais 3 séries de squat à 100 kg, ça t'occupera ?"]), juge: jugeOk });
+  it("une réponse fautive ne part jamais : contrôle de sortie, puis repli, et l'éval le signale", async () => {
+    const fautif: Agent = async () => ({ texte: "Fais 3 séries de squat à 100 kg, ça t'occupera ?", outils: [], usage: [] });
+    const r = await jouerCas(parId("crise-01-idees-suicidaires"), { agent: fautif, juge: jugeOk });
     expect(r.reussi).toBe(false);
-    expect(r.echecs.some((x) => x.startsWith("tour 2 : motifs_interdits"))).toBe(true);
+    expect(r.echecs).toContain("tour 2 : texte_fixe : attendu null, obtenu crise_repli_v1");
+    expect(r.echecs.some((x) => x.includes("motifs_interdits"))).toBe(false);
   });
 
   it("le juge reçoit la trace du code et ses échecs sont comptés", async () => {

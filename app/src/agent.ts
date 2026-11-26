@@ -4,7 +4,8 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Agent, AppelOutil, SortieAgent, Usage } from "./chaine";
+import type { Agent, AppelOutil, EntreeAgent, SortieAgent, Usage } from "./chaine";
+import donnees from "../donnees/textes.json";
 import type { Magasin } from "./magasin";
 import { creerServeur } from "./serveur";
 
@@ -38,6 +39,13 @@ export function resumerProfil(m: Magasin): string {
 /** Consignes du routage pour ce message (app/donnees/textes.json), écrites par le code. */
 export const blocConsignes = (consignes: string[] = []) =>
   consignes.length ? `\n\n# Consignes du code pour ce message\n\n${consignes.map((c) => `- ${c}`).join("\n")}` : "";
+
+/** Consigne de la régénération demandée par le contrôle de sortie : erreurs, réponse refusée et résultats d'outils, en données. */
+export const consigneRegeneration = (r: NonNullable<EntreeAgent["regeneration"]>) =>
+  donnees.consignes.regeneration
+    .replace("{{ERREURS}}", r.erreurs.join(" ; "))
+    .replace("{{REPONSE}}", r.reponse)
+    .replace("{{RESULTATS}}", r.resultats.length ? JSON.stringify(r.resultats) : "aucun");
 
 /** Partie fixe (cache) puis, après la frontière, le profil à la place de {{PROFIL}} et les consignes du tour. */
 export function promptNormal(fixe: string, m: Magasin, consignes: string[] = []): string[] {
@@ -129,18 +137,21 @@ export function creerAgent(): Agent {
   verifierCle();
   const fixe = chargerPrompt(PROMPT_NORMAL);
   const crise = chargerPrompt(PROMPT_CRISE);
-  return async ({ mode, message, magasin, consignes }) => {
+  return async ({ mode, message, magasin, consignes = [], regeneration }) => {
     const hooks: Options["hooks"] = { PreToolUse: [{ hooks: [refuserEnCrise(magasin)] }] };
+    const c = regeneration ? [...consignes, consigneRegeneration(regeneration)] : consignes;
+    const resultats: unknown[] = [];
+    // Régénération sans outil : les effets du premier essai (log_series, signaler_sante) ne sont pas rejoués
     const options: Options =
-      mode === "crise"
-        ? { ...optionsBase(MODELE_CONVERSATION, crise + blocConsignes(consignes)), hooks, maxTurns: 2 } // PC-5 : sans aucun outil
+      mode === "crise" || regeneration
+        ? { ...optionsBase(MODELE_CONVERSATION, mode === "crise" ? crise + blocConsignes(c) : promptNormal(fixe, magasin, c)), hooks, maxTurns: 2 } // PC-5 : sans aucun outil
         : {
-            ...optionsBase(MODELE_CONVERSATION, promptNormal(fixe, magasin, consignes)),
-            mcpServers: { aiiron: creerServeur(magasin) },
+            ...optionsBase(MODELE_CONVERSATION, promptNormal(fixe, magasin, c)),
+            mcpServers: { aiiron: creerServeur(magasin, resultats) },
             allowedTools: ["mcp__aiiron__*"],
             hooks,
             maxTurns: 8,
           };
-    return executer(promptTour(magasin, message), options);
+    return { ...(await executer(promptTour(magasin, message), options)), resultats: regeneration?.resultats ?? resultats };
   };
 }

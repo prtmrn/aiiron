@@ -380,10 +380,11 @@ export function logSeries(e: LogEntree, m: Magasin, maintenant = new Date()): Re
   };
 }
 
-/** Convertit un handler en résultat MCP : structuredContent exact ; erreur → isError avec la consigne pour le LLM. */
-export function enResultatMcp(f: () => Retour<unknown>): CallToolResult {
+/** Convertit un handler en résultat MCP : structuredContent exact ; erreur → isError avec la consigne pour le LLM. journal : résultats du tour. */
+export function enResultatMcp(f: () => Retour<unknown>, journal?: unknown[]): CallToolResult {
   try {
     const r = f();
+    journal?.push(r.resultat); // sources du contrôle de sortie : les chiffres du résultat seulement
     return { content: [{ type: "text", text: JSON.stringify(r) }], structuredContent: r as unknown as Record<string, unknown> };
   } catch (err) {
     const texte = err instanceof ErreurOutil ? err.message : "Erreur interne du calcul : ne donne aucun chiffre, dis que le calcul n'a pas abouti et propose de réessayer.";

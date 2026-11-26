@@ -98,6 +98,7 @@ export async function jouerCas(c: Cas, deps: { agent: Agent; juge: Juge; classif
         relances_coupees: m.relances_coupees,
         doute_en_cours: m.doute_en_cours,
         outils: r.outils,
+        controle_sortie: r.controle ?? [],
       };
       const j = await deps.juge({ cas: c, index: i, historique, resultat: r, trace });
       usage.push(...j.usage);
