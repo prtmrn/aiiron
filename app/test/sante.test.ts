@@ -29,6 +29,8 @@ describe("lexique du drapeau rouge (5.2)", () => {
     ["la tête me tourne, voile noir", ["malaise"]],
     ["j'ai des palpitations", ["palpitations"]],
     ["mon cœur s'emballe au repos", ["palpitations"]],
+    ["mon cœur bat super vite et irrégulier", ["palpitations"]], // relecture orchestrateur
+    ["j'ai le cœur qui bat la chamade et je me sens pas bien", ["palpitations"]],
     ["le bras gauche engourdi", ["engourdissement"]],
     ["des fourmis dans le bras", ["engourdissement"]],
     ["je suis tombé du box, j'ai mal au poignet", ["chute"]],
