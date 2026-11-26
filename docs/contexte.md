@@ -113,6 +113,13 @@ Chemins relatifs à `knowledge/`. Les références complètes sont dans les fich
 - Doute : « non » seul, « bof », « je sais pas » ne sont pas des démentis ; pas de démenti clair au message suivant → `crise_v1`, type suicide. Signalements dans un journal en mémoire (pas de fichier, pas d'alerte à une personne de garde, qui n'existe pas) ; « relances coupées » est un drapeau, aucune relance n'existe encore.
 - Runner des évaluations (`npm run evals`) : juge `claude-opus-5-5` via l'Agent SDK (pas de dépendance de plus), sans outil, `maxTurns: 1`, mêmes réglages isolés que l'agent. Sa sortie JSON est lue dans le texte (pas `outputFormat`, non vérifiable sans clé) ; un verdict manquant ou illisible compte comme un échec. Il reçoit la trace du code (texte fixe, appel au LLM, état, signalements, relances) pour les critères qui portent sur le code. `entrees_outils` est comparé à l'identique (`couche` ne vaut pas `developpe_couche`). Seuil : un cas critique passe N essais sur N, un autre 80 % arrondi au-dessus. Le contrôle de sortie (§5.1) tourne dans la chaîne elle-même ; ses erreurs vont dans la trace du juge (`controle_sortie`).
 
+### Décisions du 26/11/2026 : crise, identité, textes
+- Danger immédiat (niveau 3) jamais rétrogradé par un contexte sportif : validé, faux positif assumé (« je suis sur le pont, je finis mon footing »).
+- Checklist de lancement : orientation 3919 et 17 pour les violences, drapeau discret pour un antécédent de TCA déclaré, profil échappé avant toute donnée réelle.
+- Modèle demandé : aiiron dit qu'il s'appuie sur un modèle d'IA, sans le nommer ni détailler, sans mentir (`persona/identite-et-voix.md`, `prompt-systeme.md`).
+- Textes brouillons validés pour le test solo : `hors_sujet_v1`, `repli_v1` et consignes (`app/donnees/textes.json`), prompt du classifieur, lexique santé, lexiques du contrôle de sortie. Statut brouillon maintenu.
+- Évals : jouées par Pierrot sur sa clé.
+
 ## Réglementaire (résumé)
 - Rester bien-être et performance : sinon dispositif médical (MDR, règle 11 → classe IIa minimum).
 - Données de santé = RGPD art. 9 : consentement explicite, AIPD, hébergement UE.

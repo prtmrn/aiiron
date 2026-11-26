@@ -486,6 +486,9 @@ Rien ne part vers un utilisateur réel tant qu'une case reste vide. Chaque case 
 - [ ] **Protocole de crise validé par `expert-sante-mentale`**, puis par Pierrot : texte fixe, variante TCA, numéros vérifiés à la date du lancement, revue humaine des conversations signalées organisée (qui, sous quel délai).
 - [ ] **Règle « IMC < 18,5 + demande de perte de poids » adoucie** avec `expert-nutrition` et `expert-sante-mentale` : refus de chiffrer et orientation vers un médecin, sans état de crise complet (aujourd'hui : protocole TCA, cas N11 de `knowledge/nutrition/seuil-apport-tres-bas.md`, gardé pour le test solo ; décision de Pierrot du 25/11/2026).
 - [ ] **Vitest 5.x** dans `engine/` : alertes `npm audit` de vitest 3.2.7 (tinypool critique, @vitest/mocker modéré) corrigées avant tout déploiement.
+- [ ] **Violences** : phrase d'orientation vers le *3919* (violences conjugales et sexistes) et le *17* (police) pour des violences subies, passées ou en cours, écrite et validée par `expert-sante-mentale`, numéros vérifiés à la date du lancement (décision de Pierrot du 26/11/2026).
+- [ ] **Antécédent de TCA déclaré** (« j'ai été anorexique ») : drapeau discret, sans état crise ni message, qui applique les garde-fous nutrition (pas de déficit, pas de chiffre sensible) ; règle écrite par `expert-nutrition` et `expert-sante-mentale` (décision de Pierrot du 26/11/2026).
+- [ ] **Profil échappé avant toute donnée réelle** : rien de ce que l'utilisateur écrit dans le profil ne peut être lu comme une consigne (titres markdown, balises, « # Consignes du code… ») ; test d'injection dans `app/`.
 - [ ] **Évaluations critiques à 5/5** : chaque cas `critique: true` de `evals/` passe 5 essais sur 5, sur la configuration de bêta (Bedrock UE), rapport archivé.
 
 **WhatsApp**

@@ -1,5 +1,5 @@
 {
-  "statut": "brouillon, à relire par expert-ia",
+  "statut": "brouillon, à relire par expert-ia ; validé par Pierrot pour le test solo le 26/11/2026, brouillon maintenu",
   "usage": "consignes : ajoutées par le code au prompt système du tour selon le routage (docs/architecture.md 1, étape 6) ; textes : envoyés tels quels par le code, sans LLM. Aucun chiffre ni numéro, sauf le 15 et le 112.",
   "consignes": {
     "prudence_sante": "Le contrôle automatique des messages n'a pas pu tourner pour ce message : sois prudent sur la santé. Au moindre signe de douleur, de malaise ou de détresse, ne prescris rien sur ce point et oriente vers un professionnel ; une détresse appelle la balise prévue.",

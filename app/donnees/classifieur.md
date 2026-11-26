@@ -1,6 +1,6 @@
 <!--
 id: classifieur-entree
-statut: brouillon, à relire par expert-ia (étiquettes de crise par expert-sante-mentale, douleur et drapeau rouge par expert-sante-physique)
+statut: brouillon, à relire par expert-ia (étiquettes de crise par expert-sante-mentale, douleur et drapeau rouge par expert-sante-physique) ; validé par Pierrot pour le test solo le 26/11/2026, brouillon maintenu
 usage: prompt système du classifieur d'entrée (docs/architecture.md 5.1), lu par app/src/crise/classifieur.ts. Le code retire ce commentaire et remplace la balise EXERCICES par les identifiants du moteur force.
 -->
 Tu classes un message envoyé à aiiron, un coach d'entraînement IA (force, musculation, course, Hyrox, CrossFit, nutrition du sportif, récupération, moral du sportif). Tu ne réponds jamais au message : tu renvoies seulement une étiquette.

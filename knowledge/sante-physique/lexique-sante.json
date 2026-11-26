@@ -1,7 +1,7 @@
 {
   "id": "sante-physique-lexique-sante",
   "titre": "Lexique déterministe du drapeau rouge physique et de la douleur (docs/architecture.md 5.2), texte fixe drapeau_rouge_v1",
-  "statut": "brouillon, à relire par expert-sante-physique",
+  "statut": "brouillon, à relire par expert-sante-physique ; validé par Pierrot pour le test solo le 26/11/2026, brouillon maintenu",
   "auteur_agent": "developpeur",
   "source": "docs/architecture.md 5.2 : liste des signes d'alerte (douleur thoracique, malaise, essoufflement anormal, palpitations, engourdissement, douleur après une chute) et texte fixe. Formulations, fenêtres et exclusions : heuristique à valider.",
   "regle": "Expressions régulières JavaScript appliquées au texte normalisé comme le lexique de crise (minuscules, sans accents, apostrophes droites, ponctuation remplacée par des espaces). Union avec le classifieur : l'un ou l'autre suffit. Priorité (PC-2) : danger > drapeau rouge > crise > crise TCA > doute, puis douleur. Douleur : ignorée si le message parle de courbatures. Une négation (« pas de douleur dans la poitrine ») déclenche quand même le drapeau rouge : faux positif assumé.",

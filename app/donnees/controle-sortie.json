@@ -1,5 +1,5 @@
 {
-  "statut": "brouillon, à relire par expert-ia (lexique de crise par expert-sante-mentale)",
+  "statut": "brouillon, à relire par expert-ia (lexique de crise par expert-sante-mentale) ; validé par Pierrot pour le test solo le 26/11/2026, brouillon maintenu",
   "source": "docs/architecture.md 5.1 (dernière ligne) et knowledge/sante-mentale/protocole-crise.md PC-5, PC-8. Listes : heuristique à valider.",
   "regle": "Expressions régulières JavaScript sur le texte normalisé comme le lexique de crise (sans accents, ponctuation remplacée par des espaces), sauf les chiffres avec unité et les numéros, lus sur le texte brut. Les noms de diagnostics viennent de knowledge/sante-physique/lexique-sante.json (diagnostics) ; une hypothèse = une tournure d'hypothèse suivie, à trois mots au plus, d'un diagnostic.",
   "unites": "kg|kilos?|%|min|minutes?|s|sec|secondes?|km|kcal|g|grammes?|ml|mg",
