@@ -100,10 +100,22 @@
     }
   ],
   "volume_hebdo_vise": {
-    "quadriceps": 6, "fessiers": 12, "adducteurs": 3, "ischio_jambiers": 4.5, "lombaires": 5,
-    "pectoraux": 6, "triceps": 4.5, "deltoides_anterieurs": 3, "deltoides": 3,
-    "haut_du_dos": 4.5, "dorsaux": 3, "biceps": 3, "avant_bras": 3,
-    "abdominaux": 4, "flechisseurs_hanche": 2, "core": 3
+    "quadriceps": 6,
+    "fessiers": 12,
+    "adducteurs": 3,
+    "ischio_jambiers": 4.5,
+    "lombaires": 5,
+    "pectoraux": 6,
+    "triceps": 4.5,
+    "deltoides_anterieurs": 6,
+    "haut_du_dos": 3,
+    "dorsaux": 4.5,
+    "biceps": 3,
+    "avant_bras": 3,
+    "abdominaux": 4,
+    "flechisseurs_hanche": 2,
+    "core": 3,
+    "deltoides_lateraux": 1.5
   },
   "exercices_utilises": {
     "0043": { "nom": "Squat barre", "id_moteur_force": "squat", "materiel": ["barre", "disques", "rack"], "zones": ["genou", "hanche", "bas_du_dos"] },
