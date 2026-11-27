@@ -1,0 +1,135 @@
+{
+  "id": "force-3j-corps-entier",
+  "version": 1,
+  "domaine": "force",
+  "titre": "Force, corps entier, 3 séances",
+  "statut": "brouillon",
+  "auteur_agent": "expert-force",
+  "derniere_revue": "2026-11-27",
+  "niveau_preuve": "E",
+  "sources": [
+    { "titre": "American College of Sports Medicine Position Stand. Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults: An Overview of Reviews (Med Sci Sports Exerc 58(4):851-872)", "auteurs": "Currier BS, D'Souza AC, Fiatarone Singh MA et al.", "annee": 2026, "url": "https://doi.org/10.1249/MSS.0000000000003897" },
+    { "titre": "American College of Sports Medicine position stand. Progression models in resistance training for healthy adults (Med Sci Sports Exerc 41(3):687-708)", "auteurs": "Ratamess NA, Alvar BA, Evetoch TK et al.", "annee": 2009, "url": "https://pubmed.ncbi.nlm.nih.gov/19204579/" },
+    { "titre": "Effect of Resistance Training Frequency on Gains in Muscular Strength: A Systematic Review and Meta-Analysis (Sports Med 48(5):1207-1220)", "auteurs": "Grgic J, Schoenfeld BJ, Davies TB, Lazinica B, Krieger JW, Pedisic Z", "annee": 2018, "url": "https://pubmed.ncbi.nlm.nih.gov/29470825/" },
+    { "titre": "RPE vs. Percentage 1RM Loading in Periodized Programs Matched for Sets and Repetitions (Front Physiol 9:247)", "auteurs": "Helms ER, Byrnes RK, Cooke DM et al.", "annee": 2018, "url": "https://pubmed.ncbi.nlm.nih.gov/29628895/" },
+    { "titre": "Longer Interset Rest Periods Enhance Muscle Strength and Hypertrophy in Resistance-Trained Men (JSCR 30(7):1805-1812)", "auteurs": "Schoenfeld BJ, Pope ZK, Benik FM et al.", "annee": 2016, "url": "https://pubmed.ncbi.nlm.nih.gov/26605807/" },
+    { "titre": "Integrating Deloading into Strength and Physique Sports Training Programmes: An International Delphi Consensus Approach (Sports Med Open 9:87)", "auteurs": "Bell L, Nolan D, Immonen V et al.", "annee": 2023, "url": "https://doi.org/10.1186/s40798-023-00633-0" }
+  ],
+  "selection": {
+    "objectifs": ["force_generale", "powerlifting"],
+    "niveaux": ["debutant", "intermediaire"],
+    "seances_par_semaine": 3,
+    "duree_seance_min": { "min": 42, "max": 74 },
+    "materiel_requis": ["barre", "disques", "rack", "banc"],
+    "lieux": ["salle", "maison"],
+    "zones_sollicitees_fortement": ["genou", "hanche", "bas_du_dos", "epaule", "coude"]
+  },
+  "raison_choix": "Tu refais le squat, le développé couché et le soulevé de terre plusieurs fois par semaine sur des séances du corps entier, ce qui t'aide à apprendre les gestes et à progresser régulièrement.",
+  "progression": {
+    "methode": "vague_rpe",
+    "applique_a": ["principal"],
+    "semaines": [
+      { "semaine": 1, "delta_rpe": 0, "delta_reps": 0 },
+      { "semaine": 2, "delta_rpe": 0.5, "delta_reps": 0 },
+      { "semaine": 3, "delta_rpe": 1, "delta_reps": 0 },
+      { "semaine": 4, "delta_rpe": 1, "delta_reps": -1 },
+      { "semaine": 5, "delta_rpe": 1.5, "delta_reps": -1 },
+      { "semaine": 6, "delta_rpe": 1.5, "delta_reps": -1 }
+    ],
+    "plafond_rpe": { "debutant": 8.5, "intermediaire": 9, "avance": 9 },
+    "plancher_reps": 1,
+    "autres_slots": "inchanges",
+    "source_charge": "reference_e1rm",
+    "apres_deload": "semaine_1"
+  },
+  "deload": {
+    "ref": "force-deload",
+    "planifie_apres_semaines_de_charge": { "debutant": 6, "intermediaire": 5, "avance": 4 },
+    "construction": "corrigerDeload",
+    "semaine_reference": "derniere_semaine_de_charge",
+    "non_planifie": "evaluerDeload",
+    "validation": "validerDeload"
+  },
+  "seances": [
+    {
+      "id": "A",
+      "titre": "Squat et développé couché",
+      "jour_relatif": 1,
+      "type_seance": "force",
+      "duree_estimee_min": 74,
+      "echauffement": { "ref": "echauffement-force" },
+      "mobilite": { "ref": "mobilite-force" },
+      "retour_au_calme": { "ref": "retour-au-calme-force" },
+      "slots": [
+        { "exercice": "0043", "id_moteur_force": "squat", "role": "principal", "lignes": [ { "series": 3, "reps": 5, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0042", "0739", "1760"] },
+        { "exercice": "0025", "id_moteur_force": "developpe_couche", "role": "principal", "lignes": [ { "series": 3, "reps": 5, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0289", "0662"] },
+        { "exercice": "0027", "id_moteur_force": null, "role": "assistance", "lignes": [ { "series": 3, "reps": 8, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 120, "alternatives": ["0327", "0861", "0499", "0293"] },
+        { "exercice": "0276", "id_moteur_force": null, "role": "assistance", "lignes": [ { "series": 2, "reps": 10, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 60, "alternatives": ["0472"] }
+      ]
+    },
+    {
+      "id": "B",
+      "titre": "Soulevé de terre et développé militaire",
+      "jour_relatif": 3,
+      "type_seance": "force",
+      "duree_estimee_min": 68,
+      "echauffement": { "ref": "echauffement-force" },
+      "mobilite": { "ref": "mobilite-force" },
+      "retour_au_calme": { "ref": "retour-au-calme-force" },
+      "slots": [
+        { "exercice": "0032", "id_moteur_force": "souleve_de_terre", "role": "principal", "lignes": [ { "series": 3, "reps": 4, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0085", "1459"] },
+        { "exercice": "1457", "id_moteur_force": "developpe_militaire", "role": "principal", "lignes": [ { "series": 3, "reps": 6, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0091", "0426", "0405"] },
+        { "exercice": "0652", "id_moteur_force": null, "role": "assistance", "lignes": [ { "series": 3, "reps": 6, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 120, "alternatives": ["0970", "0198", "0499"] },
+        { "exercice": "0276", "id_moteur_force": null, "role": "assistance", "lignes": [ { "series": 2, "reps": 10, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 60, "alternatives": ["0472"] }
+      ]
+    },
+    {
+      "id": "C",
+      "titre": "Squat pause, développé couché et soulevé roumain",
+      "jour_relatif": 5,
+      "type_seance": "force",
+      "duree_estimee_min": 71,
+      "echauffement": { "ref": "echauffement-force" },
+      "mobilite": { "ref": "mobilite-force" },
+      "retour_au_calme": { "ref": "retour-au-calme-force" },
+      "slots": [
+        { "exercice": "0043", "id_moteur_force": "squat_pause_2s", "role": "principal", "lignes": [ { "series": 3, "reps": 4, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0739", "1760"] },
+        { "exercice": "0025", "id_moteur_force": "developpe_couche", "role": "principal", "lignes": [ { "series": 3, "reps": 6, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 180, "alternatives": ["0289", "0662"] },
+        { "exercice": "0085", "id_moteur_force": "sdt_roumain", "role": "assistance", "lignes": [ { "series": 3, "reps": 8, "rpe": 7 } ], "remise_contexte": 1, "repos_s": 120, "alternatives": ["1459", "0489"] }
+      ]
+    }
+  ],
+  "volume_hebdo_vise": {
+    "quadriceps": 6, "fessiers": 12, "adducteurs": 3, "ischio_jambiers": 4.5, "lombaires": 5,
+    "pectoraux": 6, "triceps": 4.5, "deltoides_anterieurs": 3, "deltoides": 3,
+    "haut_du_dos": 4.5, "dorsaux": 3, "biceps": 3, "avant_bras": 3,
+    "abdominaux": 4, "flechisseurs_hanche": 2, "core": 3
+  },
+  "exercices_utilises": {
+    "0043": { "nom": "Squat barre", "id_moteur_force": "squat", "materiel": ["barre", "disques", "rack"], "zones": ["genou", "hanche", "bas_du_dos"] },
+    "0042": { "nom": "Squat avant barre", "id_moteur_force": "squat_avant", "materiel": ["barre", "disques", "rack"], "zones": ["genou", "hanche", "bas_du_dos"] },
+    "0739": { "nom": "Presse à cuisses 45°", "id_moteur_force": null, "materiel": ["presse"], "zones": ["genou", "hanche"] },
+    "1760": { "nom": "Goblet squat haltère", "id_moteur_force": null, "materiel": ["halteres"], "zones": ["genou", "hanche"] },
+    "0025": { "nom": "Développé couché barre", "id_moteur_force": "developpe_couche", "materiel": ["barre", "disques", "banc", "rack"], "zones": ["epaule", "coude"] },
+    "0289": { "nom": "Développé couché haltères", "id_moteur_force": null, "materiel": ["halteres", "banc"], "zones": ["epaule"] },
+    "0662": { "nom": "Pompes", "id_moteur_force": null, "materiel": [], "zones": ["epaule", "poignet"] },
+    "0027": { "nom": "Rowing barre buste penché", "id_moteur_force": null, "materiel": ["barre", "disques"], "zones": ["bas_du_dos"] },
+    "0327": { "nom": "Rowing haltères sur banc incliné", "id_moteur_force": null, "materiel": ["halteres", "banc_inclinable"], "zones": [] },
+    "0861": { "nom": "Tirage horizontal assis à la poulie", "id_moteur_force": null, "materiel": ["poulie"], "zones": [] },
+    "0499": { "nom": "Rowing inversé à la barre", "id_moteur_force": null, "materiel": ["barre", "rack"], "zones": [] },
+    "0293": { "nom": "Rowing haltères buste penché", "id_moteur_force": null, "materiel": ["halteres"], "zones": ["bas_du_dos"] },
+    "0276": { "nom": "Dead bug", "id_moteur_force": null, "materiel": [], "zones": [] },
+    "0472": { "nom": "Relevés de jambes suspendu", "id_moteur_force": null, "materiel": ["barre_traction"], "zones": ["epaule"] },
+    "0032": { "nom": "Soulevé de terre barre", "id_moteur_force": "souleve_de_terre", "materiel": ["barre", "disques"], "zones": ["bas_du_dos", "hanche"] },
+    "0085": { "nom": "Soulevé de terre roumain barre", "id_moteur_force": "sdt_roumain", "materiel": ["barre", "disques"], "zones": ["bas_du_dos", "hanche"] },
+    "1459": { "nom": "Soulevé de terre roumain haltères", "id_moteur_force": null, "materiel": ["halteres"], "zones": ["bas_du_dos", "hanche"] },
+    "0489": { "nom": "Extension de hanche au banc à lombaires", "id_moteur_force": null, "materiel": ["banc_lombaires"], "zones": ["bas_du_dos"] },
+    "1457": { "nom": "Développé militaire debout barre", "id_moteur_force": "developpe_militaire", "materiel": ["barre", "disques", "rack"], "zones": ["epaule", "coude", "bas_du_dos"] },
+    "0091": { "nom": "Développé militaire assis barre", "id_moteur_force": "developpe_militaire_assis", "materiel": ["barre", "disques", "rack", "banc_inclinable"], "zones": ["epaule", "coude"] },
+    "0426": { "nom": "Développé militaire debout haltères", "id_moteur_force": null, "materiel": ["halteres"], "zones": ["epaule", "coude"] },
+    "0405": { "nom": "Développé épaules assis haltères", "id_moteur_force": null, "materiel": ["halteres", "banc_inclinable"], "zones": ["epaule"] },
+    "0652": { "nom": "Tractions", "id_moteur_force": null, "materiel": ["barre_traction"], "zones": ["epaule", "coude"] },
+    "0970": { "nom": "Tractions assistées à l'élastique", "id_moteur_force": null, "materiel": ["barre_traction", "elastique"], "zones": ["epaule"] },
+    "0198": { "nom": "Tirage vertical à la poulie", "id_moteur_force": null, "materiel": ["poulie"], "zones": ["epaule"] }
+  }
+}
