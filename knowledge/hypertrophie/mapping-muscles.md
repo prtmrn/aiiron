@@ -36,18 +36,42 @@ sources:
     auteurs: "Bourne MN, Duhig SJ, Timmins RG, et al."
     annee: 2017
     url: "https://doi.org/10.1136/bjsports-2016-096130"
+  - titre: "Comparison of different rowing exercises: trunk muscle activation and lumbar spine motion, load, and stiffness"
+    auteurs: "Fenwick CMJ, Brown SHM, McGill SM."
+    annee: 2009
+    url: "https://pubmed.ncbi.nlm.nih.gov/19197209/"
+  - titre: "Variations in muscle activation levels during traditional latissimus dorsi weight training exercises: An experimental study"
+    auteurs: "Lehman GJ, Buchan DD, Lundy A, Myers N, Nalborczyk A."
+    annee: 2004
+    url: "https://doi.org/10.1186/1476-5918-3-4"
+  - titre: "An electromyography analysis of 3 muscles surrounding the shoulder joint during the performance of a chest press exercise at several angles"
+    auteurs: "Trebs AA, Brandenburg JP, Pitney WA."
+    annee: 2010
+    url: "https://pesquisa.bvsalud.org/bvsiec/resource/pt/mdl-20512064"
+  - titre: "Effect of hand position on EMG activity of the posterior shoulder musculature during a horizontal abduction exercise"
+    auteurs: "Schoenfeld BJ, Sonmez RGT, Kolber MJ, Contreras B, Harris R, Ozen S."
+    annee: 2013
+    url: "https://doi.org/10.1519/JSC.0b013e318281e1e9"
+  - titre: "Unique activation of the quadriceps femoris during single- and multi-joint exercises"
+    auteurs: "Ema R, Sakaguchi M, Akagi R, Kawakami Y."
+    annee: 2016
+    url: "https://doi.org/10.1007/s00421-016-3363-5"
+  - titre: "Triceps brachii hypertrophy is substantially greater after elbow extension training performed in the overhead versus neutral arm position"
+    auteurs: "Maeo S, Wu Y, Huang M, et al."
+    annee: 2023
+    url: "https://doi.org/10.1080/17461391.2022.2100279"
   - titre: "exercises-dataset (données MIT), version épinglée dans data/exercises/exercises.json"
     auteurs: "hasaneyldrm"
     annee: 2025
     url: "https://github.com/hasaneyldrm/exercises-dataset"
 statut: brouillon
 auteur_agent: expert-hypertrophie
-derniere_revue: 2026-11-25
+derniere_revue: 2026-11-27
 ---
 
 # Muscles aiiron et mapping du dataset
 
-Données : `mapping-muscles.json` (même dossier, version 3). Utilisé par le moteur volume (séries par muscle) et par les séries d'approche (`force-paliers-montee-en-charge#musculation`).
+Données : `mapping-muscles.json` (même dossier, version 4 : règles MAP-12 à MAP-14 ajoutées le 27/11/2026, brouillon). Utilisé par le moteur volume (séries par muscle) et par les séries d'approche (`force-paliers-montee-en-charge#musculation`).
 
 ## Principe
 
@@ -68,6 +92,10 @@ Le volume hebdomadaire se pilote muscle par muscle : les études dose-réponse m
 | MAP-9 | `compte_volume: false` : le muscle n'entre jamais dans le volume hypertrophie (totaux, fourchettes, groupe des séries d'approche). `compteur_separe: true` : il est compté avec les mêmes poids et le même dédoublonnage dans un compteur affiché à part. Seul `core` est dans ce cas ; `coiffe_rotateurs` et `dentele_anterieur` ont `compteur_separe: false` (listés pour la sélection d'exercices, pas de compteur). | Validé par Pierrot le 25/11/2026 (core compté à part ; coiffe et dentelé sans compteur). Choix de conception : aucune source trouvée (les méta-analyses de volume ne mesurent pas un « core ») |
 | MAP-10 | **Charnières** (la hanche s'étend, le genou reste à angle fixe ou presque). Jambes tendues ou presque, debout ou au banc à lombaires (soulevés de terre roumains et jambes tendues, soulevés sur une jambe, good mornings debout, hyperextensions dos droit) → principaux `ischio_jambiers`, `fessiers` ; secondaire `lombaires`. Genou fléchi fixe, dos au sol ou sur banc (ponts, hip thrusts) → `fessiers` principal ; ischio-jambiers, quadriceps et lombaires retirés (`core` gardé si le dataset le liste). Le reste garde le dataset (voir ci-dessous). | Ponts : Plotkin 2023 (ECR, IRM, niveau B) : hip thrust → grand fessier comme le squat, ischio-jambiers « peu ou pas » de croissance. Jambes tendues : Bourne 2017 (ECR, IRM, niveau B) : l'extension de hanche à 45° fait grossir les ischio-jambiers (biceps fémoral long chef, semi-tendineux) ; extension au soulevé roumain : extrapolation, précédent `0085` validé. Classement par nom et étapes : choix de conception |
 | MAP-11 | **Exercices hors volume** : étirements, mobilité, sauts et gammes de course sont listés par identifiant dans `exercices_hors_volume`. Ils ne comptent nulle part : ni volume, ni compteur séparé, ni groupe de séries d'approche. Leurs muscles restent résolus (MAP-3, étapes 2 et 3) pour la sélection d'exercices (« étirement des fessiers »). | Étirements à zéro et sauts hors volume : validés par Pierrot le 25/11/2026 (pas de compteur `pliometrie` pour l'instant, à revoir avec le moteur course). Mobilité et gammes : choix prudent de l'expert. Critères de repérage : choix de conception |
+
+| MAP-12 | **Rowings** (tirage horizontal, cible `upper back`) : principal `haut_du_dos` ; secondaires `dorsaux`, `biceps`, `avant_bras` (ou `dorsaux`, `biceps`, `deltoides_posterieurs` quand le dataset donne `rear deltoids`). 52 surcharges. Exclus, non revus : tirages hauts (`0167`, `0193`, `0208`, `0581`, `1356`, `1324`), rowings à secondaire `shoulders` (`0988`, `0990`, `3168`, `3167`, `3166`, `3165`, `0234`, `0236`, `0239`, `0327`, `1322`, `1330`, `3144`, `0808`), `1348`, `1328`, `0521`, rowings d'épaule (cible `delts`) et tirages menton. Le groupe des séries d'approche reste `haut_du_dos`. | Dorsaux fortement activés dans les rowings (Fenwick 2009, EMG : rowing inversé, buste penché, poulie à un bras) ; rowing assis parmi les meilleurs rapports dorsaux / biceps (Lehman 2004, EMG). Niveau C : activation, aucune étude d'hypertrophie des dorsaux par rowing trouvée (un essai IRM enregistré, pas encore de résultats). Demi-série : MAP-4. Prises larges (`0159`, `0160`, `0218`) : dorsaux sans doute moins sollicités, gardés par cohérence. Brouillon, à valider par Pierrot |
+| MAP-13 | **Tête du deltoïde précisée** (supprime `TETE_DELTOIDE_NON_PRECISEE` pour ces exercices). Développés couchés, inclinés, prise serrée et écartés → `deltoides_anterieurs` ; développés verticaux → principal `deltoides_anterieurs`, secondaires `deltoides_lateraux`, `triceps` (comme `0091`, `upper back` retiré) ; élévations latérales → principal `deltoides_lateraux`, secondaire `trapezes` (comme `0334`) ; oiseaux → principal `deltoides_posterieurs`, secondaires `haut_du_dos`, `trapezes` (comme `0075`) ; extensions de triceps au-dessus de la tête → `shoulders` retiré, aucune tête ; tirage bras tendus `0238` → `deltoides_posterieurs`. 28 surcharges. | Couché et développé vertical : antérieur dominant, latéral à l'élévation latérale (Campos 2020, EMG, niveau C) ; incliné : antérieur plus actif qu'à plat (Trebs 2010, EMG) ; oiseau : deltoïde postérieur sollicité à l'abduction horizontale (Schoenfeld 2013, EMG) ; extension au-dessus de la tête : seul le coude bouge, l'épaule tient la position (Maeo 2023, protocole) ; `0238` : extension d'épaule, anatomie fonctionnelle, aucune étude. Triceps gardé du dataset sur `0188`, `0227` (discutable, coude presque fixe). Brouillon, à valider par Pierrot |
+| MAP-14 | **Extension de genou** (`0585`, `3007`) : `quadriceps` seul, ischio-jambiers retirés. | Mouvement mono-articulaire d'extension du genou : les ischio-jambiers sont antagonistes ; l'extension de genou sollicite les quadriceps, le droit fémoral plus qu'à la presse (Ema 2016, EMG). Défaut du dataset déjà relevé en v3. Brouillon, à valider par Pierrot |
 
 ### Muscles
 
@@ -91,7 +119,12 @@ Représentation de `core` dans le JSON : `{ "id": "core", "nom": "Gainage / tron
 - `core` → muscle `core`, hors volume avec compteur séparé (MAP-9).
 - `null` : `cardiovascular system` (29 exercices cardio, sans muscle principal), `back` (ambigu, surtout sur des kickbacks), `ankles`, `ankle stabilizers`, `feet`, `shins`.
 
-### Surcharges (105)
+### Surcharges (187)
+
+**v4, 27/11/2026 (82, brouillon).**
+- MAP-14 (2) : `0585`, `3007`.
+- MAP-12 rowings (52) : `0027`, `0049`, `0064`, `3017`, `0118`, `1317`, `3156`, `3158`, `3162`, `3161`, `0159`, `0160`, `0180`, `0189`, `1319`, `1320`, `1321`, `1323`, `0214`, `0861`, `0218`, `0248`, `0293`, `0292`, `1329`, `1331`, `2327`, `1344`, `0499`, `2300`, `2298`, `0497`, `0498`, `0522`, `0541`, `1345`, `0571`, `0574`, `3200`, `0588`, `0589`, `1349`, `1350`, `0606`, `1351`, `1313`, `1773`, `1359`, `1360`, `1361` ; avec deltoïdes postérieurs : `1318`, `0761`.
+- MAP-13 têtes du deltoïde (28) : couchés `0289`, `0577`, `0576`, `0748`, `0030` ; inclinés `0314`, `0047`, `1299`, `0757` ; écartés `0188`, `0227`, `0308`, `0596` ; développés verticaux `1457`, `1456`, `0405`, `0426`, `0603` (+ `pectoraux` du dataset) ; élévations latérales `0178`, `0584` ; oiseaux `0383`, `0378`, `0602`, `0154` ; extensions au-dessus de la tête `0194`, `2188`, `0453` ; `0238`.
 
 **Les 8 premières, validées par Pierrot le 25/11/2026.** `0043` squat, `0336` fentes haltères → principaux quadriceps et fessiers, secondaires adducteurs (+ `core` pour `0043`) ; `0739` presse 45° → quadriceps principal, fessiers et adducteurs secondaires (changement v3, validé) ; `0085` soulevé roumain → ischio-jambiers et fessiers ; `0025` couché, `0091` développé assis, `0334` élévations latérales, `0075` oiseau barre → tête du deltoïde explicite.
 
@@ -152,9 +185,9 @@ Avant la v3, `1709` et `1710` (étirements) comptaient 1 série de fessiers et 0
 - Le mapping compte des séries, il ne juge pas la qualité d'un exercice ni sa tolérance : douleur ou gêne → on arrête de prescrire sur ce point et on oriente (voir `expert-sante-physique`).
 - Le poids 0,5 vient d'un préprint et sert de moyenne : un secondaire peut travailler beaucoup (triceps au couché) ou presque pas.
 - Les sauts ne comptent pas en volume, mais ils fatiguent : leur charge devra être suivie par le moteur course ou un futur compteur, pas ignorée dans la planification.
-- Restent sans surcharge : la plupart des exercices d'épaule (séries affichées sous `deltoides`), les soulevés de terre depuis le sol, les kickbacks, et les rotations d'épaule (`0216`, `0235`, `0863`, `0864`, `mq-rotation-externe-elastique`), à revoir vers `coiffe_rotateurs` (hors volume).
+- Restent sans surcharge : les exercices d'épaule hors MAP-13 (séries affichées sous `deltoides`), les rowings exclus de MAP-12, les soulevés de terre depuis le sol, les kickbacks, et les rotations d'épaule (`0216`, `0235`, `0863`, `0864`, `mq-rotation-externe-elastique`), à revoir vers `coiffe_rotateurs` (hors volume).
 - Non classés : `3639` (torsion allongé genoux fléchis, cible `glutes` peu plausible), courses et sprints du dataset (`run`, `wind sprints`, `short stride run`), lancers de médecine-ball.
-- Défauts du dataset relevés : `groupe_musculaire` recopie le premier muscle secondaire (vrai pour les 10 libellés les plus fréquents, soit 1 175 exercices sur 1 324) ; leg extension `0585` avec ischios en secondaire ; ponts `0484` et `0756` en cible `abs` ; hyperextensions `0489`, `0488` en cible `spine` ; nom corrompu `0739` (`45в°`). Le dataset manque d'exercices de mobilité, d'échauffement et de course : `exercices-aiiron.json` en comble une partie.
+- Défauts du dataset relevés : `groupe_musculaire` recopie le premier muscle secondaire (vrai pour les 10 libellés les plus fréquents, soit 1 175 exercices sur 1 324) ; leg extension `0585` avec ischios en secondaire (corrigé en v4, MAP-14) ; ponts `0484` et `0756` en cible `abs` ; hyperextensions `0489`, `0488` en cible `spine` ; nom corrompu `0739` (`45в°`). Le dataset manque d'exercices de mobilité, d'échauffement et de course : `exercices-aiiron.json` en comble une partie.
 - `data/exercises/exercices-aiiron.json` (40 exercices `mq-…`, expert-sante-physique) reprend les libellés anglais du dataset. Ils sont tous dans la table, plus un nouveau libellé, `diaphragm` (`mq-respiration`), associé à `null`. Tout nouvel exercice ajouté là-bas doit d'abord entrer dans la table (libellés) et, si c'est un étirement, de la mobilité, un saut ou une gamme, dans `exercices_hors_volume`.
 
 ## Exemple
@@ -164,9 +197,9 @@ Attendu, poids réels : quadriceps 6, fessiers 4,5 (3 × 1 + 3 × 0,5), adducteu
 Poids 1 : quadriceps 6, fessiers 6, adducteurs 6 ; core 3. Bugué (sous-chaîne, `quadriceps` lu dans `groupe_musculaire` puis dans `muscles_secondaires`) : 12.
 
 Séance T5 : `0025` × 4, `0027` × 3, `0043` × 5.
-Attendu, poids réels : pectoraux 4, triceps 2, deltoïdes antérieurs 2, haut du dos 3, biceps 1,5, avant-bras 1,5, quadriceps 5, fessiers 5, adducteurs 2,5 ; core 2,5. Les mêmes totaux dans n'importe quel ordre.
-Poids 1 : pectoraux 4, triceps 4, deltoïdes antérieurs 4, haut du dos 3, biceps 3, avant-bras 3, quadriceps 5, fessiers 5, adducteurs 5 ; core 5.
+Attendu, poids réels (v4, `0027` en MAP-12) : pectoraux 4, triceps 2, deltoïdes antérieurs 2, haut du dos 3, dorsaux 1,5, biceps 1,5, avant-bras 1,5, quadriceps 5, fessiers 5, adducteurs 2,5 ; core 2,5. Les mêmes totaux dans n'importe quel ordre. (v3 : sans dorsaux.)
+Poids 1 : pectoraux 4, triceps 4, deltoïdes antérieurs 4, haut du dos 3, dorsaux 3, biceps 3, avant-bras 3, quadriceps 5, fessiers 5, adducteurs 5 ; core 5.
 
-Séries d'approche (T17) : `0739`, `0336`, `0294`, `0586`, `0027`. Groupes : quadriceps (premier), quadriceps (déjà vu), biceps, ischio-jambiers, haut du dos. Approche complète sur `0739`, `0294`, `0586`, `0027` ; pas sur `0336`. Avec une série de chaque, poids réels : quadriceps 2, fessiers 1,5, adducteurs 1, biceps 1,5, avant-bras 1, ischio-jambiers 1, mollets 0,5, haut du dos 1 ; aucun core. Poids 1 : quadriceps 2, fessiers 2, adducteurs 2, biceps 2, avant-bras 2, ischio-jambiers 1, mollets 1, haut du dos 1.
+Séries d'approche (T17) : `0739`, `0336`, `0294`, `0586`, `0027`. Groupes : quadriceps (premier), quadriceps (déjà vu), biceps, ischio-jambiers, haut du dos. Approche complète sur `0739`, `0294`, `0586`, `0027` ; pas sur `0336`. Avec une série de chaque, poids réels (v4) : quadriceps 2, fessiers 1,5, adducteurs 1, biceps 1,5, avant-bras 1, ischio-jambiers 1, mollets 0,5, haut du dos 1, dorsaux 0,5 ; aucun core. Poids 1 : quadriceps 2, fessiers 2, adducteurs 2, biceps 2, avant-bras 2, ischio-jambiers 1, mollets 1, haut du dos 1, dorsaux 1. Groupes inchangés.
 
 Étirement `1709` × 3 : rien, ni volume ni compteur séparé (fessiers 3 et ischio-jambiers 1,5 avant la v3).

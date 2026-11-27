@@ -69,7 +69,7 @@ describe("MAP-5 : dédoublonnage", () => {
   });
 
   it("deux lignes du même exercice s'additionnent (c'est le dédoublonnage par exercice, pas par séance)", () => {
-    expect(compterVolume([{ exercice: "0027", series: 2 }, { exercice: "0027", series: 1 }], d).volume).toEqual({ haut_du_dos: 3, biceps: 1.5, avant_bras: 1.5 });
+    expect(compterVolume([{ exercice: "0027", series: 2 }, { exercice: "0027", series: 1 }], d).volume).toEqual({ haut_du_dos: 3, dorsaux: 1.5, biceps: 1.5, avant_bras: 1.5 });
   });
 });
 
@@ -81,9 +81,9 @@ describe("MAP-6 : groupe = premier principal compté en volume", () => {
   it("T17, une série de chaque : poids réels et poids 1 (exemple de la fiche)", () => {
     const lignes = ["0739", "0336", "0294", "0586", "0027"].map((exercice) => ({ exercice, series: 1 }));
     const c = compterVolume(lignes, d);
-    expect(c.volume).toEqual({ quadriceps: 2, fessiers: 1.5, adducteurs: 1, biceps: 1.5, avant_bras: 1, ischio_jambiers: 1, mollets: 0.5, haut_du_dos: 1 });
+    expect(c.volume).toEqual({ quadriceps: 2, fessiers: 1.5, adducteurs: 1, biceps: 1.5, avant_bras: 1, ischio_jambiers: 1, mollets: 0.5, haut_du_dos: 1, dorsaux: 0.5 });
     expect(c.compteurs_separes).toEqual({});
-    expect(compterVolume(lignes, d, { poids: "un" }).volume).toEqual({ quadriceps: 2, fessiers: 2, adducteurs: 2, biceps: 2, avant_bras: 2, ischio_jambiers: 1, mollets: 1, haut_du_dos: 1 });
+    expect(compterVolume(lignes, d, { poids: "un" }).volume).toEqual({ quadriceps: 2, fessiers: 2, adducteurs: 2, biceps: 2, avant_bras: 2, ischio_jambiers: 1, mollets: 1, haut_du_dos: 1, dorsaux: 1 });
   });
 
   it("dentelé seul principal (0050) : aucun groupe", () => {

@@ -120,7 +120,7 @@ Cas réels de notre propre base `data/exercises/exercises.json`, à ajouter :
 
 Entrée : séance de 3 exercices, mapping `knowledge/hypertrophie/mapping-muscles.json`.
 - `0025` couché (surcharge) : principal `pectoraux` ; secondaires `triceps`, `deltoides_anterieurs`.
-- `0027` rowing barre (libellés) : principal `haut_du_dos` ; secondaires `biceps`, `avant_bras`.
+- `0027` rowing barre (surcharge du mapping v4, MAP-13) : principal `haut_du_dos` ; secondaires `dorsaux`, `biceps`, `avant_bras`.
 - `0043` squat (surcharge) : principaux `quadriceps`, `fessiers` ; secondaires `adducteurs`, `core` (compteur séparé).
 
 | Ordre | Exercice | Séries |
@@ -135,6 +135,7 @@ Entrée : séance de 3 exercices, mapping `knowledge/hypertrophie/mapping-muscle
 | triceps | **2** | **4** | 1,5 | 3 |
 | deltoides_anterieurs | **2** | **4** | 1,5 | 3 |
 | haut_du_dos | **3** | **3** | 5 | 5 |
+| dorsaux | **1,5** | **3** | 2,5 | 5 |
 | biceps | **1,5** | **3** | 2,5 | 5 |
 | avant_bras | **1,5** | **3** | 2,5 | 5 |
 | quadriceps | **5** | **5** | 0 | 0 |
@@ -273,7 +274,7 @@ Variante : si le front squat est prescrit à 60 kg (I = 0,60 < 0,80 → ECH-H4),
 
 ## Limites et contre-indications
 
-- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 3). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
+- T4 et T5 utilisent les identifiants et surcharges de `knowledge/hypertrophie/mapping-muscles.json` (brouillon, version 4). Les attendus « poids réels » suivent sa règle de comptage (principal 1, secondaire 0,5), validée par Pierrot le 25/11/2026 ; les attendus « poids 1 » n'en dépendent pas. Toute modification du mapping (surcharges de `0025`, `0043`, `0739`, libellés de `0027`, `2287`) impose de revoir ces deux tests.
 - Groupe d'un exercice pour les séries d'approche (T17) = premier muscle principal compté en volume, sinon aucun (MAP-6), lu par le moteur dans la résolution du moteur volume (`resoudreExercice(id).groupe`), jamais donné par l'appelant. Groupe inconnu (identifiant du moteur force absent du catalogue, comme `squat` ou `developpe_couche`, ou exercice sans principal compté) : l'exercice est traité comme premier de son groupe et reçoit ses séries d'approche (choix prudent).
 - Les entrées T1 à T3 sont reconstituées et définitives : aucune ligne des tableurs d'origine n'entrera dans le repo. Seuls les mécanismes d'erreur sont décrits, pas la structure des programmes d'origine.
 - Toutes les valeurs dépendant de la table RPE utilisent la variante n = reps + 10 − RPE + 0,5 (`table-rpe.md`).

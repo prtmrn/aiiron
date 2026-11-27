@@ -57,12 +57,12 @@ describe("T4 — semaine libre : squat 0043 × 3 + presse 0739 × 3", () => {
     expect(compterVolume(semaine, d).volume).not.toHaveProperty("core");
   });
 
-  it("doublon entre champs : 0027 a « biceps » dans groupe_musculaire et muscles_secondaires → biceps 0,5 une seule fois", () => {
-    expect(d.mapping.surcharges).not.toHaveProperty("0027");
-    const r = resoudreExercice("0027", d);
+  it("doublon entre champs : 0208 a « biceps » dans groupe_musculaire et muscles_secondaires → biceps 0,5 une seule fois", () => {
+    expect(d.mapping.surcharges).not.toHaveProperty("0208");
+    const r = resoudreExercice("0208", d);
     expect(r).toMatchObject({ principaux: ["haut_du_dos"], secondaires: ["biceps", "avant_bras"], groupe: "haut_du_dos" });
-    expect(compterVolume([{ exercice: "0027", series: 1 }], d).volume).toEqual({ haut_du_dos: 1, biceps: 0.5, avant_bras: 0.5 });
-    expect(compterVolume([{ exercice: "0027", series: 1 }], d, un).volume).toEqual({ haut_du_dos: 1, biceps: 1, avant_bras: 1 });
+    expect(compterVolume([{ exercice: "0208", series: 1 }], d).volume).toEqual({ haut_du_dos: 1, biceps: 0.5, avant_bras: 0.5 });
+    expect(compterVolume([{ exercice: "0208", series: 1 }], d, un).volume).toEqual({ haut_du_dos: 1, biceps: 1, avant_bras: 1 });
   });
 
   it("synonymes : « quads » et « quadriceps » → un seul identifiant quadriceps", () => {
@@ -82,7 +82,7 @@ describe("T4 — semaine libre : squat 0043 × 3 + presse 0739 × 3", () => {
     ["rear deltoids", "0150", ["dorsaux"], ["biceps", "haut_du_dos", "deltoides_posterieurs"]],
     ["deltoids", "0040", ["pectoraux"], ["deltoides", "triceps"]],
     ["lower back", "0001", ["abdominaux"], ["flechisseurs_hanche", "lombaires"]],
-    ["upper back", "0027", ["haut_du_dos"], ["biceps", "avant_bras"]],
+    ["upper back", "0208", ["haut_du_dos"], ["biceps", "avant_bras"]], // 0027 a une surcharge depuis le mapping v4 (dorsaux)
     ["back (ambigu, non compté)", "2355", ["abdominaux"], ["deltoides"]],
     ["lower abs", "0459", ["fessiers"], ["flechisseurs_hanche", "abdominaux"]],
     ["upper chest", "2137", ["deltoides"], ["triceps", "pectoraux"]],
@@ -113,8 +113,8 @@ describe("T5 — séance : 0025 × 4, 0027 × 3, 0043 × 5", () => {
     { exercice: "0027", series: 3 },
     { exercice: "0043", series: 5 },
   ];
-  const attenduReels = { pectoraux: 4, triceps: 2, deltoides_anterieurs: 2, haut_du_dos: 3, biceps: 1.5, avant_bras: 1.5, quadriceps: 5, fessiers: 5, adducteurs: 2.5 };
-  const attenduUn = { pectoraux: 4, triceps: 4, deltoides_anterieurs: 4, haut_du_dos: 3, biceps: 3, avant_bras: 3, quadriceps: 5, fessiers: 5, adducteurs: 5 };
+  const attenduReels = { pectoraux: 4, triceps: 2, deltoides_anterieurs: 2, haut_du_dos: 3, dorsaux: 1.5, biceps: 1.5, avant_bras: 1.5, quadriceps: 5, fessiers: 5, adducteurs: 2.5 };
+  const attenduUn = { pectoraux: 4, triceps: 4, deltoides_anterieurs: 4, haut_du_dos: 3, dorsaux: 3, biceps: 3, avant_bras: 3, quadriceps: 5, fessiers: 5, adducteurs: 5 };
 
   it("poids réels", () => {
     const c = compterVolume(seance, d);
@@ -139,9 +139,9 @@ describe("T5 — séance : 0025 × 4, 0027 × 3, 0043 × 5", () => {
 
   it("bugué (décalage d'une ligne) : la reproduction donne les valeurs de la fiche, le moteur non", () => {
     const b = compterVolume(decaler(seance), d);
-    expect(b.volume).toEqual({ pectoraux: 3, triceps: 1.5, deltoides_anterieurs: 1.5, haut_du_dos: 5, biceps: 2.5, avant_bras: 2.5 });
+    expect(b.volume).toEqual({ pectoraux: 3, triceps: 1.5, deltoides_anterieurs: 1.5, haut_du_dos: 5, dorsaux: 2.5, biceps: 2.5, avant_bras: 2.5 });
     expect(b.compteurs_separes).toEqual({});
-    expect(compterVolume(decaler(seance), d, un).volume).toEqual({ pectoraux: 3, triceps: 3, deltoides_anterieurs: 3, haut_du_dos: 5, biceps: 5, avant_bras: 5 });
+    expect(compterVolume(decaler(seance), d, un).volume).toEqual({ pectoraux: 3, triceps: 3, deltoides_anterieurs: 3, haut_du_dos: 5, dorsaux: 5, biceps: 5, avant_bras: 5 });
     expect(compterVolume(seance, d).volume).not.toEqual(b.volume);
   });
 
